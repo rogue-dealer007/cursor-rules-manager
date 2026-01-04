@@ -5,36 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cursor Rules Manager</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-primary: #0a0a0f;
-      --bg-secondary: #12121a;
-      --bg-tertiary: #1a1a24;
-      --bg-card: #16161f;
-      --border: #2a2a3a;
-      --border-focus: #6366f1;
-      --text-primary: #f0f0f5;
-      --text-secondary: #9090a0;
-      --text-muted: #606070;
-      --accent: #6366f1;
-      --accent-hover: #818cf8;
-      --accent-glow: rgba(99, 102, 241, 0.3);
-      --success: #10b981;
-      --warning: #f59e0b;
-      --danger: #ef4444;
+      --bg-primary: #0a0a0f; --bg-secondary: #12121a; --bg-tertiary: #1a1a24; --bg-card: #16161f;
+      --border: #2a2a3a; --border-focus: #6366f1;
+      --text-primary: #f0f0f5; --text-secondary: #9090a0; --text-muted: #606070;
+      --accent: #6366f1; --accent-hover: #818cf8; --accent-glow: rgba(99, 102, 241, 0.3);
+      --success: #10b981; --warning: #f59e0b; --danger: #ef4444;
       --gradient-1: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
       --ai-gradient: linear-gradient(135deg, #f59e0b 0%, #ef4444 50%, #ec4899 100%);
+      --postmortem-gradient: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%);
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Outfit', sans-serif; background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; }
-    
     .bg-effects { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
-    .bg-effects::before {
-      content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-      background: radial-gradient(ellipse at 30% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 50%);
-    }
+    .bg-effects::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(ellipse at 30% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 50%); }
 
     .login-screen { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 1000; background: var(--bg-primary); }
     .login-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; padding: 3rem; text-align: center; max-width: 400px; width: 90%; }
@@ -44,158 +30,131 @@
     .google-btn { display: flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 1rem 2rem; background: white; color: #333; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; width: 100%; }
     .google-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
     .google-btn img { width: 24px; height: 24px; }
-    .login-note { margin-top: 1.5rem; font-size: 0.8rem; color: var(--text-muted); }
 
-    .container { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 2rem; }
-    header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 1rem; }
-    .logo { display: flex; align-items: center; gap: 1rem; }
-    .logo-icon { width: 48px; height: 48px; background: var(--gradient-1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
-    .logo h1 { font-size: 1.5rem; font-weight: 600; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .logo p { color: var(--text-secondary); font-size: 0.8rem; }
-    .header-actions { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
-    .user-info { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.75rem; background: var(--bg-secondary); border-radius: 20px; border: 1px solid var(--border); }
-    .user-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.8rem; overflow: hidden; }
-    .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .user-name { font-size: 0.8rem; color: var(--text-secondary); }
+    .container { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 1.5rem; }
+    header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 1rem; }
+    .logo { display: flex; align-items: center; gap: 0.75rem; }
+    .logo-icon { width: 40px; height: 40px; background: var(--gradient-1); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; }
+    .logo h1 { font-size: 1.25rem; font-weight: 600; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .header-actions { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+    .user-info { display: flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.6rem; background: var(--bg-secondary); border-radius: 16px; border: 1px solid var(--border); font-size: 0.75rem; }
+    .user-avatar { width: 24px; height: 24px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.7rem; }
 
-    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.2rem; border-radius: 8px; font-family: inherit; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.2s; border: none; }
+    .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.5rem 1rem; border-radius: 8px; font-family: inherit; font-size: 0.8rem; font-weight: 500; cursor: pointer; transition: all 0.2s; border: none; }
     .btn-primary { background: var(--accent); color: white; }
-    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+    .btn-primary:hover { background: var(--accent-hover); }
     .btn-ai { background: var(--ai-gradient); color: white; }
-    .btn-ai:hover { transform: translateY(-1px); }
+    .btn-postmortem { background: var(--postmortem-gradient); color: white; }
     .btn-secondary { background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border); }
-    .btn-secondary:hover { border-color: var(--accent); }
     .btn-success { background: var(--success); color: white; }
     .btn-danger { background: transparent; color: var(--danger); border: 1px solid var(--danger); }
-    .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.75rem; }
+    .btn-sm { padding: 0.35rem 0.7rem; font-size: 0.7rem; }
 
-    .main-grid { display: grid; grid-template-columns: 280px 1fr; gap: 1.5rem; }
+    .main-grid { display: grid; grid-template-columns: 240px 1fr; gap: 1.25rem; }
     .sidebar { display: flex; flex-direction: column; gap: 1rem; }
-    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; }
-    .card-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
-    .project-list { display: flex; flex-direction: column; gap: 0.4rem; max-height: 50vh; overflow-y: auto; }
-    .project-item { display: flex; align-items: center; gap: 0.6rem; padding: 0.7rem; background: var(--bg-secondary); border: 1px solid transparent; border-radius: 8px; cursor: pointer; transition: all 0.15s; }
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; }
+    .card-title { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem; }
+    .project-list { display: flex; flex-direction: column; gap: 0.35rem; max-height: 35vh; overflow-y: auto; }
+    .project-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; background: var(--bg-secondary); border: 1px solid transparent; border-radius: 6px; cursor: pointer; font-size: 0.8rem; }
     .project-item:hover { border-color: var(--border); }
     .project-item.active { background: rgba(99, 102, 241, 0.1); border-color: var(--accent); }
-    .project-icon { width: 28px; height: 28px; background: var(--bg-tertiary); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+    .project-icon { width: 24px; height: 24px; background: var(--bg-tertiary); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; }
     .project-item.active .project-icon { background: var(--accent); }
     .project-info { flex: 1; min-width: 0; }
-    .project-name { font-weight: 500; font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .project-path { font-size: 0.7rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .badge { font-size: 0.6rem; padding: 0.15rem 0.4rem; border-radius: 10px; font-weight: 600; text-transform: uppercase; }
+    .project-name { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .badge { font-size: 0.55rem; padding: 0.1rem 0.3rem; border-radius: 8px; font-weight: 600; }
     .badge-success { background: rgba(16, 185, 129, 0.15); color: var(--success); }
 
     .main-content { display: flex; flex-direction: column; gap: 1rem; }
-    .tabs { display: flex; gap: 0.4rem; background: var(--bg-secondary); padding: 0.4rem; border-radius: 10px; width: fit-content; }
-    .tab { padding: 0.6rem 1.2rem; border-radius: 6px; font-weight: 500; cursor: pointer; border: none; background: transparent; color: var(--text-secondary); font-family: inherit; font-size: 0.85rem; }
+    .tabs { display: flex; gap: 0.3rem; background: var(--bg-secondary); padding: 0.3rem; border-radius: 8px; width: fit-content; }
+    .tab { padding: 0.5rem 1rem; border-radius: 6px; font-weight: 500; cursor: pointer; border: none; background: transparent; color: var(--text-secondary); font-family: inherit; font-size: 0.8rem; }
     .tab:hover { color: var(--text-primary); }
     .tab.active { background: var(--accent); color: white; }
 
     .editor-section { flex: 1; display: flex; flex-direction: column; }
-    .editor-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
-    .editor-title { font-size: 1.1rem; font-weight: 600; }
-    .editor-container { flex: 1; display: flex; flex-direction: column; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-    .editor-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; background: var(--bg-secondary); border-bottom: 1px solid var(--border); }
-    .file-tabs { display: flex; gap: 0.25rem; }
-    .file-tab { padding: 0.4rem 0.8rem; background: transparent; border: none; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; cursor: pointer; border-radius: 4px; }
-    .file-tab.active { background: var(--accent); color: white; }
-    textarea.editor { flex: 1; width: 100%; padding: 1rem; background: transparent; border: none; color: var(--text-primary); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.6; resize: none; outline: none; min-height: 300px; }
+    .editor-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem; }
+    .editor-title { font-size: 1rem; font-weight: 600; }
+    .editor-container { flex: 1; display: flex; flex-direction: column; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .editor-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 0.8rem; background: var(--bg-secondary); border-bottom: 1px solid var(--border); font-size: 0.75rem; }
+    textarea.editor { flex: 1; width: 100%; padding: 0.8rem; background: transparent; border: none; color: var(--text-primary); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; line-height: 1.5; resize: none; outline: none; min-height: 200px; }
 
-    .form-group { margin-bottom: 1rem; }
-    .form-label { display: block; font-size: 0.8rem; font-weight: 500; color: var(--text-secondary); margin-bottom: 0.4rem; }
-    .form-input { width: 100%; padding: 0.7rem 0.9rem; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary); font-family: inherit; font-size: 0.85rem; }
-    .form-input:focus { outline: none; border-color: var(--accent); }
-    .checkbox-group { display: flex; align-items: center; gap: 0.6rem; }
-    .checkbox { width: 18px; height: 18px; accent-color: var(--accent); }
-
-    .file-picker { border: 2px dashed var(--border); border-radius: 8px; padding: 0.75rem; }
-    .selected-files { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.5rem; }
-    .file-tag { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.6rem; background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--accent-hover); }
-    .file-tag button { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.9rem; }
-    .file-search-dropdown { position: relative; }
-    .file-search-input { width: 100%; padding: 0.5rem; background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 6px; color: var(--text-primary); font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; }
-    .file-search-results { position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 6px; max-height: 150px; overflow-y: auto; z-index: 100; display: none; }
-    .file-search-results.show { display: block; }
-    .file-search-item { padding: 0.5rem; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--text-secondary); }
-    .file-search-item:hover { background: var(--bg-tertiary); color: var(--text-primary); }
-
-    .rules-list { display: flex; flex-direction: column; gap: 0.5rem; }
-    .rule-item { display: flex; align-items: center; justify-content: space-between; padding: 0.8rem 1rem; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; }
+    .rules-list { display: flex; flex-direction: column; gap: 0.4rem; }
+    .rule-item { display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 0.8rem; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.8rem; }
     .rule-item:hover { border-color: var(--accent); }
-    .rule-item-info { display: flex; align-items: center; gap: 0.6rem; }
-    .rule-item-name { font-weight: 500; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; }
-    .rule-item-desc { font-size: 0.7rem; color: var(--text-muted); }
-    .empty-state { text-align: center; padding: 2rem; color: var(--text-muted); }
-    .empty-state-icon { font-size: 2rem; margin-bottom: 0.5rem; opacity: 0.5; }
+    .empty-state { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.85rem; }
 
-    .toast { position: fixed; bottom: 1.5rem; right: 1.5rem; background: var(--bg-card); border: 1px solid var(--border); padding: 0.8rem 1.2rem; border-radius: 10px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); transform: translateY(150%); transition: transform 0.3s; z-index: 1000; }
+    /* Postmortem Section */
+    .postmortem-section { background: linear-gradient(135deg, rgba(6, 182, 212, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%); border: 1px solid rgba(6, 182, 212, 0.2); border-radius: 10px; padding: 1rem; }
+    .postmortem-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem; }
+    .postmortem-header h3 { font-size: 0.9rem; background: var(--postmortem-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .postmortem-textarea { width: 100%; min-height: 80px; padding: 0.6rem; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 6px; color: var(--text-primary); font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; resize: vertical; }
+    .postmortem-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 0.6rem; gap: 0.5rem; flex-wrap: wrap; }
+    .postmortem-count { font-size: 0.7rem; color: var(--text-muted); }
+
+    .postmortem-list { margin-top: 0.75rem; max-height: 200px; overflow-y: auto; }
+    .postmortem-item { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 6px; padding: 0.6rem; margin-bottom: 0.4rem; font-size: 0.75rem; }
+    .postmortem-item.critical { border-left: 3px solid var(--danger); }
+    .postmortem-item.major { border-left: 3px solid var(--warning); }
+    .postmortem-item.minor { border-left: 3px solid var(--success); }
+    .postmortem-meta { display: flex; justify-content: space-between; color: var(--text-muted); font-size: 0.65rem; margin-bottom: 0.3rem; }
+    .postmortem-content { color: var(--text-secondary); }
+    .postmortem-delete { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.8rem; }
+
+    /* Analysis Results */
+    .analysis-results { margin-top: 1rem; }
+    .analysis-header { background: var(--bg-tertiary); border-radius: 8px; padding: 0.8rem; margin-bottom: 0.75rem; }
+    .analysis-score { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .health-badge { padding: 0.3rem 0.8rem; border-radius: 20px; font-weight: 600; font-size: 0.75rem; }
+    .health-badge.poor { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+    .health-badge.fair { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+    .health-badge.good { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+    .health-badge.excellent { background: rgba(99, 102, 241, 0.2); color: var(--accent); }
+    .analysis-patterns { font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.5rem; }
+    .analysis-recommendation { font-size: 0.8rem; color: var(--text-primary); margin-top: 0.5rem; padding: 0.5rem; background: rgba(99, 102, 241, 0.1); border-radius: 6px; }
+    .analysis-warnings { margin-top: 0.5rem; }
+    .warning-item { font-size: 0.75rem; color: var(--warning); padding: 0.3rem 0; }
+
+    .suggested-rule-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 0.8rem; margin-bottom: 0.5rem; }
+    .suggested-rule-card.priority-critical { border-left: 3px solid var(--danger); }
+    .suggested-rule-card.priority-important { border-left: 3px solid var(--warning); }
+    .suggested-rule-card.priority-nice { border-left: 3px solid var(--success); }
+    .suggested-rule-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.4rem; }
+    .suggested-rule-name { font-weight: 600; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--accent-hover); }
+    .rule-badges { display: flex; gap: 0.3rem; }
+    .scope-badge { font-size: 0.6rem; padding: 0.15rem 0.4rem; border-radius: 8px; }
+    .scope-badge.global { background: rgba(139, 92, 246, 0.2); color: #a78bfa; }
+    .scope-badge.project { background: rgba(6, 182, 212, 0.2); color: #22d3ee; }
+    .priority-badge { font-size: 0.6rem; padding: 0.15rem 0.4rem; border-radius: 8px; }
+    .priority-badge.critical { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+    .priority-badge.important { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+    .priority-badge.nice { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+    .suggested-rule-desc { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.4rem; }
+    .suggested-rule-rationale { font-size: 0.7rem; color: var(--text-muted); background: var(--bg-tertiary); padding: 0.4rem; border-radius: 4px; margin-bottom: 0.4rem; }
+    .suggested-rule-instructions { font-size: 0.7rem; color: var(--text-muted); background: var(--bg-tertiary); padding: 0.4rem; border-radius: 4px; max-height: 60px; overflow-y: auto; font-family: 'JetBrains Mono', monospace; }
+    .suggested-rule-actions { display: flex; gap: 0.3rem; margin-top: 0.5rem; }
+
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; pointer-events: none; }
+    .modal-overlay.show { opacity: 1; pointer-events: all; }
+    .modal { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 1.25rem; max-width: 700px; width: 95%; max-height: 90vh; overflow-y: auto; }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+    .modal-title { font-size: 1rem; font-weight: 600; }
+    .modal-close { background: none; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer; }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1rem; }
+
+    .form-group { margin-bottom: 0.8rem; }
+    .form-label { display: block; font-size: 0.75rem; font-weight: 500; color: var(--text-secondary); margin-bottom: 0.3rem; }
+    .form-input { width: 100%; padding: 0.6rem; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 6px; color: var(--text-primary); font-family: inherit; font-size: 0.8rem; }
+    .form-input:focus { outline: none; border-color: var(--accent); }
+
+    .toast { position: fixed; bottom: 1rem; right: 1rem; background: var(--bg-card); border: 1px solid var(--border); padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.8rem; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); transform: translateY(150%); transition: transform 0.3s; z-index: 1000; }
     .toast.show { transform: translateY(0); }
     .toast.success { border-color: var(--success); }
     .toast.error { border-color: var(--danger); }
 
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; pointer-events: none; }
-    .modal-overlay.show { opacity: 1; pointer-events: all; }
-    .modal { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; max-width: 800px; width: 95%; max-height: 90vh; overflow-y: auto; transform: scale(0.9); transition: transform 0.2s; }
-    .modal-overlay.show .modal { transform: scale(1); }
-    .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
-    .modal-title { font-size: 1.1rem; font-weight: 600; }
-    .modal-close { background: none; border: none; color: var(--text-muted); font-size: 1.25rem; cursor: pointer; }
-    .modal-actions { display: flex; justify-content: flex-end; gap: 0.6rem; margin-top: 1.25rem; }
-
-    /* AI Dump Section */
-    .ai-dump-section { background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(236, 72, 153, 0.05) 100%); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; }
-    .ai-dump-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.75rem; }
-    .ai-dump-header h3 { font-size: 1rem; background: var(--ai-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .ai-dump-textarea { width: 100%; min-height: 120px; padding: 0.75rem; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; line-height: 1.5; resize: vertical; }
-    .ai-dump-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 0.75rem; gap: 1rem; flex-wrap: wrap; }
-    .api-key-status { font-size: 0.75rem; color: var(--text-muted); }
-    .api-key-status.connected { color: var(--success); }
-
-    /* Sanity Check Toggle */
-    .sanity-toggle { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 1rem; background: var(--bg-secondary); border-radius: 8px; border: 1px solid var(--border); }
-    .sanity-toggle.active { border-color: var(--warning); background: rgba(245, 158, 11, 0.1); }
-    .sanity-toggle label { font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; }
-    .sanity-toggle input { width: 16px; height: 16px; accent-color: var(--warning); }
-    .sanity-hint { font-size: 0.7rem; color: var(--text-muted); }
-
-    /* Suggested Rules with Ratings */
-    .suggested-rules { margin-top: 1rem; }
-    .suggested-rule-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; margin-bottom: 0.75rem; position: relative; }
-    .suggested-rule-card.rating-good { border-left: 3px solid var(--success); }
-    .suggested-rule-card.rating-caution { border-left: 3px solid var(--warning); }
-    .suggested-rule-card.rating-bad { border-left: 3px solid var(--danger); }
-    .suggested-rule-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; gap: 0.5rem; flex-wrap: wrap; }
-    .suggested-rule-name { font-weight: 600; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--accent-hover); }
-    .suggested-rule-badges { display: flex; gap: 0.4rem; align-items: center; }
-    .suggested-rule-category { font-size: 0.65rem; padding: 0.2rem 0.5rem; background: rgba(99, 102, 241, 0.1); border-radius: 10px; color: var(--accent); }
-    .rating-badge { font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 10px; font-weight: 600; }
-    .rating-badge.good { background: rgba(16, 185, 129, 0.15); color: var(--success); }
-    .rating-badge.caution { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
-    .rating-badge.bad { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
-    .suggested-rule-desc { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
-    .suggested-rule-rationale { font-size: 0.75rem; color: var(--text-muted); background: var(--bg-tertiary); padding: 0.6rem; border-radius: 6px; margin-bottom: 0.5rem; border-left: 2px solid var(--border); }
-    .suggested-rule-conflicts { font-size: 0.7rem; color: var(--danger); margin-bottom: 0.5rem; }
-    .suggested-rule-alternatives { font-size: 0.7rem; color: var(--success); margin-bottom: 0.5rem; }
-    .suggested-rule-files { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 0.5rem; }
-    .suggested-rule-instructions { font-size: 0.75rem; color: var(--text-muted); background: var(--bg-tertiary); padding: 0.5rem; border-radius: 6px; max-height: 80px; overflow-y: auto; font-family: 'JetBrains Mono', monospace; }
-    .suggested-rule-actions { display: flex; gap: 0.4rem; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
-
-    /* Summary Box */
-    .rules-summary { background: var(--bg-tertiary); border-radius: 10px; padding: 1rem; margin-bottom: 1rem; display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
-    .summary-stat { text-align: center; }
-    .summary-stat .count { font-size: 1.5rem; font-weight: 700; }
-    .summary-stat .label { font-size: 0.7rem; color: var(--text-muted); }
-    .summary-stat.good .count { color: var(--success); }
-    .summary-stat.caution .count { color: var(--warning); }
-    .summary-stat.bad .count { color: var(--danger); }
-    .summary-advice { flex: 1; font-size: 0.8rem; color: var(--text-secondary); min-width: 200px; }
-
-    .loading-spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    .loading-spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    @media (max-width: 768px) {
-      .main-grid { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 768px) { .main-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -210,21 +169,17 @@
         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
         Sign in with Google
       </button>
-      <p class="login-note">🔒 Your API key is encrypted locally</p>
     </div>
   </div>
 
   <div class="container" id="mainApp" style="display: none;">
     <header>
-      <div class="logo">
-        <div class="logo-icon">⚡</div>
-        <div><h1>Cursor Rules Manager</h1><p>Stop AI from fucking things up</p></div>
-      </div>
+      <div class="logo"><div class="logo-icon">⚡</div><h1>Cursor Rules Manager</h1></div>
       <div class="header-actions">
-        <div class="user-info"><div class="user-avatar" id="userAvatar">?</div><span class="user-name" id="userName">User</span></div>
-        <button class="btn btn-secondary" onclick="openSettings()">⚙️ Settings</button>
-        <button class="btn btn-primary" onclick="refreshProjects()">🔄 Refresh</button>
-        <button class="btn btn-secondary btn-sm" onclick="signOut()">Sign Out</button>
+        <div class="user-info"><div class="user-avatar" id="userAvatar">?</div><span id="userName">User</span></div>
+        <button class="btn btn-secondary btn-sm" onclick="openSettings()">⚙️</button>
+        <button class="btn btn-primary btn-sm" onclick="refreshProjects()">🔄</button>
+        <button class="btn btn-secondary btn-sm" onclick="signOut()">Exit</button>
       </div>
     </header>
 
@@ -232,113 +187,125 @@
       <aside class="sidebar">
         <div class="card">
           <div class="card-title">📁 Projects</div>
-          <div class="project-list" id="projectList"><div class="empty-state"><div class="empty-state-icon">🔍</div><p>No projects</p></div></div>
+          <div class="project-list" id="projectList"></div>
+        </div>
+
+        <!-- POSTMORTEM QUICK ENTRY -->
+        <div class="postmortem-section">
+          <div class="postmortem-header"><span>🔍</span><h3>Quick Postmortem</h3></div>
+          <textarea class="postmortem-textarea" id="quickPostmortem" placeholder="AI fucked up? Dump what happened here...
+
+Example:
+- AI didn't read schema.prisma
+- Assumed products was array but it's { products: [...] }
+- Kept creating duplicate components"></textarea>
+          <div class="postmortem-actions">
+            <span class="postmortem-count" id="postmortemCount">0 logged</span>
+            <div style="display: flex; gap: 0.4rem;">
+              <button class="btn btn-sm btn-secondary" onclick="openPostmortemPanel()">📋 View All</button>
+              <button class="btn btn-sm btn-postmortem" onclick="quickLogPostmortem()">📝 Log</button>
+            </div>
+          </div>
         </div>
       </aside>
 
       <main class="main-content">
         <div class="tabs">
-          <button class="tab active" onclick="switchTab('global')">🌍 Global Rules</button>
-          <button class="tab" onclick="switchTab('project')">📂 Project Rules</button>
+          <button class="tab active" onclick="switchTab('global')">🌍 Global</button>
+          <button class="tab" onclick="switchTab('project')">📂 Project</button>
+          <button class="tab" onclick="switchTab('learn')">🧠 Learn</button>
         </div>
 
+        <!-- Global Rules Tab -->
         <div id="globalTab" class="editor-section">
           <div class="editor-header">
             <h2 class="editor-title">Global Rules</h2>
-            <button class="btn btn-primary" onclick="saveGlobalRules()">💾 Save</button>
+            <button class="btn btn-primary btn-sm" onclick="saveGlobalRules()">💾 Save</button>
           </div>
           <div class="editor-container">
-            <div class="editor-toolbar"><span style="color: var(--text-muted); font-size: 0.8rem;">These rules apply to ALL projects</span></div>
+            <div class="editor-toolbar"><span style="color: var(--text-muted);">Applies to ALL projects</span></div>
             <textarea class="editor" id="globalEditor" placeholder="# Global Rules..."></textarea>
           </div>
         </div>
 
+        <!-- Project Rules Tab -->
         <div id="projectTab" class="editor-section" style="display: none;">
           <div class="editor-header">
             <h2 class="editor-title" id="projectTitle">Select a Project</h2>
-            <div style="display: flex; gap: 0.6rem;">
-              <button class="btn btn-ai" onclick="openAIDumpModal()">🤖 AI Format</button>
-              <button class="btn btn-primary" onclick="openNewRuleModal()">➕ New Rule</button>
+            <div style="display: flex; gap: 0.4rem;">
+              <button class="btn btn-ai btn-sm" onclick="openAIDumpModal()">🤖 AI Format</button>
+              <button class="btn btn-primary btn-sm" onclick="openNewRuleModal()">➕ New</button>
             </div>
           </div>
-          <div class="rules-list" id="rulesList"><div class="empty-state"><div class="empty-state-icon">📋</div><p>Select a project</p></div></div>
-          <div id="ruleEditor" style="display: none; margin-top: 0.75rem;">
+          <div class="rules-list" id="rulesList"><div class="empty-state">Select a project</div></div>
+          <div id="ruleEditor" style="display: none; margin-top: 0.6rem;">
             <div class="editor-container">
               <div class="editor-toolbar">
-                <div class="file-tabs" id="ruleFileTabs"></div>
+                <span id="ruleFileName" style="font-family: 'JetBrains Mono', monospace;"></span>
                 <div><button class="btn btn-sm btn-danger" onclick="deleteCurrentRule()">🗑️</button><button class="btn btn-sm btn-primary" onclick="saveCurrentRule()">💾</button></div>
               </div>
               <textarea class="editor" id="ruleEditorContent"></textarea>
             </div>
           </div>
         </div>
+
+        <!-- Learning Tab (Postmortems) -->
+        <div id="learnTab" class="editor-section" style="display: none;">
+          <div class="editor-header">
+            <h2 class="editor-title">🧠 Learning from Mistakes</h2>
+            <div style="display: flex; gap: 0.4rem;">
+              <button class="btn btn-secondary btn-sm" onclick="clearAllPostmortems()">🗑️ Clear All</button>
+              <button class="btn btn-postmortem btn-sm" onclick="analyzePostmortems()" id="analyzeBtn">🔬 Analyze Patterns</button>
+            </div>
+          </div>
+
+          <div class="postmortem-list" id="postmortemList" style="max-height: none;"></div>
+
+          <div class="analysis-results" id="analysisResults" style="display: none;">
+            <div class="analysis-header" id="analysisHeader"></div>
+            <h4 style="margin: 0.75rem 0 0.5rem; font-size: 0.85rem;">📋 Suggested Rules from Patterns</h4>
+            <div id="analysisRules"></div>
+          </div>
+        </div>
       </main>
     </div>
   </div>
 
-  <!-- New Rule Modal -->
+  <!-- Modals -->
   <div class="modal-overlay" id="newRuleModal">
     <div class="modal">
       <div class="modal-header"><h3 class="modal-title">✨ Create Rule</h3><button class="modal-close" onclick="closeNewRuleModal()">&times;</button></div>
-      <div class="form-group"><label class="form-label">Name</label><input type="text" class="form-input" id="ruleName" placeholder="e.g., core"></div>
-      <div class="form-group"><label class="form-label">Description</label><input type="text" class="form-input" id="ruleDescription" placeholder="Brief description"></div>
-      <div class="form-group"><label class="form-label">Globs</label><input type="text" class="form-input" id="ruleGlobs" placeholder="**/*.ts"></div>
-      <div class="form-group"><div class="checkbox-group"><input type="checkbox" class="checkbox" id="ruleAlwaysApply" checked><label>Always apply</label></div></div>
-      <div class="form-group"><label class="form-label">🔥 Must Read Files</label><div class="file-picker"><div class="selected-files" id="selectedFiles"></div><div class="file-search-dropdown"><input type="text" class="file-search-input" id="fileSearchInput" placeholder="Search..."><div class="file-search-results" id="fileSearchResults"></div></div></div></div>
-      <div class="form-group"><label class="form-label">Instructions</label><textarea class="form-input" id="ruleInstructions" rows="3"></textarea></div>
+      <div class="form-group"><label class="form-label">Name</label><input type="text" class="form-input" id="ruleName" placeholder="e.g., api-contract"></div>
+      <div class="form-group"><label class="form-label">Description</label><input type="text" class="form-input" id="ruleDescription"></div>
+      <div class="form-group"><label class="form-label">Instructions</label><textarea class="form-input" id="ruleInstructions" rows="4"></textarea></div>
       <div class="modal-actions"><button class="btn btn-secondary" onclick="closeNewRuleModal()">Cancel</button><button class="btn btn-primary" onclick="createRule()">Create</button></div>
     </div>
   </div>
 
-  <!-- AI Dump Modal -->
   <div class="modal-overlay" id="aiDumpModal">
     <div class="modal">
-      <div class="modal-header"><h3 class="modal-title">🤖 AI Rule Formatting</h3><button class="modal-close" onclick="closeAIDumpModal()">&times;</button></div>
-      
-      <div class="ai-dump-section">
-        <div class="ai-dump-header"><span style="font-size: 1.25rem;">✨</span><h3>Dump Your Raw Notes</h3></div>
-        <p style="color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 0.75rem;">Paste bugs, notes, informal rules - AI formats them into proper rules.</p>
-        <textarea class="ai-dump-textarea" id="aiDumpInput" placeholder="Paste your raw notes here...
-
-Example:
-- API returns { products: [...] } not just [...]
-- always use db.ts for database
-- routes in app/(dashboard)/..."></textarea>
-        
-        <div class="ai-dump-actions">
-          <div class="api-key-status" id="apiKeyStatus"><span>⚪</span> Checking...</div>
-          
-          <div class="sanity-toggle" id="sanityToggle">
-            <input type="checkbox" id="sanityCheckbox" checked>
-            <label for="sanityCheckbox">
-              🧠 Sanity Check Mode
-              <span class="sanity-hint">(Rate rules & flag conflicts)</span>
-            </label>
-          </div>
-          
-          <button class="btn btn-ai" onclick="formatWithAI()" id="formatAIBtn">🪄 Format with AI</button>
-        </div>
+      <div class="modal-header"><h3 class="modal-title">🤖 AI Format Rules</h3><button class="modal-close" onclick="closeAIDumpModal()">&times;</button></div>
+      <div class="form-group">
+        <label class="form-label">Dump your raw notes</label>
+        <textarea class="form-input" id="aiDumpInput" rows="6" placeholder="Paste bugs, notes, informal rules..."></textarea>
       </div>
-
-      <div class="suggested-rules" id="suggestedRules" style="display: none;">
-        <div class="rules-summary" id="rulesSummary" style="display: none;"></div>
-        <h4 style="margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">📋 Suggested Rules</h4>
-        <div id="suggestedRulesList"></div>
-        <div class="modal-actions">
-          <button class="btn btn-secondary" onclick="closeAIDumpModal()">Done</button>
-          <button class="btn btn-success" onclick="approveAllGoodRules()">✅ Approve Good Rules</button>
-          <button class="btn btn-primary" onclick="approveAllRules()">✅ Approve All</button>
-        </div>
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+        <input type="checkbox" id="sanityCheck" checked style="accent-color: var(--warning);">
+        <label for="sanityCheck" style="font-size: 0.75rem; color: var(--text-secondary);">🧠 Sanity Check (rate & flag conflicts)</label>
+      </div>
+      <div id="suggestedRules" style="display: none; margin-top: 0.75rem;"></div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeAIDumpModal()">Close</button>
+        <button class="btn btn-ai" onclick="formatWithAI()" id="formatBtn">🪄 Format</button>
       </div>
     </div>
   </div>
 
-  <!-- Settings Modal -->
   <div class="modal-overlay" id="settingsModal">
     <div class="modal">
       <div class="modal-header"><h3 class="modal-title">⚙️ Settings</h3><button class="modal-close" onclick="closeSettings()">&times;</button></div>
-      <div class="form-group"><label class="form-label">🔑 OpenAI API Key</label><input type="password" class="form-input" id="openaiKeyInput" placeholder="sk-proj-..."><small style="color: var(--text-muted); font-size: 0.7rem;">Encrypted & stored locally</small></div>
-      <div class="form-group"><label class="form-label">Project Scan Paths</label><textarea class="form-input" id="scanPaths" rows="3" placeholder="/Users/you/code"></textarea></div>
+      <div class="form-group"><label class="form-label">🔑 OpenAI API Key</label><input type="password" class="form-input" id="openaiKeyInput" placeholder="sk-proj-..."></div>
+      <div class="form-group"><label class="form-label">Project Scan Paths</label><textarea class="form-input" id="scanPaths" rows="3"></textarea></div>
       <div class="modal-actions"><button class="btn btn-secondary" onclick="closeSettings()">Cancel</button><button class="btn btn-primary" onclick="saveSettings()">Save</button></div>
     </div>
   </div>
@@ -349,237 +316,228 @@ Example:
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
     import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as firebaseSignOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
-    const firebaseConfig = { apiKey: "AIzaSyDummy", authDomain: "cursor-rules.firebaseapp.com", projectId: "cursor-rules" };
-    let app, auth, currentUser = null;
-    
-    try { app = initializeApp(firebaseConfig); auth = getAuth(app); } catch (e) { console.log('Local mode'); }
+    let auth, currentUser = null;
+    try { const app = initializeApp({ apiKey: "AIzaSyDummy", authDomain: "x.firebaseapp.com", projectId: "x" }); auth = getAuth(app); } catch (e) {}
 
-    window.signInWithGoogle = async function() {
-      if (auth) { try { await signInWithPopup(auth, new GoogleAuthProvider()); } catch (e) { useLocalMode(); } } else { useLocalMode(); }
-    };
-
-    window.signOut = async function() { if (auth) await firebaseSignOut(auth); currentUser = null; document.getElementById('loginScreen').style.display = 'flex'; document.getElementById('mainApp').style.display = 'none'; };
-
-    function useLocalMode() {
-      currentUser = { uid: 'local_' + btoa(navigator.userAgent).slice(0, 20), displayName: 'Local User', email: 'local@localhost', photoURL: null };
-      showMainApp();
-    }
+    window.signInWithGoogle = () => { currentUser = { uid: 'local_' + Date.now(), displayName: 'Local User' }; showMainApp(); };
+    window.signOut = () => { currentUser = null; document.getElementById('loginScreen').style.display = 'flex'; document.getElementById('mainApp').style.display = 'none'; };
 
     function showMainApp() {
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('mainApp').style.display = 'block';
-      if (currentUser) {
-        document.getElementById('userName').textContent = currentUser.displayName || currentUser.email;
-        document.getElementById('userAvatar').textContent = (currentUser.displayName || 'U')[0].toUpperCase();
-      }
+      document.getElementById('userName').textContent = currentUser?.displayName || 'User';
+      document.getElementById('userAvatar').textContent = (currentUser?.displayName || 'U')[0];
       init();
     }
 
-    if (auth) { onAuthStateChanged(auth, (user) => { if (user) { currentUser = user; showMainApp(); } }); }
-
+    if (auth) onAuthStateChanged(auth, u => { if (u) { currentUser = u; showMainApp(); } });
     window.getCurrentUser = () => currentUser;
 
     const API = '';
-    let currentProject = null, currentRule = null, projectFiles = [], selectedMustReadFiles = [], suggestedRulesData = [];
+    let currentProject = null, currentRule = null, postmortems = [], analysisData = null;
 
-    async function init() { await loadGlobalRules(); await refreshProjects(); setupFileSearch(); await checkApiKeyStatus(); }
+    async function init() {
+      await loadGlobalRules();
+      await refreshProjects();
+      await loadPostmortems();
+    }
 
     window.switchTab = function(tab) {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       event.target.classList.add('active');
       document.getElementById('globalTab').style.display = tab === 'global' ? 'flex' : 'none';
       document.getElementById('projectTab').style.display = tab === 'project' ? 'flex' : 'none';
+      document.getElementById('learnTab').style.display = tab === 'learn' ? 'flex' : 'none';
+      if (tab === 'learn') renderPostmortems();
     };
 
     async function loadGlobalRules() { document.getElementById('globalEditor').value = (await (await fetch(`${API}/api/global-rules`)).json()).content; }
-    window.saveGlobalRules = async function() { await fetch(`${API}/api/global-rules`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: document.getElementById('globalEditor').value }) }); showToast('Saved!'); };
+    window.saveGlobalRules = async () => { await fetch(`${API}/api/global-rules`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: document.getElementById('globalEditor').value }) }); showToast('Saved!'); };
 
-    window.refreshProjects = async function() { renderProjects((await (await fetch(`${API}/api/projects`)).json()).projects); };
+    window.refreshProjects = async () => { const { projects } = await (await fetch(`${API}/api/projects`)).json(); renderProjects(projects); };
 
     function renderProjects(projects) {
-      const list = document.getElementById('projectList');
-      if (!projects.length) { list.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🔍</div><p>No projects. Check settings.</p></div>`; return; }
-      list.innerHTML = projects.map(p => `<div class="project-item ${currentProject?.path === p.path ? 'active' : ''}" onclick="selectProject('${btoa(p.path)}', '${p.name}')"><div class="project-icon">📁</div><div class="project-info"><div class="project-name">${p.name}</div><div class="project-path">${p.path}</div></div>${p.hasCursorRules ? '<span class="badge badge-success">✓</span>' : ''}</div>`).join('');
+      document.getElementById('projectList').innerHTML = projects.length ? projects.map(p => `<div class="project-item ${currentProject?.path === p.path ? 'active' : ''}" onclick="selectProject('${btoa(p.path)}', '${p.name}')"><div class="project-icon">📁</div><div class="project-info"><div class="project-name">${p.name}</div></div>${p.hasCursorRules ? '<span class="badge badge-success">✓</span>' : ''}</div>`).join('') : '<div class="empty-state">No projects</div>';
     }
 
-    window.selectProject = async function(encodedPath, name) {
-      currentProject = { path: atob(encodedPath), name, encodedPath };
+    window.selectProject = async (enc, name) => {
+      currentProject = { path: atob(enc), name, encodedPath: enc };
       document.querySelectorAll('.project-item').forEach(el => el.classList.remove('active'));
       event.currentTarget.classList.add('active');
       document.getElementById('projectTitle').textContent = name;
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.tab')[1].classList.add('active');
-      document.getElementById('globalTab').style.display = 'none';
-      document.getElementById('projectTab').style.display = 'flex';
-      projectFiles = (await (await fetch(`${API}/api/projects/${encodedPath}/files`)).json()).files;
+      document.querySelectorAll('.tab')[1].click();
       await loadProjectRules();
     };
 
     async function loadProjectRules() {
       if (!currentProject) return;
-      renderRules((await (await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules`)).json()).rules);
-    }
-
-    function renderRules(rules) {
-      const list = document.getElementById('rulesList');
+      const { rules } = await (await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules`)).json();
+      document.getElementById('rulesList').innerHTML = rules.length ? rules.map(r => `<div class="rule-item" onclick="editRule('${r.filename}', \`${encodeURIComponent(r.raw)}\`)"><span style="font-family: 'JetBrains Mono', monospace;">${r.filename}</span>${r.frontmatter.alwaysApply ? '<span class="badge badge-success">Always</span>' : ''}</div>`).join('') : '<div class="empty-state">No rules</div>';
       document.getElementById('ruleEditor').style.display = 'none';
-      if (!rules.length) { list.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📋</div><p>No rules yet</p></div>`; return; }
-      list.innerHTML = rules.map(r => `<div class="rule-item" onclick="editRule('${r.filename}', \`${encodeURIComponent(r.raw)}\`)"><div class="rule-item-info"><span>📄</span><div><div class="rule-item-name">${r.filename}</div><div class="rule-item-desc">${r.frontmatter.description || ''}</div></div></div>${r.frontmatter.alwaysApply ? '<span class="badge badge-success">Always</span>' : ''}</div>`).join('');
     }
 
-    window.editRule = function(filename, encodedContent) { currentRule = { filename, content: decodeURIComponent(encodedContent) }; document.getElementById('ruleEditor').style.display = 'block'; document.getElementById('ruleEditorContent').value = currentRule.content; document.getElementById('ruleFileTabs').innerHTML = `<button class="file-tab active">${filename}</button>`; };
-    window.saveCurrentRule = async function() { if (!currentProject || !currentRule) return; await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ filename: currentRule.filename, content: document.getElementById('ruleEditorContent').value }) }); showToast('Saved!'); await loadProjectRules(); };
-    window.deleteCurrentRule = async function() { if (!currentProject || !currentRule || !confirm('Delete?')) return; await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules/${currentRule.filename}`, { method: 'DELETE' }); currentRule = null; document.getElementById('ruleEditor').style.display = 'none'; await loadProjectRules(); };
+    window.editRule = (filename, enc) => { currentRule = { filename, content: decodeURIComponent(enc) }; document.getElementById('ruleEditor').style.display = 'block'; document.getElementById('ruleEditorContent').value = currentRule.content; document.getElementById('ruleFileName').textContent = filename; };
+    window.saveCurrentRule = async () => { if (!currentProject || !currentRule) return; await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ filename: currentRule.filename, content: document.getElementById('ruleEditorContent').value }) }); showToast('Saved!'); await loadProjectRules(); };
+    window.deleteCurrentRule = async () => { if (!currentProject || !currentRule || !confirm('Delete?')) return; await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules/${currentRule.filename}`, { method: 'DELETE' }); currentRule = null; await loadProjectRules(); };
 
-    window.openNewRuleModal = function() { if (!currentProject) return alert('Select project first'); selectedMustReadFiles = []; renderSelectedFiles(); ['ruleName', 'ruleDescription', 'ruleGlobs', 'ruleInstructions'].forEach(id => document.getElementById(id).value = ''); document.getElementById('ruleAlwaysApply').checked = true; document.getElementById('newRuleModal').classList.add('show'); };
+    window.openNewRuleModal = () => { if (!currentProject) return alert('Select project'); document.getElementById('newRuleModal').classList.add('show'); };
     window.closeNewRuleModal = () => document.getElementById('newRuleModal').classList.remove('show');
-
-    function setupFileSearch() {
-      const input = document.getElementById('fileSearchInput'), results = document.getElementById('fileSearchResults');
-      input.addEventListener('input', () => { const q = input.value.toLowerCase(); if (q.length < 2) { results.classList.remove('show'); return; } const matches = projectFiles.filter(f => f.toLowerCase().includes(q)).slice(0, 8); if (!matches.length) { results.classList.remove('show'); return; } results.innerHTML = matches.map(f => `<div class="file-search-item" onclick="addMustReadFile('${f}')">${f}</div>`).join(''); results.classList.add('show'); });
-      input.addEventListener('blur', () => setTimeout(() => results.classList.remove('show'), 200));
-    }
-
-    window.addMustReadFile = function(file) { if (!selectedMustReadFiles.includes(file)) selectedMustReadFiles.push(file); renderSelectedFiles(); document.getElementById('fileSearchInput').value = ''; };
-    window.removeMustReadFile = function(file) { selectedMustReadFiles = selectedMustReadFiles.filter(f => f !== file); renderSelectedFiles(); };
-    function renderSelectedFiles() { document.getElementById('selectedFiles').innerHTML = selectedMustReadFiles.map(f => `<span class="file-tag">${f}<button onclick="removeMustReadFile('${f}')">&times;</button></span>`).join(''); }
-
-    window.createRule = async function() {
-      const name = document.getElementById('ruleName').value.trim(); if (!name) return alert('Enter name');
-      const res = await fetch(`${API}/api/generate-rule`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, description: document.getElementById('ruleDescription').value, globs: document.getElementById('ruleGlobs').value.split(',').map(s => s.trim()).filter(Boolean), alwaysApply: document.getElementById('ruleAlwaysApply').checked, mustReadFiles: selectedMustReadFiles, instructions: document.getElementById('ruleInstructions').value }) });
-      const generated = await res.json();
-      await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ filename: generated.filename, content: generated.content }) });
+    window.createRule = async () => {
+      const name = document.getElementById('ruleName').value.trim(); if (!name) return;
+      const { content, filename } = await (await fetch(`${API}/api/generate-rule`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, description: document.getElementById('ruleDescription').value, alwaysApply: true, instructions: document.getElementById('ruleInstructions').value }) })).json();
+      await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ filename, content }) });
       closeNewRuleModal(); showToast('Created!'); await loadProjectRules();
     };
 
-    window.openAIDumpModal = function() { if (!currentProject) return alert('Select project first'); document.getElementById('aiDumpInput').value = ''; document.getElementById('suggestedRules').style.display = 'none'; document.getElementById('rulesSummary').style.display = 'none'; suggestedRulesData = []; checkApiKeyStatus(); document.getElementById('aiDumpModal').classList.add('show'); };
+    window.openAIDumpModal = () => { if (!currentProject) return alert('Select project'); document.getElementById('aiDumpInput').value = ''; document.getElementById('suggestedRules').style.display = 'none'; document.getElementById('aiDumpModal').classList.add('show'); };
     window.closeAIDumpModal = () => document.getElementById('aiDumpModal').classList.remove('show');
 
-    async function checkApiKeyStatus() {
-      const user = window.getCurrentUser(); if (!user) return;
-      const data = await (await fetch(`${API}/api/user/${user.uid}/api-key-status`)).json();
-      const el = document.getElementById('apiKeyStatus');
-      el.innerHTML = data.hasKey ? `<span>🟢</span> ${data.keyPreview}` : `<span>🔴</span> Add key in Settings`;
-      el.className = 'api-key-status ' + (data.hasKey ? 'connected' : '');
-    }
-
-    window.formatWithAI = async function() {
-      const input = document.getElementById('aiDumpInput').value.trim(); if (!input) return alert('Enter notes');
-      const user = window.getCurrentUser(); if (!user) return alert('Sign in first');
-      const sanityCheckMode = document.getElementById('sanityCheckbox').checked;
-      
-      const btn = document.getElementById('formatAIBtn');
-      btn.innerHTML = '<span class="loading-spinner"></span> Formatting...'; btn.disabled = true;
-      
+    window.formatWithAI = async () => {
+      const input = document.getElementById('aiDumpInput').value.trim(); if (!input) return;
+      const btn = document.getElementById('formatBtn'); btn.innerHTML = '<span class="loading-spinner"></span>'; btn.disabled = true;
       try {
-        const res = await fetch(`${API}/api/ai/format-rules`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ rawInput: input, projectContext: currentProject?.name, userId: user.uid, sanityCheckMode }) });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'API error');
-        
-        suggestedRulesData = data.rules || [];
-        renderSuggestedRules(sanityCheckMode, data.summary);
+        const { rules, summary } = await (await fetch(`${API}/api/ai/format-rules`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ rawInput: input, projectContext: currentProject?.name, userId: currentUser?.uid, sanityCheckMode: document.getElementById('sanityCheck').checked }) })).json();
+        document.getElementById('suggestedRules').innerHTML = `<h4 style="margin-bottom: 0.5rem; font-size: 0.85rem;">📋 Suggested (${rules.length})</h4>` + rules.map((r, i) => `<div class="suggested-rule-card ${r.rating ? 'priority-' + (r.rating === 'bad' ? 'critical' : r.rating === 'caution' ? 'important' : 'nice') : ''}"><div class="suggested-rule-header"><span class="suggested-rule-name">${r.name}.mdc</span><div class="rule-badges">${r.rating ? `<span class="priority-badge ${r.rating === 'good' ? 'nice' : r.rating === 'caution' ? 'important' : 'critical'}">${r.ratingEmoji || ''} ${r.rating}</span>` : ''}</div></div><div class="suggested-rule-desc">${r.description}</div>${r.rationale ? `<div class="suggested-rule-rationale">💡 ${r.rationale}</div>` : ''}<div class="suggested-rule-instructions">${r.instructions}</div><div class="suggested-rule-actions"><button class="btn btn-sm btn-success" onclick="approveAIRule(${i})">✅</button><button class="btn btn-sm btn-danger" onclick="this.closest('.suggested-rule-card').remove()">❌</button></div></div>`).join('');
         document.getElementById('suggestedRules').style.display = 'block';
+        window._aiRules = rules;
       } catch (e) { showToast('Error: ' + e.message, true); }
-      finally { btn.innerHTML = '🪄 Format with AI'; btn.disabled = false; }
+      btn.innerHTML = '🪄 Format'; btn.disabled = false;
     };
 
-    function renderSuggestedRules(sanityCheckMode, summary) {
-      // Render summary if available
-      const summaryEl = document.getElementById('rulesSummary');
-      if (sanityCheckMode && summary) {
-        summaryEl.innerHTML = `
-          <div class="summary-stat good"><div class="count">${summary.good || 0}</div><div class="label">✅ Good</div></div>
-          <div class="summary-stat caution"><div class="count">${summary.caution || 0}</div><div class="label">⚠️ Caution</div></div>
-          <div class="summary-stat bad"><div class="count">${summary.bad || 0}</div><div class="label">❌ Bad</div></div>
-          <div class="summary-advice">${summary.overallAdvice || ''}</div>
-        `;
-        summaryEl.style.display = 'flex';
-      } else {
-        summaryEl.style.display = 'none';
-      }
-
-      document.getElementById('suggestedRulesList').innerHTML = suggestedRulesData.map((rule, i) => `
-        <div class="suggested-rule-card ${sanityCheckMode && rule.rating ? 'rating-' + rule.rating : ''}" id="suggestedRule${i}" data-rating="${rule.rating || 'good'}">
-          <div class="suggested-rule-header">
-            <span class="suggested-rule-name">${rule.name}.mdc</span>
-            <div class="suggested-rule-badges">
-              <span class="suggested-rule-category">${rule.category || 'general'}</span>
-              ${sanityCheckMode && rule.rating ? `<span class="rating-badge ${rule.rating}">${rule.ratingEmoji || ''} ${rule.rating}</span>` : ''}
-            </div>
-          </div>
-          <div class="suggested-rule-desc">${rule.description}</div>
-          ${sanityCheckMode && rule.rationale ? `<div class="suggested-rule-rationale">💡 ${rule.rationale}</div>` : ''}
-          ${sanityCheckMode && rule.conflicts?.length ? `<div class="suggested-rule-conflicts">⚠️ Conflicts: ${rule.conflicts.join(', ')}</div>` : ''}
-          ${sanityCheckMode && rule.alternatives ? `<div class="suggested-rule-alternatives">💚 Alternative: ${rule.alternatives}</div>` : ''}
-          ${rule.mustReadFiles?.length ? `<div class="suggested-rule-files">${rule.mustReadFiles.map(f => `<span class="file-tag">${f}</span>`).join('')}</div>` : ''}
-          <div class="suggested-rule-instructions">${rule.instructions}</div>
-          <div class="suggested-rule-actions">
-            <button class="btn btn-sm btn-success" onclick="approveRule(${i})">✅ Approve</button>
-            <button class="btn btn-sm btn-secondary" onclick="editSuggestedRule(${i})">✏️ Edit</button>
-            <button class="btn btn-sm btn-danger" onclick="rejectRule(${i})">❌</button>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    window.approveRule = async function(i) {
-      const rule = suggestedRulesData[i];
-      const res = await fetch(`${API}/api/generate-rule`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: rule.name, description: rule.description, alwaysApply: rule.alwaysApply !== false, mustReadFiles: rule.mustReadFiles || [], instructions: rule.instructions }) });
-      const generated = await res.json();
-      await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ filename: generated.filename, content: generated.content }) });
-      document.getElementById(`suggestedRule${i}`).innerHTML = `<div style="text-align: center; padding: 0.75rem; color: var(--success);">✅ Created ${rule.name}.mdc</div>`;
-      document.getElementById(`suggestedRule${i}`).className = 'suggested-rule-card';
-      showToast(`Created ${rule.name}.mdc`);
+    window.approveAIRule = async (i) => {
+      const r = window._aiRules[i];
+      const { content, filename } = await (await fetch(`${API}/api/generate-rule`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: r.name, description: r.description, alwaysApply: true, mustReadFiles: r.mustReadFiles || [], instructions: r.instructions }) })).json();
+      await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ filename, content }) });
+      showToast(`Created ${r.name}.mdc`);
       await loadProjectRules();
     };
 
-    window.rejectRule = function(i) { document.getElementById(`suggestedRule${i}`).remove(); };
+    // ============ POSTMORTEM SYSTEM ============
 
-    window.editSuggestedRule = function(i) {
-      const rule = suggestedRulesData[i];
-      closeAIDumpModal(); openNewRuleModal();
-      document.getElementById('ruleName').value = rule.name;
-      document.getElementById('ruleDescription').value = rule.description;
-      document.getElementById('ruleAlwaysApply').checked = rule.alwaysApply !== false;
-      document.getElementById('ruleInstructions').value = rule.instructions;
-      selectedMustReadFiles = rule.mustReadFiles || []; renderSelectedFiles();
+    async function loadPostmortems() {
+      const { postmortems: p } = await (await fetch(`${API}/api/postmortems`)).json();
+      postmortems = p || [];
+      document.getElementById('postmortemCount').textContent = `${postmortems.length} logged`;
+    }
+
+    function renderPostmortems() {
+      const list = document.getElementById('postmortemList');
+      list.innerHTML = postmortems.length ? postmortems.map(p => `<div class="postmortem-item ${p.severity}"><div class="postmortem-meta"><span>${p.project} • ${new Date(p.timestamp).toLocaleDateString()}</span><button class="postmortem-delete" onclick="deletePostmortem('${p.id}')">&times;</button></div><div class="postmortem-content">${p.whatBroke || p.rawDump || 'No details'}</div>${p.suggestedRule ? `<div style="margin-top: 0.3rem; font-size: 0.65rem; color: var(--accent);">💡 ${p.suggestedRule}</div>` : ''}</div>`).join('') : '<div class="empty-state">No postmortems yet. Log mistakes to learn from them!</div>';
+    }
+
+    window.quickLogPostmortem = async () => {
+      const raw = document.getElementById('quickPostmortem').value.trim();
+      if (!raw) return;
+      const res = await fetch(`${API}/api/postmortems/quick`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ rawDump: raw, project: currentProject?.name || 'global', userId: currentUser?.uid }) });
+      const { postmortem, parsed } = await res.json();
+      postmortems.unshift(postmortem);
+      document.getElementById('quickPostmortem').value = '';
+      document.getElementById('postmortemCount').textContent = `${postmortems.length} logged`;
+      showToast(parsed ? 'Logged & parsed!' : 'Logged!');
     };
 
-    window.approveAllRules = async function() { for (let i = 0; i < suggestedRulesData.length; i++) if (document.getElementById(`suggestedRule${i}`)) await window.approveRule(i); };
-    
-    window.approveAllGoodRules = async function() {
-      for (let i = 0; i < suggestedRulesData.length; i++) {
-        const el = document.getElementById(`suggestedRule${i}`);
-        if (el && el.dataset.rating === 'good') await window.approveRule(i);
+    window.deletePostmortem = async (id) => {
+      await fetch(`${API}/api/postmortems/${id}`, { method: 'DELETE' });
+      postmortems = postmortems.filter(p => p.id !== id);
+      document.getElementById('postmortemCount').textContent = `${postmortems.length} logged`;
+      renderPostmortems();
+    };
+
+    window.clearAllPostmortems = async () => {
+      if (!confirm('Clear all postmortems?')) return;
+      await fetch(`${API}/api/postmortems`, { method: 'DELETE' });
+      postmortems = [];
+      document.getElementById('postmortemCount').textContent = '0 logged';
+      renderPostmortems();
+      document.getElementById('analysisResults').style.display = 'none';
+    };
+
+    window.openPostmortemPanel = () => document.querySelectorAll('.tab')[2].click();
+
+    window.analyzePostmortems = async () => {
+      if (!postmortems.length) return alert('No postmortems to analyze');
+      const btn = document.getElementById('analyzeBtn'); btn.innerHTML = '<span class="loading-spinner"></span> Analyzing...'; btn.disabled = true;
+      try {
+        const data = await (await fetch(`${API}/api/postmortems/analyze`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId: currentUser?.uid }) })).json();
+        if (data.error) throw new Error(data.error);
+        analysisData = data;
+        renderAnalysis();
+      } catch (e) { showToast('Error: ' + e.message, true); }
+      btn.innerHTML = '🔬 Analyze Patterns'; btn.disabled = false;
+    };
+
+    function renderAnalysis() {
+      if (!analysisData) return;
+      const { analysis, rules, warnings } = analysisData;
+      
+      document.getElementById('analysisHeader').innerHTML = `
+        <div class="analysis-score">
+          <span class="health-badge ${analysis.healthScore}">${analysis.healthScore.toUpperCase()}</span>
+          <span style="font-size: 0.75rem; color: var(--text-secondary);">${analysis.totalPostmortems || postmortems.length} postmortems analyzed</span>
+        </div>
+        <div class="analysis-patterns"><strong>Patterns:</strong> ${analysis.patterns?.join(', ') || 'None identified'}</div>
+        <div class="analysis-recommendation">💡 <strong>Top Recommendation:</strong> ${analysis.topRecommendation}</div>
+        ${warnings?.length ? `<div class="analysis-warnings">${warnings.map(w => `<div class="warning-item">⚠️ ${w}</div>`).join('')}</div>` : ''}
+      `;
+
+      document.getElementById('analysisRules').innerHTML = rules.map((r, i) => `
+        <div class="suggested-rule-card priority-${r.priority}">
+          <div class="suggested-rule-header">
+            <span class="suggested-rule-name">${r.name}.mdc</span>
+            <div class="rule-badges">
+              <span class="scope-badge ${r.scope}">${r.scope}</span>
+              <span class="priority-badge ${r.priority}">${r.priority}</span>
+            </div>
+          </div>
+          <div class="suggested-rule-desc">${r.description}</div>
+          <div class="suggested-rule-rationale">💡 ${r.rationale}</div>
+          <div class="suggested-rule-instructions">${r.instructions}</div>
+          <div class="suggested-rule-actions">
+            ${r.scope === 'global' ? `<button class="btn btn-sm btn-success" onclick="approveGlobalRule(${i})">✅ Add Global</button>` : `<button class="btn btn-sm btn-success" onclick="approveProjectRule(${i})">✅ Add to Project</button>`}
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('analysisResults').style.display = 'block';
+      window._analysisRules = rules;
+    }
+
+    window.approveGlobalRule = async (i) => {
+      const r = window._analysisRules[i];
+      const current = document.getElementById('globalEditor').value;
+      const addition = `\n\n## ${r.name}\n\n${r.instructions}`;
+      document.getElementById('globalEditor').value = current + addition;
+      await window.saveGlobalRules();
+      showToast(`Added ${r.name} to global rules!`);
+    };
+
+    window.approveProjectRule = async (i) => {
+      if (!currentProject) return alert('Select a project first');
+      const r = window._analysisRules[i];
+      const { content, filename } = await (await fetch(`${API}/api/generate-rule`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: r.name, description: r.description, alwaysApply: true, mustReadFiles: r.mustReadFiles || [], instructions: r.instructions }) })).json();
+      await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ filename, content }) });
+      showToast(`Created ${r.name}.mdc`);
+      await loadProjectRules();
+    };
+
+    window.openSettings = async () => {
+      const { scanPaths } = await (await fetch(`${API}/api/scan-paths`)).json();
+      document.getElementById('scanPaths').value = scanPaths.join('\n');
+      if (currentUser) {
+        const { hasKey, keyPreview } = await (await fetch(`${API}/api/user/${currentUser.uid}/api-key-status`)).json();
+        document.getElementById('openaiKeyInput').placeholder = hasKey ? `Current: ${keyPreview}` : 'sk-proj-...';
       }
-    };
-
-    window.openSettings = async function() {
-      const user = window.getCurrentUser();
-      const [pathsRes, keyRes] = await Promise.all([fetch(`${API}/api/scan-paths`), user ? fetch(`${API}/api/user/${user.uid}/api-key-status`) : Promise.resolve({ json: () => ({ hasKey: false }) })]);
-      document.getElementById('scanPaths').value = (await pathsRes.json()).scanPaths.join('\n');
-      const keyData = await keyRes.json();
-      document.getElementById('openaiKeyInput').value = '';
-      document.getElementById('openaiKeyInput').placeholder = keyData.hasKey ? `Current: ${keyData.keyPreview}` : 'sk-proj-...';
       document.getElementById('settingsModal').classList.add('show');
     };
-
     window.closeSettings = () => document.getElementById('settingsModal').classList.remove('show');
-
-    window.saveSettings = async function() {
-      const user = window.getCurrentUser();
-      await fetch(`${API}/api/scan-paths`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ scanPaths: document.getElementById('scanPaths').value.split('\n').map(s => s.trim()).filter(Boolean) }) });
-      const apiKey = document.getElementById('openaiKeyInput').value.trim();
-      if (apiKey && user) await fetch(`${API}/api/user/${user.uid}/api-key`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ apiKey }) });
-      closeSettings(); showToast('Settings saved!'); await refreshProjects(); await checkApiKeyStatus();
+    window.saveSettings = async () => {
+      await fetch(`${API}/api/scan-paths`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ scanPaths: document.getElementById('scanPaths').value.split('\n').filter(Boolean) }) });
+      const key = document.getElementById('openaiKeyInput').value.trim();
+      if (key && currentUser) await fetch(`${API}/api/user/${currentUser.uid}/api-key`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ apiKey: key }) });
+      closeSettings(); showToast('Saved!'); await refreshProjects();
     };
 
-    function showToast(msg, isError = false) { const t = document.getElementById('toast'); t.textContent = msg; t.className = 'toast show ' + (isError ? 'error' : 'success'); setTimeout(() => t.className = 'toast', 3000); }
-
-    // Toggle sanity check styling
-    document.getElementById('sanityCheckbox')?.addEventListener('change', function() {
-      document.getElementById('sanityToggle').classList.toggle('active', this.checked);
-    });
+    function showToast(msg, err = false) { const t = document.getElementById('toast'); t.textContent = msg; t.className = 'toast show ' + (err ? 'error' : 'success'); setTimeout(() => t.className = 'toast', 3000); }
   </script>
 </body>
 </html>
