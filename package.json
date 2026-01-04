@@ -1,0 +1,19 @@
+{
+  "name": "cursor-rules-manager",
+  "version": "1.0.0",
+  "description": "A beautiful UI for managing Cursor AI rules - global and per-project",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["cursor", "rules", "ai", "manager"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "gray-matter": "^4.0.3",
+    "glob": "^10.3.10"
+  }
+}
