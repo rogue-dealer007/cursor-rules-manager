@@ -26,13 +26,10 @@
       --danger: #ef4444;
       --gradient-1: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
       --gradient-2: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
+      --ai-gradient: linear-gradient(135deg, #f59e0b 0%, #ef4444 50%, #ec4899 100%);
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -42,25 +39,14 @@
       overflow-x: hidden;
     }
 
-    /* Animated background */
     .bg-effects {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      pointer-events: none;
-      z-index: 0;
-      overflow: hidden;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none; z-index: 0; overflow: hidden;
     }
 
     .bg-effects::before {
       content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
+      position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
       background: radial-gradient(ellipse at 30% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
                   radial-gradient(ellipse at 70% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
       animation: bgFloat 20s ease-in-out infinite;
@@ -71,725 +57,415 @@
       50% { transform: translate(-2%, 2%) rotate(1deg); }
     }
 
-    .container {
-      position: relative;
-      z-index: 1;
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
+    .container { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 2rem; }
 
     header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 3rem;
-      padding-bottom: 2rem;
-      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border);
     }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
+    .logo { display: flex; align-items: center; gap: 1rem; }
 
     .logo-icon {
-      width: 48px;
-      height: 48px;
-      background: var(--gradient-1);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
+      width: 48px; height: 48px; background: var(--gradient-1); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
       box-shadow: 0 8px 32px var(--accent-glow);
     }
 
     .logo h1 {
-      font-size: 1.75rem;
-      font-weight: 600;
-      background: var(--gradient-1);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-size: 1.75rem; font-weight: 600;
+      background: var(--gradient-1); -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent; background-clip: text;
     }
 
-    .logo p {
-      color: var(--text-secondary);
-      font-size: 0.875rem;
-      margin-top: 0.25rem;
-    }
+    .logo p { color: var(--text-secondary); font-size: 0.875rem; margin-top: 0.25rem; }
 
-    .header-actions {
-      display: flex;
-      gap: 1rem;
-    }
+    .header-actions { display: flex; gap: 1rem; }
 
     .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      border-radius: 10px;
-      font-family: inherit;
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      border: none;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.5rem; border-radius: 10px; font-family: inherit;
+      font-size: 0.9rem; font-weight: 500; cursor: pointer;
+      transition: all 0.2s ease; border: none;
     }
 
     .btn-primary {
-      background: var(--accent);
-      color: white;
+      background: var(--accent); color: white;
       box-shadow: 0 4px 16px var(--accent-glow);
     }
 
     .btn-primary:hover {
-      background: var(--accent-hover);
-      transform: translateY(-2px);
+      background: var(--accent-hover); transform: translateY(-2px);
       box-shadow: 0 6px 24px var(--accent-glow);
     }
 
+    .btn-ai {
+      background: var(--ai-gradient); color: white;
+      box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3);
+    }
+
+    .btn-ai:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(245, 158, 11, 0.4);
+    }
+
     .btn-secondary {
-      background: var(--bg-tertiary);
-      color: var(--text-primary);
+      background: var(--bg-tertiary); color: var(--text-primary);
       border: 1px solid var(--border);
     }
 
-    .btn-secondary:hover {
-      background: var(--bg-card);
-      border-color: var(--border-focus);
-    }
+    .btn-secondary:hover { background: var(--bg-card); border-color: var(--border-focus); }
 
-    .btn-danger {
-      background: transparent;
-      color: var(--danger);
-      border: 1px solid var(--danger);
-    }
+    .btn-success { background: var(--success); color: white; }
+    .btn-success:hover { filter: brightness(1.1); }
 
-    .btn-danger:hover {
-      background: rgba(239, 68, 68, 0.1);
-    }
+    .btn-danger { background: transparent; color: var(--danger); border: 1px solid var(--danger); }
+    .btn-danger:hover { background: rgba(239, 68, 68, 0.1); }
 
-    .btn-sm {
-      padding: 0.5rem 1rem;
-      font-size: 0.8rem;
-    }
+    .btn-sm { padding: 0.5rem 1rem; font-size: 0.8rem; }
 
     .main-grid {
-      display: grid;
-      grid-template-columns: 300px 1fr;
-      gap: 2rem;
-      min-height: calc(100vh - 200px);
+      display: grid; grid-template-columns: 300px 1fr;
+      gap: 2rem; min-height: calc(100vh - 200px);
     }
 
-    .sidebar {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
+    .sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
 
     .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 1.5rem;
-      transition: all 0.2s ease;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.5rem; transition: all 0.2s ease;
     }
 
-    .card:hover {
-      border-color: rgba(99, 102, 241, 0.3);
-    }
+    .card:hover { border-color: rgba(99, 102, 241, 0.3); }
 
-    .card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-    }
+    .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
 
     .card-title {
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      font-size: 1rem; font-weight: 600; color: var(--text-primary);
+      display: flex; align-items: center; gap: 0.5rem;
     }
 
-    .card-title .icon {
-      font-size: 1.1rem;
-    }
+    .card-title .icon { font-size: 1.1rem; }
 
-    .project-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      max-height: 400px;
-      overflow-y: auto;
-    }
+    .project-list { display: flex; flex-direction: column; gap: 0.5rem; max-height: 400px; overflow-y: auto; }
 
     .project-item {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.875rem 1rem;
-      background: var(--bg-secondary);
-      border: 1px solid transparent;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.2s ease;
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.875rem 1rem; background: var(--bg-secondary);
+      border: 1px solid transparent; border-radius: 10px;
+      cursor: pointer; transition: all 0.2s ease;
     }
 
-    .project-item:hover {
-      background: var(--bg-tertiary);
-      border-color: var(--border);
-    }
-
-    .project-item.active {
-      background: rgba(99, 102, 241, 0.1);
-      border-color: var(--accent);
-    }
+    .project-item:hover { background: var(--bg-tertiary); border-color: var(--border); }
+    .project-item.active { background: rgba(99, 102, 241, 0.1); border-color: var(--accent); }
 
     .project-icon {
-      width: 32px;
-      height: 32px;
-      background: var(--bg-tertiary);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
+      width: 32px; height: 32px; background: var(--bg-tertiary); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center; font-size: 1rem;
     }
 
-    .project-item.active .project-icon {
-      background: var(--accent);
-    }
+    .project-item.active .project-icon { background: var(--accent); }
 
-    .project-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .project-name {
-      font-weight: 500;
-      font-size: 0.9rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .project-path {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+    .project-info { flex: 1; min-width: 0; }
+    .project-name { font-weight: 500; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .project-path { font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
     .badge {
-      font-size: 0.65rem;
-      padding: 0.2rem 0.5rem;
-      border-radius: 20px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 20px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
     }
 
-    .badge-success {
-      background: rgba(16, 185, 129, 0.15);
-      color: var(--success);
-    }
+    .badge-success { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+    .badge-ai { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
 
-    .main-content {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
+    .main-content { display: flex; flex-direction: column; gap: 1.5rem; }
 
     .tabs {
-      display: flex;
-      gap: 0.5rem;
-      background: var(--bg-secondary);
-      padding: 0.5rem;
-      border-radius: 12px;
-      width: fit-content;
+      display: flex; gap: 0.5rem; background: var(--bg-secondary);
+      padding: 0.5rem; border-radius: 12px; width: fit-content;
     }
 
     .tab {
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      border: none;
-      background: transparent;
-      color: var(--text-secondary);
-      font-family: inherit;
-      font-size: 0.9rem;
+      padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 500;
+      cursor: pointer; transition: all 0.2s ease; border: none;
+      background: transparent; color: var(--text-secondary);
+      font-family: inherit; font-size: 0.9rem;
     }
 
-    .tab:hover {
-      color: var(--text-primary);
-    }
+    .tab:hover { color: var(--text-primary); }
 
-    .tab.active {
-      background: var(--accent);
-      color: white;
-      box-shadow: 0 4px 12px var(--accent-glow);
-    }
+    .tab.active { background: var(--accent); color: white; box-shadow: 0 4px 12px var(--accent-glow); }
 
-    .editor-section {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .editor-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-    }
-
-    .editor-title {
-      font-size: 1.25rem;
-      font-weight: 600;
-    }
+    .editor-section { flex: 1; display: flex; flex-direction: column; }
+    .editor-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+    .editor-title { font-size: 1.25rem; font-weight: 600; }
 
     .editor-container {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
+      flex: 1; display: flex; flex-direction: column;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden;
     }
 
     .editor-toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem 1.5rem;
-      background: var(--bg-secondary);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 1.5rem; background: var(--bg-secondary);
       border-bottom: 1px solid var(--border);
     }
 
-    .toolbar-left {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
+    .toolbar-left { display: flex; align-items: center; gap: 1rem; }
 
-    .file-tabs {
-      display: flex;
-      gap: 0.25rem;
-    }
+    .file-tabs { display: flex; gap: 0.25rem; }
 
     .file-tab {
-      padding: 0.5rem 1rem;
-      background: transparent;
-      border: none;
-      color: var(--text-secondary);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
-      cursor: pointer;
-      border-radius: 6px;
-      transition: all 0.2s ease;
+      padding: 0.5rem 1rem; background: transparent; border: none;
+      color: var(--text-secondary); font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem; cursor: pointer; border-radius: 6px; transition: all 0.2s ease;
     }
 
-    .file-tab:hover {
-      background: var(--bg-tertiary);
-      color: var(--text-primary);
-    }
-
-    .file-tab.active {
-      background: var(--accent);
-      color: white;
-    }
+    .file-tab:hover { background: var(--bg-tertiary); color: var(--text-primary); }
+    .file-tab.active { background: var(--accent); color: white; }
 
     textarea.editor {
-      flex: 1;
-      width: 100%;
-      padding: 1.5rem;
-      background: transparent;
-      border: none;
-      color: var(--text-primary);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.9rem;
-      line-height: 1.6;
-      resize: none;
-      outline: none;
-      min-height: 400px;
+      flex: 1; width: 100%; padding: 1.5rem; background: transparent;
+      border: none; color: var(--text-primary);
+      font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;
+      line-height: 1.6; resize: none; outline: none; min-height: 400px;
     }
 
-    textarea.editor::placeholder {
-      color: var(--text-muted);
-    }
+    textarea.editor::placeholder { color: var(--text-muted); }
 
-    .rule-builder {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 1.5rem;
-    }
-
-    .rule-builder h3 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .form-group {
-      margin-bottom: 1.25rem;
-    }
-
-    .form-label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--text-secondary);
-      margin-bottom: 0.5rem;
-    }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-label { display: block; font-size: 0.85rem; font-weight: 500; color: var(--text-secondary); margin-bottom: 0.5rem; }
 
     .form-input {
-      width: 100%;
-      padding: 0.875rem 1rem;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--text-primary);
-      font-family: inherit;
-      font-size: 0.9rem;
+      width: 100%; padding: 0.875rem 1rem; background: var(--bg-secondary);
+      border: 1px solid var(--border); border-radius: 10px;
+      color: var(--text-primary); font-family: inherit; font-size: 0.9rem;
       transition: all 0.2s ease;
     }
 
-    .form-input:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px var(--accent-glow);
-    }
+    .form-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+    .form-input::placeholder { color: var(--text-muted); }
 
-    .form-input::placeholder {
-      color: var(--text-muted);
-    }
-
-    .checkbox-group {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
+    .checkbox-group { display: flex; align-items: center; gap: 0.75rem; }
 
     .checkbox {
-      width: 20px;
-      height: 20px;
-      border: 2px solid var(--border);
-      border-radius: 5px;
-      cursor: pointer;
-      transition: all 0.2s ease;
+      width: 20px; height: 20px; border: 2px solid var(--border);
+      border-radius: 5px; cursor: pointer; transition: all 0.2s ease;
       accent-color: var(--accent);
     }
 
     .file-picker {
-      border: 2px dashed var(--border);
-      border-radius: 10px;
-      padding: 1rem;
-      min-height: 120px;
-      transition: all 0.2s ease;
+      border: 2px dashed var(--border); border-radius: 10px;
+      padding: 1rem; min-height: 120px; transition: all 0.2s ease;
     }
 
-    .file-picker:hover {
-      border-color: var(--accent);
-    }
+    .file-picker:hover { border-color: var(--accent); }
 
-    .file-picker-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 0.75rem;
-    }
+    .file-picker-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
+    .file-picker-hint { font-size: 0.8rem; color: var(--text-muted); }
 
-    .file-picker-hint {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    .selected-files {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
+    .selected-files { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 
     .file-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.4rem 0.75rem;
-      background: rgba(99, 102, 241, 0.1);
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      border-radius: 6px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.4rem 0.75rem; background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
       color: var(--accent-hover);
     }
 
     .file-tag button {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      padding: 0;
-      font-size: 1rem;
-      line-height: 1;
+      background: none; border: none; color: var(--text-muted);
+      cursor: pointer; padding: 0; font-size: 1rem; line-height: 1;
     }
 
-    .file-tag button:hover {
-      color: var(--danger);
-    }
+    .file-tag button:hover { color: var(--danger); }
 
-    .file-search-dropdown {
-      position: relative;
-    }
+    .file-search-dropdown { position: relative; }
 
     .file-search-input {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      background: var(--bg-tertiary);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: var(--text-primary);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
+      width: 100%; padding: 0.75rem 1rem; background: var(--bg-tertiary);
+      border: 1px solid var(--border); border-radius: 8px;
+      color: var(--text-primary); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
     }
 
     .file-search-results {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      max-height: 200px;
-      overflow-y: auto;
-      z-index: 100;
-      display: none;
-      margin-top: 0.25rem;
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: var(--bg-secondary); border: 1px solid var(--border);
+      border-radius: 8px; max-height: 200px; overflow-y: auto;
+      z-index: 100; display: none; margin-top: 0.25rem;
     }
 
-    .file-search-results.show {
-      display: block;
-    }
+    .file-search-results.show { display: block; }
 
     .file-search-item {
-      padding: 0.6rem 1rem;
-      cursor: pointer;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      transition: all 0.15s ease;
+      padding: 0.6rem 1rem; cursor: pointer;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+      color: var(--text-secondary); transition: all 0.15s ease;
     }
 
-    .file-search-item:hover {
-      background: var(--bg-tertiary);
-      color: var(--text-primary);
-    }
+    .file-search-item:hover { background: var(--bg-tertiary); color: var(--text-primary); }
 
-    .rules-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      margin-top: 1rem;
-    }
+    .rules-list { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; }
 
     .rule-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem 1.25rem;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 1.25rem; background: var(--bg-secondary);
+      border: 1px solid var(--border); border-radius: 10px;
+      cursor: pointer; transition: all 0.2s ease;
+    }
+
+    .rule-item:hover { border-color: var(--accent); background: var(--bg-tertiary); }
+
+    .rule-item-info { display: flex; align-items: center; gap: 0.75rem; }
+    .rule-item-icon { font-size: 1.25rem; }
+    .rule-item-name { font-weight: 500; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; }
+    .rule-item-desc { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem; }
+
+    .empty-state { text-align: center; padding: 3rem; color: var(--text-muted); }
+    .empty-state-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; }
+
+    .toast {
+      position: fixed; bottom: 2rem; right: 2rem;
+      background: var(--bg-card); border: 1px solid var(--border);
+      padding: 1rem 1.5rem; border-radius: 12px;
+      display: flex; align-items: center; gap: 0.75rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      transform: translateY(150%); transition: transform 0.3s ease; z-index: 1000;
+    }
+
+    .toast.show { transform: translateY(0); }
+    .toast.success { border-color: var(--success); }
+    .toast.success::before { content: '✓'; color: var(--success); font-weight: bold; }
+
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
+    }
+
+    .modal-overlay.show { opacity: 1; pointer-events: all; }
+
+    .modal {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 2rem; max-width: 700px; width: 90%;
+      max-height: 85vh; overflow-y: auto;
+      transform: scale(0.9); transition: transform 0.2s ease;
+    }
+
+    .modal-overlay.show .modal { transform: scale(1); }
+
+    .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+    .modal-title { font-size: 1.25rem; font-weight: 600; }
+
+    .modal-close {
+      background: none; border: none; color: var(--text-muted);
+      font-size: 1.5rem; cursor: pointer; padding: 0; line-height: 1;
+    }
+
+    .modal-close:hover { color: var(--text-primary); }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem; }
+
+    /* AI Dump Section */
+    .ai-dump-section {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(236, 72, 153, 0.05) 100%);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem;
+    }
+
+    .ai-dump-header {
+      display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;
+    }
+
+    .ai-dump-header h3 {
+      font-size: 1.1rem; font-weight: 600;
+      background: var(--ai-gradient); -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    .ai-dump-textarea {
+      width: 100%; min-height: 150px; padding: 1rem;
+      background: var(--bg-secondary); border: 1px solid var(--border);
+      border-radius: 10px; color: var(--text-primary);
+      font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;
+      line-height: 1.6; resize: vertical;
+    }
+
+    .ai-dump-textarea:focus { outline: none; border-color: var(--warning); }
+
+    .ai-dump-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; }
+
+    /* Suggested Rules Review */
+    .suggested-rules { margin-top: 1.5rem; }
+
+    .suggested-rule-card {
+      background: var(--bg-secondary); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem;
       transition: all 0.2s ease;
     }
 
-    .rule-item:hover {
-      border-color: var(--accent);
-      background: var(--bg-tertiary);
+    .suggested-rule-card:hover { border-color: var(--accent); }
+
+    .suggested-rule-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 0.75rem;
     }
 
-    .rule-item-info {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
+    .suggested-rule-name {
+      font-weight: 600; font-family: 'JetBrains Mono', monospace;
+      color: var(--accent-hover);
     }
 
-    .rule-item-icon {
-      font-size: 1.25rem;
+    .suggested-rule-category {
+      font-size: 0.7rem; padding: 0.25rem 0.6rem;
+      background: rgba(99, 102, 241, 0.1); border-radius: 20px;
+      color: var(--accent);
     }
 
-    .rule-item-name {
-      font-weight: 500;
+    .suggested-rule-desc { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem; }
+
+    .suggested-rule-files {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem;
+    }
+
+    .suggested-rule-instructions {
+      font-size: 0.8rem; color: var(--text-muted);
+      background: var(--bg-tertiary); padding: 0.75rem;
+      border-radius: 8px; max-height: 100px; overflow-y: auto;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
     }
 
-    .rule-item-desc {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-top: 0.25rem;
+    .suggested-rule-actions {
+      display: flex; gap: 0.5rem; margin-top: 1rem;
+      padding-top: 1rem; border-top: 1px solid var(--border);
     }
 
-    .empty-state {
-      text-align: center;
-      padding: 3rem;
-      color: var(--text-muted);
+    .api-key-status {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.8rem; color: var(--text-muted);
     }
 
-    .empty-state-icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      opacity: 0.5;
+    .api-key-status.connected { color: var(--success); }
+    .api-key-status.disconnected { color: var(--danger); }
+
+    .loading-spinner {
+      display: inline-block; width: 20px; height: 20px;
+      border: 2px solid var(--border); border-top-color: var(--accent);
+      border-radius: 50%; animation: spin 0.8s linear infinite;
     }
 
-    .toast {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      padding: 1rem 1.5rem;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-      transform: translateY(150%);
-      transition: transform 0.3s ease;
-      z-index: 1000;
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    .toast.show {
-      transform: translateY(0);
-    }
-
-    .toast.success {
-      border-color: var(--success);
-    }
-
-    .toast.success::before {
-      content: '✓';
-      color: var(--success);
-      font-weight: bold;
-    }
-
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(4px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s ease;
-    }
-
-    .modal-overlay.show {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .modal {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 2rem;
-      max-width: 500px;
-      width: 90%;
-      max-height: 80vh;
-      overflow-y: auto;
-      transform: scale(0.9);
-      transition: transform 0.2s ease;
-    }
-
-    .modal-overlay.show .modal {
-      transform: scale(1);
-    }
-
-    .modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.5rem;
-    }
-
-    .modal-title {
-      font-size: 1.25rem;
-      font-weight: 600;
-    }
-
-    .modal-close {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 1.5rem;
-      cursor: pointer;
-      padding: 0;
-      line-height: 1;
-    }
-
-    .modal-close:hover {
-      color: var(--text-primary);
-    }
-
-    .modal-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 0.75rem;
-      margin-top: 1.5rem;
-    }
-
-    /* Scrollbar styling */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: var(--bg-secondary);
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: var(--border);
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--text-muted);
-    }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-secondary); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
     @media (max-width: 900px) {
-      .main-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .sidebar {
-        order: 2;
-      }
+      .main-grid { grid-template-columns: 1fr; }
+      .sidebar { order: 2; }
     }
   </style>
 </head>
@@ -806,12 +482,8 @@
         </div>
       </div>
       <div class="header-actions">
-        <button class="btn btn-secondary" onclick="openSettings()">
-          ⚙️ Settings
-        </button>
-        <button class="btn btn-primary" onclick="refreshProjects()">
-          🔄 Refresh Projects
-        </button>
+        <button class="btn btn-secondary" onclick="openSettings()">⚙️ Settings</button>
+        <button class="btn btn-primary" onclick="refreshProjects()">🔄 Refresh Projects</button>
       </div>
     </header>
 
@@ -843,9 +515,7 @@
           </div>
           <div class="editor-container">
             <div class="editor-toolbar">
-              <div class="toolbar-left">
-                <span style="color: var(--text-muted); font-size: 0.85rem;">These rules apply to ALL projects</span>
-              </div>
+              <span style="color: var(--text-muted); font-size: 0.85rem;">These rules apply to ALL projects</span>
             </div>
             <textarea class="editor" id="globalEditor" placeholder="# Global Rules
 
@@ -860,7 +530,10 @@
         <div id="projectTab" class="editor-section" style="display: none;">
           <div class="editor-header">
             <h2 class="editor-title" id="projectTitle">Select a Project</h2>
-            <button class="btn btn-primary" onclick="openNewRuleModal()">➕ New Rule</button>
+            <div style="display: flex; gap: 0.75rem;">
+              <button class="btn btn-ai" onclick="openAIDumpModal()">🤖 AI Format Rules</button>
+              <button class="btn btn-primary" onclick="openNewRuleModal()">➕ New Rule</button>
+            </div>
           </div>
 
           <div class="rules-list" id="rulesList">
@@ -910,7 +583,7 @@
       <div class="form-group">
         <label class="form-label">File Globs (optional)</label>
         <input type="text" class="form-input" id="ruleGlobs" placeholder="e.g., **/*.ts, src/**/*">
-        <small style="color: var(--text-muted); font-size: 0.75rem; margin-top: 0.25rem; display: block;">Comma-separated. Only apply rule when working with these files.</small>
+        <small style="color: var(--text-muted); font-size: 0.75rem;">Comma-separated. Only apply when working with these files.</small>
       </div>
 
       <div class="form-group">
@@ -923,9 +596,6 @@
       <div class="form-group">
         <label class="form-label">🔥 Files AI MUST Read</label>
         <div class="file-picker">
-          <div class="file-picker-header">
-            <span class="file-picker-hint">Add files that AI must read before doing anything</span>
-          </div>
           <div class="selected-files" id="selectedFiles"></div>
           <div class="file-search-dropdown" style="margin-top: 0.75rem;">
             <input type="text" class="file-search-input" id="fileSearchInput" placeholder="Search for files...">
@@ -946,6 +616,55 @@
     </div>
   </div>
 
+  <!-- AI Dump Modal -->
+  <div class="modal-overlay" id="aiDumpModal">
+    <div class="modal" style="max-width: 800px;">
+      <div class="modal-header">
+        <h3 class="modal-title">🤖 AI-Assisted Rule Creation</h3>
+        <button class="modal-close" onclick="closeAIDumpModal()">&times;</button>
+      </div>
+
+      <div class="ai-dump-section">
+        <div class="ai-dump-header">
+          <span style="font-size: 1.5rem;">✨</span>
+          <h3>Dump Your Raw Notes</h3>
+        </div>
+        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">
+          Paste bug descriptions, informal rules, notes from chats - anything. AI will format them into proper rules for you to approve.
+        </p>
+        <textarea class="ai-dump-textarea" id="aiDumpInput" placeholder="Paste your raw notes here...
+
+Example:
+- API returns { products: [...] } not just [...]
+- always use the db.ts file for database stuff
+- routes go in app/(dashboard)/...
+- don't fucking create new folders without checking existing structure
+- iOS swift codingkeys must match api snake_case"></textarea>
+        
+        <div class="ai-dump-actions">
+          <div class="api-key-status" id="apiKeyStatus">
+            <span>⚪</span> Checking API key...
+          </div>
+          <button class="btn btn-ai" onclick="formatWithAI()" id="formatAIBtn">
+            🪄 Format with AI
+          </button>
+        </div>
+      </div>
+
+      <div class="suggested-rules" id="suggestedRules" style="display: none;">
+        <h4 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+          <span>📋</span> Suggested Rules
+          <span style="font-size: 0.8rem; color: var(--text-muted);">(Review and approve each)</span>
+        </h4>
+        <div id="suggestedRulesList"></div>
+        <div class="modal-actions" style="margin-top: 1.5rem;">
+          <button class="btn btn-secondary" onclick="closeAIDumpModal()">Done</button>
+          <button class="btn btn-success" onclick="approveAllRules()">✅ Approve All</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Settings Modal -->
   <div class="modal-overlay" id="settingsModal">
     <div class="modal">
@@ -955,20 +674,25 @@
       </div>
 
       <div class="form-group">
+        <label class="form-label">🔑 OpenAI API Key</label>
+        <input type="password" class="form-input" id="openaiKeyInput" placeholder="sk-proj-...">
+        <small style="color: var(--text-muted); font-size: 0.75rem;">Required for AI-assisted rule formatting. Stored locally.</small>
+      </div>
+
+      <div class="form-group">
         <label class="form-label">Project Scan Paths</label>
         <textarea class="form-input" id="scanPaths" rows="4" placeholder="/Users/you/code
 /Users/you/projects"></textarea>
-        <small style="color: var(--text-muted); font-size: 0.75rem; margin-top: 0.25rem; display: block;">One path per line. These folders will be scanned for projects.</small>
+        <small style="color: var(--text-muted); font-size: 0.75rem;">One path per line.</small>
       </div>
 
       <div class="modal-actions">
         <button class="btn btn-secondary" onclick="closeSettings()">Cancel</button>
-        <button class="btn btn-primary" onclick="saveScanPaths()">Save Settings</button>
+        <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
       </div>
     </div>
   </div>
 
-  <!-- Toast -->
   <div class="toast" id="toast">Saved successfully!</div>
 
   <script>
@@ -977,31 +701,28 @@
     let currentRule = null;
     let projectFiles = [];
     let selectedMustReadFiles = [];
+    let suggestedRulesData = [];
 
-    // Initialize
     document.addEventListener('DOMContentLoaded', () => {
       loadGlobalRules();
       refreshProjects();
       setupFileSearch();
+      checkApiKeyStatus();
     });
 
-    // Tab switching
     function switchTab(tab) {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       event.target.classList.add('active');
-      
       document.getElementById('globalTab').style.display = tab === 'global' ? 'flex' : 'none';
       document.getElementById('projectTab').style.display = tab === 'project' ? 'flex' : 'none';
     }
 
-    // Load global rules
     async function loadGlobalRules() {
       const res = await fetch(`${API}/api/global-rules`);
       const data = await res.json();
       document.getElementById('globalEditor').value = data.content;
     }
 
-    // Save global rules
     async function saveGlobalRules() {
       const content = document.getElementById('globalEditor').value;
       await fetch(`${API}/api/global-rules`, {
@@ -1012,27 +733,18 @@
       showToast('Global rules saved!');
     }
 
-    // Refresh projects
     async function refreshProjects() {
       const res = await fetch(`${API}/api/projects`);
       const data = await res.json();
       renderProjects(data.projects);
     }
 
-    // Render projects list
     function renderProjects(projects) {
       const list = document.getElementById('projectList');
-      
       if (projects.length === 0) {
-        list.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-state-icon">🔍</div>
-            <p>No projects found. Check settings.</p>
-          </div>
-        `;
+        list.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🔍</div><p>No projects found. Check settings.</p></div>`;
         return;
       }
-
       list.innerHTML = projects.map(p => `
         <div class="project-item ${currentProject?.path === p.path ? 'active' : ''}" onclick="selectProject('${btoa(p.path)}', '${p.name}')">
           <div class="project-icon">📁</div>
@@ -1045,51 +757,37 @@
       `).join('');
     }
 
-    // Select project
     async function selectProject(encodedPath, name) {
       currentProject = { path: atob(encodedPath), name, encodedPath };
-      
-      // Update UI
       document.querySelectorAll('.project-item').forEach(el => el.classList.remove('active'));
       event.currentTarget.classList.add('active');
       document.getElementById('projectTitle').textContent = name;
       
-      // Switch to project tab
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.tab')[1].classList.add('active');
       document.getElementById('globalTab').style.display = 'none';
       document.getElementById('projectTab').style.display = 'flex';
       
-      // Load project files for file picker
       const filesRes = await fetch(`${API}/api/projects/${encodedPath}/files`);
       const filesData = await filesRes.json();
       projectFiles = filesData.files;
       
-      // Load rules
       await loadProjectRules();
     }
 
-    // Load project rules
     async function loadProjectRules() {
       if (!currentProject) return;
-      
       const res = await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules`);
       const data = await res.json();
       renderRules(data.rules);
     }
 
-    // Render rules list
     function renderRules(rules) {
       const list = document.getElementById('rulesList');
       document.getElementById('ruleEditor').style.display = 'none';
       
       if (rules.length === 0) {
-        list.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-state-icon">📋</div>
-            <p>No rules yet. Create one!</p>
-          </div>
-        `;
+        list.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📋</div><p>No rules yet. Create one!</p></div>`;
         return;
       }
 
@@ -1107,52 +805,37 @@
       `).join('');
     }
 
-    // Edit rule
     function editRule(filename, encodedContent) {
       currentRule = { filename, content: decodeURIComponent(encodedContent) };
       document.getElementById('ruleEditor').style.display = 'block';
       document.getElementById('ruleEditorContent').value = currentRule.content;
-      document.getElementById('ruleFileTabs').innerHTML = `
-        <button class="file-tab active">${filename}</button>
-      `;
+      document.getElementById('ruleFileTabs').innerHTML = `<button class="file-tab active">${filename}</button>`;
     }
 
-    // Save current rule
     async function saveCurrentRule() {
       if (!currentProject || !currentRule) return;
-      
       const content = document.getElementById('ruleEditorContent').value;
       await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ filename: currentRule.filename, content })
       });
-      
       showToast('Rule saved!');
       await loadProjectRules();
     }
 
-    // Delete current rule
     async function deleteCurrentRule() {
       if (!currentProject || !currentRule) return;
       if (!confirm(`Delete ${currentRule.filename}?`)) return;
-      
-      await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules/${currentRule.filename}`, {
-        method: 'DELETE'
-      });
-      
+      await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules/${currentRule.filename}`, { method: 'DELETE' });
       currentRule = null;
       document.getElementById('ruleEditor').style.display = 'none';
       showToast('Rule deleted!');
       await loadProjectRules();
     }
 
-    // New rule modal
     function openNewRuleModal() {
-      if (!currentProject) {
-        alert('Select a project first!');
-        return;
-      }
+      if (!currentProject) { alert('Select a project first!'); return; }
       selectedMustReadFiles = [];
       renderSelectedFiles();
       document.getElementById('ruleName').value = '';
@@ -1163,37 +846,22 @@
       document.getElementById('newRuleModal').classList.add('show');
     }
 
-    function closeNewRuleModal() {
-      document.getElementById('newRuleModal').classList.remove('show');
-    }
+    function closeNewRuleModal() { document.getElementById('newRuleModal').classList.remove('show'); }
 
-    // File search setup
     function setupFileSearch() {
       const input = document.getElementById('fileSearchInput');
       const results = document.getElementById('fileSearchResults');
       
       input.addEventListener('input', () => {
         const query = input.value.toLowerCase();
-        if (query.length < 2) {
-          results.classList.remove('show');
-          return;
-        }
-        
+        if (query.length < 2) { results.classList.remove('show'); return; }
         const matches = projectFiles.filter(f => f.toLowerCase().includes(query)).slice(0, 10);
-        if (matches.length === 0) {
-          results.classList.remove('show');
-          return;
-        }
-        
-        results.innerHTML = matches.map(f => `
-          <div class="file-search-item" onclick="addMustReadFile('${f}')">${f}</div>
-        `).join('');
+        if (matches.length === 0) { results.classList.remove('show'); return; }
+        results.innerHTML = matches.map(f => `<div class="file-search-item" onclick="addMustReadFile('${f}')">${f}</div>`).join('');
         results.classList.add('show');
       });
       
-      input.addEventListener('blur', () => {
-        setTimeout(() => results.classList.remove('show'), 200);
-      });
+      input.addEventListener('blur', () => setTimeout(() => results.classList.remove('show'), 200));
     }
 
     function addMustReadFile(file) {
@@ -1210,22 +878,14 @@
     }
 
     function renderSelectedFiles() {
-      const container = document.getElementById('selectedFiles');
-      container.innerHTML = selectedMustReadFiles.map(f => `
-        <span class="file-tag">
-          ${f}
-          <button onclick="removeMustReadFile('${f}')">&times;</button>
-        </span>
-      `).join('');
+      document.getElementById('selectedFiles').innerHTML = selectedMustReadFiles.map(f => 
+        `<span class="file-tag">${f}<button onclick="removeMustReadFile('${f}')">&times;</button></span>`
+      ).join('');
     }
 
-    // Create rule
     async function createRule() {
       const name = document.getElementById('ruleName').value.trim();
-      if (!name) {
-        alert('Enter a rule name!');
-        return;
-      }
+      if (!name) { alert('Enter a rule name!'); return; }
       
       const data = {
         name,
@@ -1243,7 +903,6 @@
       });
       const generated = await res.json();
       
-      // Save the rule
       await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1255,31 +914,180 @@
       await loadProjectRules();
     }
 
+    // AI Dump Functions
+    function openAIDumpModal() {
+      if (!currentProject) { alert('Select a project first!'); return; }
+      document.getElementById('aiDumpInput').value = '';
+      document.getElementById('suggestedRules').style.display = 'none';
+      document.getElementById('suggestedRulesList').innerHTML = '';
+      suggestedRulesData = [];
+      checkApiKeyStatus();
+      document.getElementById('aiDumpModal').classList.add('show');
+    }
+
+    function closeAIDumpModal() { document.getElementById('aiDumpModal').classList.remove('show'); }
+
+    async function checkApiKeyStatus() {
+      const res = await fetch(`${API}/api/settings/api-key-status`);
+      const data = await res.json();
+      const el = document.getElementById('apiKeyStatus');
+      if (data.hasKey) {
+        el.innerHTML = `<span>🟢</span> Connected: ${data.keyPreview}`;
+        el.className = 'api-key-status connected';
+      } else {
+        el.innerHTML = `<span>🔴</span> No API key - add in Settings`;
+        el.className = 'api-key-status disconnected';
+      }
+    }
+
+    async function formatWithAI() {
+      const input = document.getElementById('aiDumpInput').value.trim();
+      if (!input) { alert('Enter some notes first!'); return; }
+      
+      const btn = document.getElementById('formatAIBtn');
+      btn.innerHTML = '<span class="loading-spinner"></span> Formatting...';
+      btn.disabled = true;
+      
+      try {
+        const res = await fetch(`${API}/api/ai/format-rules`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ rawInput: input, projectContext: currentProject?.name })
+        });
+        
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.error || 'API error');
+        }
+        
+        const data = await res.json();
+        suggestedRulesData = data.rules || [];
+        renderSuggestedRules();
+        document.getElementById('suggestedRules').style.display = 'block';
+      } catch (e) {
+        alert('Error: ' + e.message);
+      } finally {
+        btn.innerHTML = '🪄 Format with AI';
+        btn.disabled = false;
+      }
+    }
+
+    function renderSuggestedRules() {
+      const list = document.getElementById('suggestedRulesList');
+      list.innerHTML = suggestedRulesData.map((rule, i) => `
+        <div class="suggested-rule-card" id="suggestedRule${i}">
+          <div class="suggested-rule-header">
+            <span class="suggested-rule-name">${rule.name}.mdc</span>
+            <span class="suggested-rule-category">${rule.category || 'general'}</span>
+          </div>
+          <div class="suggested-rule-desc">${rule.description}</div>
+          ${rule.mustReadFiles?.length ? `
+            <div class="suggested-rule-files">
+              ${rule.mustReadFiles.map(f => `<span class="file-tag">${f}</span>`).join('')}
+            </div>
+          ` : ''}
+          <div class="suggested-rule-instructions">${rule.instructions}</div>
+          <div class="suggested-rule-actions">
+            <button class="btn btn-sm btn-success" onclick="approveRule(${i})">✅ Approve</button>
+            <button class="btn btn-sm btn-secondary" onclick="editSuggestedRule(${i})">✏️ Edit</button>
+            <button class="btn btn-sm btn-danger" onclick="rejectRule(${i})">❌ Reject</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function approveRule(index) {
+      const rule = suggestedRulesData[index];
+      const res = await fetch(`${API}/api/generate-rule`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: rule.name,
+          description: rule.description,
+          alwaysApply: rule.alwaysApply !== false,
+          mustReadFiles: rule.mustReadFiles || [],
+          instructions: rule.instructions
+        })
+      });
+      const generated = await res.json();
+      
+      await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filename: generated.filename, content: generated.content })
+      });
+      
+      document.getElementById(`suggestedRule${index}`).style.opacity = '0.3';
+      document.getElementById(`suggestedRule${index}`).innerHTML = `<div style="text-align: center; padding: 1rem; color: var(--success);">✅ Created ${rule.name}.mdc</div>`;
+      showToast(`Created ${rule.name}.mdc!`);
+      await loadProjectRules();
+    }
+
+    function rejectRule(index) {
+      document.getElementById(`suggestedRule${index}`).remove();
+      suggestedRulesData.splice(index, 1);
+      renderSuggestedRules();
+    }
+
+    function editSuggestedRule(index) {
+      const rule = suggestedRulesData[index];
+      closeAIDumpModal();
+      openNewRuleModal();
+      document.getElementById('ruleName').value = rule.name;
+      document.getElementById('ruleDescription').value = rule.description;
+      document.getElementById('ruleAlwaysApply').checked = rule.alwaysApply !== false;
+      document.getElementById('ruleInstructions').value = rule.instructions;
+      selectedMustReadFiles = rule.mustReadFiles || [];
+      renderSelectedFiles();
+    }
+
+    async function approveAllRules() {
+      for (let i = 0; i < suggestedRulesData.length; i++) {
+        await approveRule(i);
+      }
+    }
+
     // Settings
     async function openSettings() {
-      const res = await fetch(`${API}/api/scan-paths`);
-      const data = await res.json();
-      document.getElementById('scanPaths').value = data.scanPaths.join('\n');
+      const [pathsRes, keyRes] = await Promise.all([
+        fetch(`${API}/api/scan-paths`),
+        fetch(`${API}/api/settings/api-key-status`)
+      ]);
+      const pathsData = await pathsRes.json();
+      const keyData = await keyRes.json();
+      
+      document.getElementById('scanPaths').value = pathsData.scanPaths.join('\n');
+      document.getElementById('openaiKeyInput').value = '';
+      document.getElementById('openaiKeyInput').placeholder = keyData.hasKey ? `Current: ${keyData.keyPreview}` : 'sk-proj-...';
       document.getElementById('settingsModal').classList.add('show');
     }
 
-    function closeSettings() {
-      document.getElementById('settingsModal').classList.remove('show');
-    }
+    function closeSettings() { document.getElementById('settingsModal').classList.remove('show'); }
 
-    async function saveScanPaths() {
+    async function saveSettings() {
       const paths = document.getElementById('scanPaths').value.split('\n').map(s => s.trim()).filter(Boolean);
+      const apiKey = document.getElementById('openaiKeyInput').value.trim();
+      
       await fetch(`${API}/api/scan-paths`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ scanPaths: paths })
       });
+      
+      if (apiKey) {
+        await fetch(`${API}/api/settings/api-key`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ apiKey })
+        });
+      }
+      
       closeSettings();
       showToast('Settings saved!');
       await refreshProjects();
+      await checkApiKeyStatus();
     }
 
-    // Toast
     function showToast(message) {
       const toast = document.getElementById('toast');
       toast.textContent = message;
