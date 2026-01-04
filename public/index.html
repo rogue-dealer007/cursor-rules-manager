@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
     :root {
       --bg-primary: #0a0a0f;
@@ -25,8 +26,8 @@
       --warning: #f59e0b;
       --danger: #ef4444;
       --gradient-1: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
-      --gradient-2: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
       --ai-gradient: linear-gradient(135deg, #f59e0b 0%, #ef4444 50%, #ec4899 100%);
+      --google-gradient: linear-gradient(135deg, #4285f4 0%, #34a853 50%, #ea4335 100%);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -36,12 +37,11 @@
       background: var(--bg-primary);
       color: var(--text-primary);
       min-height: 100vh;
-      overflow-x: hidden;
     }
 
     .bg-effects {
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      pointer-events: none; z-index: 0; overflow: hidden;
+      pointer-events: none; z-index: 0;
     }
 
     .bg-effects::before {
@@ -53,10 +53,54 @@
     }
 
     @keyframes bgFloat {
-      0%, 100% { transform: translate(0, 0) rotate(0deg); }
-      50% { transform: translate(-2%, 2%) rotate(1deg); }
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(-2%, 2%); }
     }
 
+    /* Login Screen */
+    .login-screen {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 1000; background: var(--bg-primary);
+    }
+
+    .login-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 24px; padding: 3rem; text-align: center;
+      max-width: 400px; width: 90%;
+    }
+
+    .login-logo {
+      width: 80px; height: 80px; background: var(--gradient-1);
+      border-radius: 20px; margin: 0 auto 1.5rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem; box-shadow: 0 12px 40px var(--accent-glow);
+    }
+
+    .login-title {
+      font-size: 1.75rem; font-weight: 700; margin-bottom: 0.5rem;
+      background: var(--gradient-1); -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .login-subtitle { color: var(--text-secondary); margin-bottom: 2rem; }
+
+    .google-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.75rem;
+      padding: 1rem 2rem; background: white; color: #333;
+      border: none; border-radius: 12px; font-size: 1rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s ease; width: 100%;
+    }
+
+    .google-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+
+    .google-btn img { width: 24px; height: 24px; }
+
+    .login-note {
+      margin-top: 1.5rem; font-size: 0.8rem; color: var(--text-muted);
+    }
+
+    /* Main App - same styles as before */
     .container { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 2rem; }
 
     header {
@@ -75,12 +119,29 @@
     .logo h1 {
       font-size: 1.75rem; font-weight: 600;
       background: var(--gradient-1); -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent; background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .logo p { color: var(--text-secondary); font-size: 0.875rem; margin-top: 0.25rem; }
 
-    .header-actions { display: flex; gap: 1rem; }
+    .header-actions { display: flex; gap: 1rem; align-items: center; }
+
+    .user-info {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.5rem 1rem; background: var(--bg-secondary);
+      border-radius: 30px; border: 1px solid var(--border);
+    }
+
+    .user-avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--accent); display: flex; align-items: center;
+      justify-content: center; font-weight: 600; font-size: 0.9rem;
+      overflow: hidden;
+    }
+
+    .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+    .user-name { font-size: 0.85rem; color: var(--text-secondary); }
 
     .btn {
       display: inline-flex; align-items: center; gap: 0.5rem;
@@ -89,46 +150,20 @@
       transition: all 0.2s ease; border: none;
     }
 
-    .btn-primary {
-      background: var(--accent); color: white;
-      box-shadow: 0 4px 16px var(--accent-glow);
-    }
+    .btn-primary { background: var(--accent); color: white; box-shadow: 0 4px 16px var(--accent-glow); }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); }
 
-    .btn-primary:hover {
-      background: var(--accent-hover); transform: translateY(-2px);
-      box-shadow: 0 6px 24px var(--accent-glow);
-    }
+    .btn-ai { background: var(--ai-gradient); color: white; box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3); }
+    .btn-ai:hover { transform: translateY(-2px); }
 
-    .btn-ai {
-      background: var(--ai-gradient); color: white;
-      box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3);
-    }
-
-    .btn-ai:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 24px rgba(245, 158, 11, 0.4);
-    }
-
-    .btn-secondary {
-      background: var(--bg-tertiary); color: var(--text-primary);
-      border: 1px solid var(--border);
-    }
-
+    .btn-secondary { background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border); }
     .btn-secondary:hover { background: var(--bg-card); border-color: var(--border-focus); }
 
     .btn-success { background: var(--success); color: white; }
-    .btn-success:hover { filter: brightness(1.1); }
-
     .btn-danger { background: transparent; color: var(--danger); border: 1px solid var(--danger); }
-    .btn-danger:hover { background: rgba(239, 68, 68, 0.1); }
-
     .btn-sm { padding: 0.5rem 1rem; font-size: 0.8rem; }
 
-    .main-grid {
-      display: grid; grid-template-columns: 300px 1fr;
-      gap: 2rem; min-height: calc(100vh - 200px);
-    }
-
+    .main-grid { display: grid; grid-template-columns: 300px 1fr; gap: 2rem; min-height: calc(100vh - 200px); }
     .sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
 
     .card {
@@ -137,16 +172,8 @@
     }
 
     .card:hover { border-color: rgba(99, 102, 241, 0.3); }
-
     .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
-
-    .card-title {
-      font-size: 1rem; font-weight: 600; color: var(--text-primary);
-      display: flex; align-items: center; gap: 0.5rem;
-    }
-
-    .card-title .icon { font-size: 1.1rem; }
-
+    .card-title { font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; }
     .project-list { display: flex; flex-direction: column; gap: 0.5rem; max-height: 400px; overflow-y: auto; }
 
     .project-item {
@@ -161,39 +188,28 @@
 
     .project-icon {
       width: 32px; height: 32px; background: var(--bg-tertiary); border-radius: 8px;
-      display: flex; align-items: center; justify-content: center; font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
     }
 
     .project-item.active .project-icon { background: var(--accent); }
-
     .project-info { flex: 1; min-width: 0; }
     .project-name { font-weight: 500; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .project-path { font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    .badge {
-      font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 20px;
-      font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
-    }
-
+    .badge { font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 20px; font-weight: 600; text-transform: uppercase; }
     .badge-success { background: rgba(16, 185, 129, 0.15); color: var(--success); }
-    .badge-ai { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
 
     .main-content { display: flex; flex-direction: column; gap: 1.5rem; }
 
-    .tabs {
-      display: flex; gap: 0.5rem; background: var(--bg-secondary);
-      padding: 0.5rem; border-radius: 12px; width: fit-content;
-    }
+    .tabs { display: flex; gap: 0.5rem; background: var(--bg-secondary); padding: 0.5rem; border-radius: 12px; width: fit-content; }
 
     .tab {
       padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 500;
       cursor: pointer; transition: all 0.2s ease; border: none;
-      background: transparent; color: var(--text-secondary);
-      font-family: inherit; font-size: 0.9rem;
+      background: transparent; color: var(--text-secondary); font-family: inherit; font-size: 0.9rem;
     }
 
     .tab:hover { color: var(--text-primary); }
-
     .tab.active { background: var(--accent); color: white; box-shadow: 0 4px 12px var(--accent-glow); }
 
     .editor-section { flex: 1; display: flex; flex-direction: column; }
@@ -213,13 +229,12 @@
     }
 
     .toolbar-left { display: flex; align-items: center; gap: 1rem; }
-
     .file-tabs { display: flex; gap: 0.25rem; }
 
     .file-tab {
       padding: 0.5rem 1rem; background: transparent; border: none;
       color: var(--text-secondary); font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem; cursor: pointer; border-radius: 6px; transition: all 0.2s ease;
+      font-size: 0.8rem; cursor: pointer; border-radius: 6px;
     }
 
     .file-tab:hover { background: var(--bg-tertiary); color: var(--text-primary); }
@@ -241,30 +256,15 @@
       width: 100%; padding: 0.875rem 1rem; background: var(--bg-secondary);
       border: 1px solid var(--border); border-radius: 10px;
       color: var(--text-primary); font-family: inherit; font-size: 0.9rem;
-      transition: all 0.2s ease;
     }
 
     .form-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
-    .form-input::placeholder { color: var(--text-muted); }
 
     .checkbox-group { display: flex; align-items: center; gap: 0.75rem; }
+    .checkbox { width: 20px; height: 20px; accent-color: var(--accent); }
 
-    .checkbox {
-      width: 20px; height: 20px; border: 2px solid var(--border);
-      border-radius: 5px; cursor: pointer; transition: all 0.2s ease;
-      accent-color: var(--accent);
-    }
-
-    .file-picker {
-      border: 2px dashed var(--border); border-radius: 10px;
-      padding: 1rem; min-height: 120px; transition: all 0.2s ease;
-    }
-
+    .file-picker { border: 2px dashed var(--border); border-radius: 10px; padding: 1rem; min-height: 100px; }
     .file-picker:hover { border-color: var(--accent); }
-
-    .file-picker-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
-    .file-picker-hint { font-size: 0.8rem; color: var(--text-muted); }
-
     .selected-files { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 
     .file-tag {
@@ -275,14 +275,9 @@
       color: var(--accent-hover);
     }
 
-    .file-tag button {
-      background: none; border: none; color: var(--text-muted);
-      cursor: pointer; padding: 0; font-size: 1rem; line-height: 1;
-    }
+    .file-tag button { background: none; border: none; color: var(--text-muted); cursor: pointer; }
 
-    .file-tag button:hover { color: var(--danger); }
-
-    .file-search-dropdown { position: relative; }
+    .file-search-dropdown { position: relative; margin-top: 0.75rem; }
 
     .file-search-input {
       width: 100%; padding: 0.75rem 1rem; background: var(--bg-tertiary);
@@ -294,7 +289,7 @@
       position: absolute; top: 100%; left: 0; right: 0;
       background: var(--bg-secondary); border: 1px solid var(--border);
       border-radius: 8px; max-height: 200px; overflow-y: auto;
-      z-index: 100; display: none; margin-top: 0.25rem;
+      z-index: 100; display: none;
     }
 
     .file-search-results.show { display: block; }
@@ -302,7 +297,7 @@
     .file-search-item {
       padding: 0.6rem 1rem; cursor: pointer;
       font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
-      color: var(--text-secondary); transition: all 0.15s ease;
+      color: var(--text-secondary);
     }
 
     .file-search-item:hover { background: var(--bg-tertiary); color: var(--text-primary); }
@@ -312,14 +307,11 @@
     .rule-item {
       display: flex; align-items: center; justify-content: space-between;
       padding: 1rem 1.25rem; background: var(--bg-secondary);
-      border: 1px solid var(--border); border-radius: 10px;
-      cursor: pointer; transition: all 0.2s ease;
+      border: 1px solid var(--border); border-radius: 10px; cursor: pointer;
     }
 
     .rule-item:hover { border-color: var(--accent); background: var(--bg-tertiary); }
-
     .rule-item-info { display: flex; align-items: center; gap: 0.75rem; }
-    .rule-item-icon { font-size: 1.25rem; }
     .rule-item-name { font-weight: 500; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; }
     .rule-item-desc { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem; }
 
@@ -337,13 +329,13 @@
 
     .toast.show { transform: translateY(0); }
     .toast.success { border-color: var(--success); }
-    .toast.success::before { content: '✓'; color: var(--success); font-weight: bold; }
+    .toast.error { border-color: var(--danger); }
 
     .modal-overlay {
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px);
       display: flex; align-items: center; justify-content: center;
-      z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
+      z-index: 1000; opacity: 0; pointer-events: none;
     }
 
     .modal-overlay.show { opacity: 1; pointer-events: all; }
@@ -351,38 +343,26 @@
     .modal {
       background: var(--bg-card); border: 1px solid var(--border);
       border-radius: 20px; padding: 2rem; max-width: 700px; width: 90%;
-      max-height: 85vh; overflow-y: auto;
-      transform: scale(0.9); transition: transform 0.2s ease;
+      max-height: 85vh; overflow-y: auto; transform: scale(0.9);
     }
 
     .modal-overlay.show .modal { transform: scale(1); }
-
     .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
     .modal-title { font-size: 1.25rem; font-weight: 600; }
-
-    .modal-close {
-      background: none; border: none; color: var(--text-muted);
-      font-size: 1.5rem; cursor: pointer; padding: 0; line-height: 1;
-    }
-
-    .modal-close:hover { color: var(--text-primary); }
+    .modal-close { background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; }
     .modal-actions { display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem; }
 
-    /* AI Dump Section */
     .ai-dump-section {
       background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(236, 72, 153, 0.05) 100%);
       border: 1px solid rgba(245, 158, 11, 0.2);
       border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem;
     }
 
-    .ai-dump-header {
-      display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;
-    }
+    .ai-dump-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
 
     .ai-dump-header h3 {
-      font-size: 1.1rem; font-weight: 600;
       background: var(--ai-gradient); -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent; background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .ai-dump-textarea {
@@ -393,42 +373,23 @@
       line-height: 1.6; resize: vertical;
     }
 
-    .ai-dump-textarea:focus { outline: none; border-color: var(--warning); }
-
     .ai-dump-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; }
+    .api-key-status { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: var(--text-muted); }
+    .api-key-status.connected { color: var(--success); }
+    .api-key-status.disconnected { color: var(--danger); }
 
-    /* Suggested Rules Review */
     .suggested-rules { margin-top: 1.5rem; }
 
     .suggested-rule-card {
       background: var(--bg-secondary); border: 1px solid var(--border);
       border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem;
-      transition: all 0.2s ease;
     }
 
-    .suggested-rule-card:hover { border-color: var(--accent); }
-
-    .suggested-rule-header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 0.75rem;
-    }
-
-    .suggested-rule-name {
-      font-weight: 600; font-family: 'JetBrains Mono', monospace;
-      color: var(--accent-hover);
-    }
-
-    .suggested-rule-category {
-      font-size: 0.7rem; padding: 0.25rem 0.6rem;
-      background: rgba(99, 102, 241, 0.1); border-radius: 20px;
-      color: var(--accent);
-    }
-
+    .suggested-rule-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
+    .suggested-rule-name { font-weight: 600; font-family: 'JetBrains Mono', monospace; color: var(--accent-hover); }
+    .suggested-rule-category { font-size: 0.7rem; padding: 0.25rem 0.6rem; background: rgba(99, 102, 241, 0.1); border-radius: 20px; color: var(--accent); }
     .suggested-rule-desc { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem; }
-
-    .suggested-rule-files {
-      display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem;
-    }
+    .suggested-rule-files { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem; }
 
     .suggested-rule-instructions {
       font-size: 0.8rem; color: var(--text-muted);
@@ -437,18 +398,7 @@
       font-family: 'JetBrains Mono', monospace;
     }
 
-    .suggested-rule-actions {
-      display: flex; gap: 0.5rem; margin-top: 1rem;
-      padding-top: 1rem; border-top: 1px solid var(--border);
-    }
-
-    .api-key-status {
-      display: flex; align-items: center; gap: 0.5rem;
-      font-size: 0.8rem; color: var(--text-muted);
-    }
-
-    .api-key-status.connected { color: var(--success); }
-    .api-key-status.disconnected { color: var(--danger); }
+    .suggested-rule-actions { display: flex; gap: 0.5rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
 
     .loading-spinner {
       display: inline-block; width: 20px; height: 20px;
@@ -458,21 +408,30 @@
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    ::-webkit-scrollbar { width: 8px; height: 8px; }
-    ::-webkit-scrollbar-track { background: var(--bg-secondary); border-radius: 4px; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-secondary); }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
-
-    @media (max-width: 900px) {
-      .main-grid { grid-template-columns: 1fr; }
-      .sidebar { order: 2; }
-    }
   </style>
 </head>
 <body>
   <div class="bg-effects"></div>
 
-  <div class="container">
+  <!-- Login Screen -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-card">
+      <div class="login-logo">⚡</div>
+      <h1 class="login-title">Cursor Rules Manager</h1>
+      <p class="login-subtitle">Stop AI from fucking things up</p>
+      <button class="google-btn" onclick="signInWithGoogle()">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+        Sign in with Google
+      </button>
+      <p class="login-note">🔒 Your API key is encrypted and stored locally</p>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div class="container" id="mainApp" style="display: none;">
     <header>
       <div class="logo">
         <div class="logo-icon">⚡</div>
@@ -482,8 +441,13 @@
         </div>
       </div>
       <div class="header-actions">
+        <div class="user-info" id="userInfo">
+          <div class="user-avatar" id="userAvatar">?</div>
+          <span class="user-name" id="userName">User</span>
+        </div>
         <button class="btn btn-secondary" onclick="openSettings()">⚙️ Settings</button>
-        <button class="btn btn-primary" onclick="refreshProjects()">🔄 Refresh Projects</button>
+        <button class="btn btn-primary" onclick="refreshProjects()">🔄 Refresh</button>
+        <button class="btn btn-secondary btn-sm" onclick="signOut()">Sign Out</button>
       </div>
     </header>
 
@@ -491,7 +455,7 @@
       <aside class="sidebar">
         <div class="card">
           <div class="card-header">
-            <span class="card-title"><span class="icon">📁</span> Projects</span>
+            <span class="card-title">📁 Projects</span>
           </div>
           <div class="project-list" id="projectList">
             <div class="empty-state">
@@ -511,19 +475,13 @@
         <div id="globalTab" class="editor-section">
           <div class="editor-header">
             <h2 class="editor-title">Global Rules</h2>
-            <button class="btn btn-primary" onclick="saveGlobalRules()">💾 Save Global Rules</button>
+            <button class="btn btn-primary" onclick="saveGlobalRules()">💾 Save</button>
           </div>
           <div class="editor-container">
             <div class="editor-toolbar">
               <span style="color: var(--text-muted); font-size: 0.85rem;">These rules apply to ALL projects</span>
             </div>
-            <textarea class="editor" id="globalEditor" placeholder="# Global Rules
-
-## Files to Always Read
-- List important files here
-
-## Instructions
-- Your global instructions for Cursor AI..."></textarea>
+            <textarea class="editor" id="globalEditor" placeholder="# Global Rules..."></textarea>
           </div>
         </div>
 
@@ -531,27 +489,23 @@
           <div class="editor-header">
             <h2 class="editor-title" id="projectTitle">Select a Project</h2>
             <div style="display: flex; gap: 0.75rem;">
-              <button class="btn btn-ai" onclick="openAIDumpModal()">🤖 AI Format Rules</button>
+              <button class="btn btn-ai" onclick="openAIDumpModal()">🤖 AI Format</button>
               <button class="btn btn-primary" onclick="openNewRuleModal()">➕ New Rule</button>
             </div>
           </div>
-
           <div class="rules-list" id="rulesList">
             <div class="empty-state">
               <div class="empty-state-icon">📋</div>
-              <p>Select a project to manage its rules</p>
+              <p>Select a project</p>
             </div>
           </div>
-
           <div id="ruleEditor" style="display: none; margin-top: 1rem;">
             <div class="editor-container">
               <div class="editor-toolbar">
-                <div class="toolbar-left">
-                  <div class="file-tabs" id="ruleFileTabs"></div>
-                </div>
+                <div class="file-tabs" id="ruleFileTabs"></div>
                 <div>
-                  <button class="btn btn-sm btn-danger" onclick="deleteCurrentRule()">🗑️ Delete</button>
-                  <button class="btn btn-sm btn-primary" onclick="saveCurrentRule()">💾 Save</button>
+                  <button class="btn btn-sm btn-danger" onclick="deleteCurrentRule()">🗑️</button>
+                  <button class="btn btn-sm btn-primary" onclick="saveCurrentRule()">💾</button>
                 </div>
               </div>
               <textarea class="editor" id="ruleEditorContent"></textarea>
@@ -562,140 +516,165 @@
     </div>
   </div>
 
-  <!-- New Rule Modal -->
+  <!-- Modals (same as before but condensed) -->
   <div class="modal-overlay" id="newRuleModal">
     <div class="modal">
       <div class="modal-header">
         <h3 class="modal-title">✨ Create New Rule</h3>
         <button class="modal-close" onclick="closeNewRuleModal()">&times;</button>
       </div>
-
-      <div class="form-group">
-        <label class="form-label">Rule Name</label>
-        <input type="text" class="form-input" id="ruleName" placeholder="e.g., core, api-conventions, styling">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Description</label>
-        <input type="text" class="form-input" id="ruleDescription" placeholder="Brief description of this rule">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">File Globs (optional)</label>
-        <input type="text" class="form-input" id="ruleGlobs" placeholder="e.g., **/*.ts, src/**/*">
-        <small style="color: var(--text-muted); font-size: 0.75rem;">Comma-separated. Only apply when working with these files.</small>
-      </div>
-
-      <div class="form-group">
-        <div class="checkbox-group">
-          <input type="checkbox" class="checkbox" id="ruleAlwaysApply" checked>
-          <label for="ruleAlwaysApply">Always apply this rule</label>
-        </div>
-      </div>
-
+      <div class="form-group"><label class="form-label">Rule Name</label><input type="text" class="form-input" id="ruleName" placeholder="e.g., core, api-conventions"></div>
+      <div class="form-group"><label class="form-label">Description</label><input type="text" class="form-input" id="ruleDescription" placeholder="Brief description"></div>
+      <div class="form-group"><label class="form-label">File Globs</label><input type="text" class="form-input" id="ruleGlobs" placeholder="**/*.ts, src/**/*"></div>
+      <div class="form-group"><div class="checkbox-group"><input type="checkbox" class="checkbox" id="ruleAlwaysApply" checked><label>Always apply</label></div></div>
       <div class="form-group">
         <label class="form-label">🔥 Files AI MUST Read</label>
         <div class="file-picker">
           <div class="selected-files" id="selectedFiles"></div>
-          <div class="file-search-dropdown" style="margin-top: 0.75rem;">
-            <input type="text" class="file-search-input" id="fileSearchInput" placeholder="Search for files...">
-            <div class="file-search-results" id="fileSearchResults"></div>
-          </div>
+          <div class="file-search-dropdown"><input type="text" class="file-search-input" id="fileSearchInput" placeholder="Search files..."><div class="file-search-results" id="fileSearchResults"></div></div>
         </div>
       </div>
-
-      <div class="form-group">
-        <label class="form-label">Instructions</label>
-        <textarea class="form-input" id="ruleInstructions" rows="4" placeholder="Detailed instructions for the AI..."></textarea>
-      </div>
-
-      <div class="modal-actions">
-        <button class="btn btn-secondary" onclick="closeNewRuleModal()">Cancel</button>
-        <button class="btn btn-primary" onclick="createRule()">Create Rule</button>
-      </div>
+      <div class="form-group"><label class="form-label">Instructions</label><textarea class="form-input" id="ruleInstructions" rows="4" placeholder="Instructions..."></textarea></div>
+      <div class="modal-actions"><button class="btn btn-secondary" onclick="closeNewRuleModal()">Cancel</button><button class="btn btn-primary" onclick="createRule()">Create</button></div>
     </div>
   </div>
 
-  <!-- AI Dump Modal -->
   <div class="modal-overlay" id="aiDumpModal">
     <div class="modal" style="max-width: 800px;">
       <div class="modal-header">
         <h3 class="modal-title">🤖 AI-Assisted Rule Creation</h3>
         <button class="modal-close" onclick="closeAIDumpModal()">&times;</button>
       </div>
-
       <div class="ai-dump-section">
-        <div class="ai-dump-header">
-          <span style="font-size: 1.5rem;">✨</span>
-          <h3>Dump Your Raw Notes</h3>
-        </div>
-        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">
-          Paste bug descriptions, informal rules, notes from chats - anything. AI will format them into proper rules for you to approve.
-        </p>
-        <textarea class="ai-dump-textarea" id="aiDumpInput" placeholder="Paste your raw notes here...
-
-Example:
-- API returns { products: [...] } not just [...]
-- always use the db.ts file for database stuff
-- routes go in app/(dashboard)/...
-- don't fucking create new folders without checking existing structure
-- iOS swift codingkeys must match api snake_case"></textarea>
-        
+        <div class="ai-dump-header"><span style="font-size: 1.5rem;">✨</span><h3>Dump Your Raw Notes</h3></div>
+        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">Paste anything - bugs, notes, informal rules. AI formats them.</p>
+        <textarea class="ai-dump-textarea" id="aiDumpInput" placeholder="Paste your raw notes here..."></textarea>
         <div class="ai-dump-actions">
-          <div class="api-key-status" id="apiKeyStatus">
-            <span>⚪</span> Checking API key...
-          </div>
-          <button class="btn btn-ai" onclick="formatWithAI()" id="formatAIBtn">
-            🪄 Format with AI
-          </button>
+          <div class="api-key-status" id="apiKeyStatus"><span>⚪</span> Checking...</div>
+          <button class="btn btn-ai" onclick="formatWithAI()" id="formatAIBtn">🪄 Format with AI</button>
         </div>
       </div>
-
       <div class="suggested-rules" id="suggestedRules" style="display: none;">
-        <h4 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-          <span>📋</span> Suggested Rules
-          <span style="font-size: 0.8rem; color: var(--text-muted);">(Review and approve each)</span>
-        </h4>
+        <h4 style="margin-bottom: 1rem;">📋 Suggested Rules</h4>
         <div id="suggestedRulesList"></div>
-        <div class="modal-actions" style="margin-top: 1.5rem;">
-          <button class="btn btn-secondary" onclick="closeAIDumpModal()">Done</button>
-          <button class="btn btn-success" onclick="approveAllRules()">✅ Approve All</button>
-        </div>
+        <div class="modal-actions"><button class="btn btn-secondary" onclick="closeAIDumpModal()">Done</button><button class="btn btn-success" onclick="approveAllRules()">✅ Approve All</button></div>
       </div>
     </div>
   </div>
 
-  <!-- Settings Modal -->
   <div class="modal-overlay" id="settingsModal">
     <div class="modal">
       <div class="modal-header">
         <h3 class="modal-title">⚙️ Settings</h3>
         <button class="modal-close" onclick="closeSettings()">&times;</button>
       </div>
-
       <div class="form-group">
         <label class="form-label">🔑 OpenAI API Key</label>
         <input type="password" class="form-input" id="openaiKeyInput" placeholder="sk-proj-...">
-        <small style="color: var(--text-muted); font-size: 0.75rem;">Required for AI-assisted rule formatting. Stored locally.</small>
+        <small style="color: var(--text-muted); font-size: 0.75rem;">Encrypted & stored locally per user</small>
       </div>
-
       <div class="form-group">
         <label class="form-label">Project Scan Paths</label>
-        <textarea class="form-input" id="scanPaths" rows="4" placeholder="/Users/you/code
-/Users/you/projects"></textarea>
-        <small style="color: var(--text-muted); font-size: 0.75rem;">One path per line.</small>
+        <textarea class="form-input" id="scanPaths" rows="4" placeholder="/Users/you/code"></textarea>
       </div>
-
-      <div class="modal-actions">
-        <button class="btn btn-secondary" onclick="closeSettings()">Cancel</button>
-        <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
-      </div>
+      <div class="modal-actions"><button class="btn btn-secondary" onclick="closeSettings()">Cancel</button><button class="btn btn-primary" onclick="saveSettings()">Save</button></div>
     </div>
   </div>
 
-  <div class="toast" id="toast">Saved successfully!</div>
+  <div class="toast" id="toast"></div>
 
-  <script>
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as firebaseSignOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+    // Firebase config - you'll need to create a Firebase project and replace this
+    const firebaseConfig = {
+      apiKey: "AIzaSyDummy-replace-with-your-key",
+      authDomain: "cursor-rules-manager.firebaseapp.com",
+      projectId: "cursor-rules-manager"
+    };
+
+    let app, auth, currentUser = null;
+    
+    // Try to init Firebase, fallback to local mode
+    try {
+      app = initializeApp(firebaseConfig);
+      auth = getAuth(app);
+    } catch (e) {
+      console.log('Firebase not configured, using local mode');
+    }
+
+    window.signInWithGoogle = async function() {
+      if (auth) {
+        try {
+          const provider = new GoogleAuthProvider();
+          await signInWithPopup(auth, provider);
+        } catch (e) {
+          console.error('Auth error:', e);
+          // Fallback to local mode
+          useLocalMode();
+        }
+      } else {
+        useLocalMode();
+      }
+    };
+
+    window.signOut = async function() {
+      if (auth) {
+        await firebaseSignOut(auth);
+      }
+      currentUser = null;
+      document.getElementById('loginScreen').style.display = 'flex';
+      document.getElementById('mainApp').style.display = 'none';
+    };
+
+    function useLocalMode() {
+      // Use a local user ID based on machine
+      currentUser = { 
+        uid: 'local_' + btoa(navigator.userAgent).slice(0, 20),
+        displayName: 'Local User',
+        email: 'local@localhost',
+        photoURL: null
+      };
+      showMainApp();
+    }
+
+    function showMainApp() {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('mainApp').style.display = 'block';
+      
+      if (currentUser) {
+        document.getElementById('userName').textContent = currentUser.displayName || currentUser.email;
+        if (currentUser.photoURL) {
+          document.getElementById('userAvatar').innerHTML = `<img src="${currentUser.photoURL}" alt="">`;
+        } else {
+          document.getElementById('userAvatar').textContent = (currentUser.displayName || currentUser.email || 'U')[0].toUpperCase();
+        }
+      }
+      
+      init();
+    }
+
+    // Check auth state
+    if (auth) {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          currentUser = user;
+          showMainApp();
+        } else {
+          document.getElementById('loginScreen').style.display = 'flex';
+          document.getElementById('mainApp').style.display = 'none';
+        }
+      });
+    } else {
+      // No Firebase, show login with option to continue locally
+      document.getElementById('loginScreen').style.display = 'flex';
+    }
+
+    // Export currentUser getter
+    window.getCurrentUser = () => currentUser;
+
+    // All the app functions
     const API = '';
     let currentProject = null;
     let currentRule = null;
@@ -703,19 +682,19 @@ Example:
     let selectedMustReadFiles = [];
     let suggestedRulesData = [];
 
-    document.addEventListener('DOMContentLoaded', () => {
-      loadGlobalRules();
-      refreshProjects();
+    async function init() {
+      await loadGlobalRules();
+      await refreshProjects();
       setupFileSearch();
-      checkApiKeyStatus();
-    });
+      await checkApiKeyStatus();
+    }
 
-    function switchTab(tab) {
+    window.switchTab = function(tab) {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       event.target.classList.add('active');
       document.getElementById('globalTab').style.display = tab === 'global' ? 'flex' : 'none';
       document.getElementById('projectTab').style.display = tab === 'project' ? 'flex' : 'none';
-    }
+    };
 
     async function loadGlobalRules() {
       const res = await fetch(`${API}/api/global-rules`);
@@ -723,41 +702,34 @@ Example:
       document.getElementById('globalEditor').value = data.content;
     }
 
-    async function saveGlobalRules() {
+    window.saveGlobalRules = async function() {
       const content = document.getElementById('globalEditor').value;
-      await fetch(`${API}/api/global-rules`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content })
-      });
+      await fetch(`${API}/api/global-rules`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content }) });
       showToast('Global rules saved!');
-    }
+    };
 
-    async function refreshProjects() {
+    window.refreshProjects = async function() {
       const res = await fetch(`${API}/api/projects`);
       const data = await res.json();
       renderProjects(data.projects);
-    }
+    };
 
     function renderProjects(projects) {
       const list = document.getElementById('projectList');
       if (projects.length === 0) {
-        list.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🔍</div><p>No projects found. Check settings.</p></div>`;
+        list.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🔍</div><p>No projects. Check settings.</p></div>`;
         return;
       }
       list.innerHTML = projects.map(p => `
         <div class="project-item ${currentProject?.path === p.path ? 'active' : ''}" onclick="selectProject('${btoa(p.path)}', '${p.name}')">
           <div class="project-icon">📁</div>
-          <div class="project-info">
-            <div class="project-name">${p.name}</div>
-            <div class="project-path">${p.path}</div>
-          </div>
+          <div class="project-info"><div class="project-name">${p.name}</div><div class="project-path">${p.path}</div></div>
           ${p.hasCursorRules ? '<span class="badge badge-success">Rules</span>' : ''}
         </div>
       `).join('');
     }
 
-    async function selectProject(encodedPath, name) {
+    window.selectProject = async function(encodedPath, name) {
       currentProject = { path: atob(encodedPath), name, encodedPath };
       document.querySelectorAll('.project-item').forEach(el => el.classList.remove('active'));
       event.currentTarget.classList.add('active');
@@ -769,11 +741,9 @@ Example:
       document.getElementById('projectTab').style.display = 'flex';
       
       const filesRes = await fetch(`${API}/api/projects/${encodedPath}/files`);
-      const filesData = await filesRes.json();
-      projectFiles = filesData.files;
-      
+      projectFiles = (await filesRes.json()).files;
       await loadProjectRules();
-    }
+    };
 
     async function loadProjectRules() {
       if (!currentProject) return;
@@ -787,76 +757,63 @@ Example:
       document.getElementById('ruleEditor').style.display = 'none';
       
       if (rules.length === 0) {
-        list.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📋</div><p>No rules yet. Create one!</p></div>`;
+        list.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📋</div><p>No rules yet</p></div>`;
         return;
       }
 
       list.innerHTML = rules.map(r => `
         <div class="rule-item" onclick="editRule('${r.filename}', \`${encodeURIComponent(r.raw)}\`)">
-          <div class="rule-item-info">
-            <span class="rule-item-icon">📄</span>
-            <div>
-              <div class="rule-item-name">${r.filename}</div>
-              <div class="rule-item-desc">${r.frontmatter.description || 'No description'}</div>
-            </div>
-          </div>
+          <div class="rule-item-info"><span>📄</span><div><div class="rule-item-name">${r.filename}</div><div class="rule-item-desc">${r.frontmatter.description || ''}</div></div></div>
           ${r.frontmatter.alwaysApply ? '<span class="badge badge-success">Always</span>' : ''}
         </div>
       `).join('');
     }
 
-    function editRule(filename, encodedContent) {
+    window.editRule = function(filename, encodedContent) {
       currentRule = { filename, content: decodeURIComponent(encodedContent) };
       document.getElementById('ruleEditor').style.display = 'block';
       document.getElementById('ruleEditorContent').value = currentRule.content;
       document.getElementById('ruleFileTabs').innerHTML = `<button class="file-tab active">${filename}</button>`;
-    }
+    };
 
-    async function saveCurrentRule() {
+    window.saveCurrentRule = async function() {
       if (!currentProject || !currentRule) return;
-      const content = document.getElementById('ruleEditorContent').value;
       await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ filename: currentRule.filename, content })
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filename: currentRule.filename, content: document.getElementById('ruleEditorContent').value })
       });
-      showToast('Rule saved!');
+      showToast('Saved!');
       await loadProjectRules();
-    }
+    };
 
-    async function deleteCurrentRule() {
-      if (!currentProject || !currentRule) return;
-      if (!confirm(`Delete ${currentRule.filename}?`)) return;
+    window.deleteCurrentRule = async function() {
+      if (!currentProject || !currentRule || !confirm('Delete?')) return;
       await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules/${currentRule.filename}`, { method: 'DELETE' });
       currentRule = null;
       document.getElementById('ruleEditor').style.display = 'none';
-      showToast('Rule deleted!');
       await loadProjectRules();
-    }
+    };
 
-    function openNewRuleModal() {
-      if (!currentProject) { alert('Select a project first!'); return; }
+    window.openNewRuleModal = function() {
+      if (!currentProject) { alert('Select a project first'); return; }
       selectedMustReadFiles = [];
       renderSelectedFiles();
-      document.getElementById('ruleName').value = '';
-      document.getElementById('ruleDescription').value = '';
-      document.getElementById('ruleGlobs').value = '';
+      ['ruleName', 'ruleDescription', 'ruleGlobs', 'ruleInstructions'].forEach(id => document.getElementById(id).value = '');
       document.getElementById('ruleAlwaysApply').checked = true;
-      document.getElementById('ruleInstructions').value = '';
       document.getElementById('newRuleModal').classList.add('show');
-    }
+    };
 
-    function closeNewRuleModal() { document.getElementById('newRuleModal').classList.remove('show'); }
+    window.closeNewRuleModal = () => document.getElementById('newRuleModal').classList.remove('show');
 
     function setupFileSearch() {
       const input = document.getElementById('fileSearchInput');
       const results = document.getElementById('fileSearchResults');
       
       input.addEventListener('input', () => {
-        const query = input.value.toLowerCase();
-        if (query.length < 2) { results.classList.remove('show'); return; }
-        const matches = projectFiles.filter(f => f.toLowerCase().includes(query)).slice(0, 10);
-        if (matches.length === 0) { results.classList.remove('show'); return; }
+        const q = input.value.toLowerCase();
+        if (q.length < 2) { results.classList.remove('show'); return; }
+        const matches = projectFiles.filter(f => f.toLowerCase().includes(q)).slice(0, 10);
+        if (!matches.length) { results.classList.remove('show'); return; }
         results.innerHTML = matches.map(f => `<div class="file-search-item" onclick="addMustReadFile('${f}')">${f}</div>`).join('');
         results.classList.add('show');
       });
@@ -864,18 +821,16 @@ Example:
       input.addEventListener('blur', () => setTimeout(() => results.classList.remove('show'), 200));
     }
 
-    function addMustReadFile(file) {
-      if (!selectedMustReadFiles.includes(file)) {
-        selectedMustReadFiles.push(file);
-        renderSelectedFiles();
-      }
+    window.addMustReadFile = function(file) {
+      if (!selectedMustReadFiles.includes(file)) selectedMustReadFiles.push(file);
+      renderSelectedFiles();
       document.getElementById('fileSearchInput').value = '';
-    }
+    };
 
-    function removeMustReadFile(file) {
+    window.removeMustReadFile = function(file) {
       selectedMustReadFiles = selectedMustReadFiles.filter(f => f !== file);
       renderSelectedFiles();
-    }
+    };
 
     function renderSelectedFiles() {
       document.getElementById('selectedFiles').innerHTML = selectedMustReadFiles.map(f => 
@@ -883,66 +838,67 @@ Example:
       ).join('');
     }
 
-    async function createRule() {
+    window.createRule = async function() {
       const name = document.getElementById('ruleName').value.trim();
-      if (!name) { alert('Enter a rule name!'); return; }
-      
-      const data = {
-        name,
-        description: document.getElementById('ruleDescription').value,
-        globs: document.getElementById('ruleGlobs').value.split(',').map(s => s.trim()).filter(Boolean),
-        alwaysApply: document.getElementById('ruleAlwaysApply').checked,
-        mustReadFiles: selectedMustReadFiles,
-        instructions: document.getElementById('ruleInstructions').value
-      };
+      if (!name) { alert('Enter name'); return; }
       
       const res = await fetch(`${API}/api/generate-rule`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          description: document.getElementById('ruleDescription').value,
+          globs: document.getElementById('ruleGlobs').value.split(',').map(s => s.trim()).filter(Boolean),
+          alwaysApply: document.getElementById('ruleAlwaysApply').checked,
+          mustReadFiles: selectedMustReadFiles,
+          instructions: document.getElementById('ruleInstructions').value
+        })
       });
       const generated = await res.json();
       
       await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ filename: generated.filename, content: generated.content })
       });
       
       closeNewRuleModal();
-      showToast('Rule created!');
+      showToast('Created!');
       await loadProjectRules();
-    }
+    };
 
-    // AI Dump Functions
-    function openAIDumpModal() {
-      if (!currentProject) { alert('Select a project first!'); return; }
+    window.openAIDumpModal = function() {
+      if (!currentProject) { alert('Select a project first'); return; }
       document.getElementById('aiDumpInput').value = '';
       document.getElementById('suggestedRules').style.display = 'none';
-      document.getElementById('suggestedRulesList').innerHTML = '';
       suggestedRulesData = [];
       checkApiKeyStatus();
       document.getElementById('aiDumpModal').classList.add('show');
-    }
+    };
 
-    function closeAIDumpModal() { document.getElementById('aiDumpModal').classList.remove('show'); }
+    window.closeAIDumpModal = () => document.getElementById('aiDumpModal').classList.remove('show');
 
     async function checkApiKeyStatus() {
-      const res = await fetch(`${API}/api/settings/api-key-status`);
+      const user = window.getCurrentUser();
+      if (!user) return;
+      
+      const res = await fetch(`${API}/api/user/${user.uid}/api-key-status`);
       const data = await res.json();
       const el = document.getElementById('apiKeyStatus');
+      
       if (data.hasKey) {
         el.innerHTML = `<span>🟢</span> Connected: ${data.keyPreview}`;
         el.className = 'api-key-status connected';
       } else {
-        el.innerHTML = `<span>🔴</span> No API key - add in Settings`;
+        el.innerHTML = `<span>🔴</span> Add API key in Settings`;
         el.className = 'api-key-status disconnected';
       }
     }
 
-    async function formatWithAI() {
+    window.formatWithAI = async function() {
       const input = document.getElementById('aiDumpInput').value.trim();
-      if (!input) { alert('Enter some notes first!'); return; }
+      if (!input) { alert('Enter notes'); return; }
+      
+      const user = window.getCurrentUser();
+      if (!user) { alert('Please sign in'); return; }
       
       const btn = document.getElementById('formatAIBtn');
       btn.innerHTML = '<span class="loading-spinner"></span> Formatting...';
@@ -950,87 +906,71 @@ Example:
       
       try {
         const res = await fetch(`${API}/api/ai/format-rules`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ rawInput: input, projectContext: currentProject?.name })
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ rawInput: input, projectContext: currentProject?.name, userId: user.uid })
         });
         
+        const data = await res.json();
+        
         if (!res.ok) {
-          const err = await res.json();
-          throw new Error(err.error || 'API error');
+          throw new Error(data.error || 'API error');
         }
         
-        const data = await res.json();
         suggestedRulesData = data.rules || [];
         renderSuggestedRules();
         document.getElementById('suggestedRules').style.display = 'block';
       } catch (e) {
-        alert('Error: ' + e.message);
+        showToast('Error: ' + e.message, true);
       } finally {
         btn.innerHTML = '🪄 Format with AI';
         btn.disabled = false;
       }
-    }
+    };
 
     function renderSuggestedRules() {
-      const list = document.getElementById('suggestedRulesList');
-      list.innerHTML = suggestedRulesData.map((rule, i) => `
+      document.getElementById('suggestedRulesList').innerHTML = suggestedRulesData.map((rule, i) => `
         <div class="suggested-rule-card" id="suggestedRule${i}">
           <div class="suggested-rule-header">
             <span class="suggested-rule-name">${rule.name}.mdc</span>
             <span class="suggested-rule-category">${rule.category || 'general'}</span>
           </div>
           <div class="suggested-rule-desc">${rule.description}</div>
-          ${rule.mustReadFiles?.length ? `
-            <div class="suggested-rule-files">
-              ${rule.mustReadFiles.map(f => `<span class="file-tag">${f}</span>`).join('')}
-            </div>
-          ` : ''}
+          ${rule.mustReadFiles?.length ? `<div class="suggested-rule-files">${rule.mustReadFiles.map(f => `<span class="file-tag">${f}</span>`).join('')}</div>` : ''}
           <div class="suggested-rule-instructions">${rule.instructions}</div>
           <div class="suggested-rule-actions">
             <button class="btn btn-sm btn-success" onclick="approveRule(${i})">✅ Approve</button>
             <button class="btn btn-sm btn-secondary" onclick="editSuggestedRule(${i})">✏️ Edit</button>
-            <button class="btn btn-sm btn-danger" onclick="rejectRule(${i})">❌ Reject</button>
+            <button class="btn btn-sm btn-danger" onclick="rejectRule(${i})">❌</button>
           </div>
         </div>
       `).join('');
     }
 
-    async function approveRule(index) {
-      const rule = suggestedRulesData[index];
+    window.approveRule = async function(i) {
+      const rule = suggestedRulesData[i];
       const res = await fetch(`${API}/api/generate-rule`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: rule.name,
-          description: rule.description,
-          alwaysApply: rule.alwaysApply !== false,
-          mustReadFiles: rule.mustReadFiles || [],
-          instructions: rule.instructions
-        })
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: rule.name, description: rule.description, alwaysApply: rule.alwaysApply !== false, mustReadFiles: rule.mustReadFiles || [], instructions: rule.instructions })
       });
       const generated = await res.json();
       
       await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ filename: generated.filename, content: generated.content })
       });
       
-      document.getElementById(`suggestedRule${index}`).style.opacity = '0.3';
-      document.getElementById(`suggestedRule${index}`).innerHTML = `<div style="text-align: center; padding: 1rem; color: var(--success);">✅ Created ${rule.name}.mdc</div>`;
-      showToast(`Created ${rule.name}.mdc!`);
+      document.getElementById(`suggestedRule${i}`).innerHTML = `<div style="text-align: center; padding: 1rem; color: var(--success);">✅ Created ${rule.name}.mdc</div>`;
+      showToast(`Created ${rule.name}.mdc`);
       await loadProjectRules();
-    }
+    };
 
-    function rejectRule(index) {
-      document.getElementById(`suggestedRule${index}`).remove();
-      suggestedRulesData.splice(index, 1);
-      renderSuggestedRules();
-    }
+    window.rejectRule = function(i) {
+      document.getElementById(`suggestedRule${i}`).remove();
+      suggestedRulesData.splice(i, 1);
+    };
 
-    function editSuggestedRule(index) {
-      const rule = suggestedRulesData[index];
+    window.editSuggestedRule = function(i) {
+      const rule = suggestedRulesData[i];
       closeAIDumpModal();
       openNewRuleModal();
       document.getElementById('ruleName').value = rule.name;
@@ -1039,60 +979,50 @@ Example:
       document.getElementById('ruleInstructions').value = rule.instructions;
       selectedMustReadFiles = rule.mustReadFiles || [];
       renderSelectedFiles();
-    }
+    };
 
-    async function approveAllRules() {
-      for (let i = 0; i < suggestedRulesData.length; i++) {
-        await approveRule(i);
-      }
-    }
+    window.approveAllRules = async function() {
+      for (let i = 0; i < suggestedRulesData.length; i++) await window.approveRule(i);
+    };
 
-    // Settings
-    async function openSettings() {
+    window.openSettings = async function() {
+      const user = window.getCurrentUser();
       const [pathsRes, keyRes] = await Promise.all([
         fetch(`${API}/api/scan-paths`),
-        fetch(`${API}/api/settings/api-key-status`)
+        user ? fetch(`${API}/api/user/${user.uid}/api-key-status`) : Promise.resolve({ json: () => ({ hasKey: false }) })
       ]);
-      const pathsData = await pathsRes.json();
-      const keyData = await keyRes.json();
       
-      document.getElementById('scanPaths').value = pathsData.scanPaths.join('\n');
+      document.getElementById('scanPaths').value = (await pathsRes.json()).scanPaths.join('\n');
+      const keyData = await keyRes.json();
       document.getElementById('openaiKeyInput').value = '';
       document.getElementById('openaiKeyInput').placeholder = keyData.hasKey ? `Current: ${keyData.keyPreview}` : 'sk-proj-...';
       document.getElementById('settingsModal').classList.add('show');
-    }
+    };
 
-    function closeSettings() { document.getElementById('settingsModal').classList.remove('show'); }
+    window.closeSettings = () => document.getElementById('settingsModal').classList.remove('show');
 
-    async function saveSettings() {
+    window.saveSettings = async function() {
+      const user = window.getCurrentUser();
       const paths = document.getElementById('scanPaths').value.split('\n').map(s => s.trim()).filter(Boolean);
       const apiKey = document.getElementById('openaiKeyInput').value.trim();
       
-      await fetch(`${API}/api/scan-paths`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ scanPaths: paths })
-      });
+      await fetch(`${API}/api/scan-paths`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ scanPaths: paths }) });
       
-      if (apiKey) {
-        await fetch(`${API}/api/settings/api-key`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ apiKey })
-        });
+      if (apiKey && user) {
+        await fetch(`${API}/api/user/${user.uid}/api-key`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ apiKey }) });
       }
       
       closeSettings();
       showToast('Settings saved!');
       await refreshProjects();
       await checkApiKeyStatus();
-    }
+    };
 
-    function showToast(message) {
+    function showToast(message, isError = false) {
       const toast = document.getElementById('toast');
       toast.textContent = message;
-      toast.classList.add('show', 'success');
-      setTimeout(() => toast.classList.remove('show', 'success'), 3000);
+      toast.className = 'toast show ' + (isError ? 'error' : 'success');
+      setTimeout(() => toast.className = 'toast', 3000);
     }
   </script>
 </body>
