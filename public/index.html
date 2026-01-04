@@ -7,7 +7,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
     :root {
       --bg-primary: #0a0a0f;
@@ -27,396 +26,181 @@
       --danger: #ef4444;
       --gradient-1: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
       --ai-gradient: linear-gradient(135deg, #f59e0b 0%, #ef4444 50%, #ec4899 100%);
-      --google-gradient: linear-gradient(135deg, #4285f4 0%, #34a853 50%, #ea4335 100%);
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      min-height: 100vh;
-    }
-
-    .bg-effects {
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      pointer-events: none; z-index: 0;
-    }
-
+    body { font-family: 'Outfit', sans-serif; background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; }
+    
+    .bg-effects { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
     .bg-effects::before {
-      content: '';
-      position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-      background: radial-gradient(ellipse at 30% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
-                  radial-gradient(ellipse at 70% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
-      animation: bgFloat 20s ease-in-out infinite;
+      content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+      background: radial-gradient(ellipse at 30% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 50%);
     }
 
-    @keyframes bgFloat {
-      0%, 100% { transform: translate(0, 0); }
-      50% { transform: translate(-2%, 2%); }
-    }
-
-    /* Login Screen */
-    .login-screen {
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      display: flex; align-items: center; justify-content: center;
-      z-index: 1000; background: var(--bg-primary);
-    }
-
-    .login-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 24px; padding: 3rem; text-align: center;
-      max-width: 400px; width: 90%;
-    }
-
-    .login-logo {
-      width: 80px; height: 80px; background: var(--gradient-1);
-      border-radius: 20px; margin: 0 auto 1.5rem;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 2.5rem; box-shadow: 0 12px 40px var(--accent-glow);
-    }
-
-    .login-title {
-      font-size: 1.75rem; font-weight: 700; margin-bottom: 0.5rem;
-      background: var(--gradient-1); -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
+    .login-screen { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 1000; background: var(--bg-primary); }
+    .login-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; padding: 3rem; text-align: center; max-width: 400px; width: 90%; }
+    .login-logo { width: 80px; height: 80px; background: var(--gradient-1); border-radius: 20px; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; box-shadow: 0 12px 40px var(--accent-glow); }
+    .login-title { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.5rem; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .login-subtitle { color: var(--text-secondary); margin-bottom: 2rem; }
-
-    .google-btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 0.75rem;
-      padding: 1rem 2rem; background: white; color: #333;
-      border: none; border-radius: 12px; font-size: 1rem; font-weight: 600;
-      cursor: pointer; transition: all 0.2s ease; width: 100%;
-    }
-
+    .google-btn { display: flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 1rem 2rem; background: white; color: #333; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; width: 100%; }
     .google-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
-
     .google-btn img { width: 24px; height: 24px; }
+    .login-note { margin-top: 1.5rem; font-size: 0.8rem; color: var(--text-muted); }
 
-    .login-note {
-      margin-top: 1.5rem; font-size: 0.8rem; color: var(--text-muted);
-    }
-
-    /* Main App - same styles as before */
     .container { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 2rem; }
-
-    header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border);
-    }
-
+    header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 1rem; }
     .logo { display: flex; align-items: center; gap: 1rem; }
-
-    .logo-icon {
-      width: 48px; height: 48px; background: var(--gradient-1); border-radius: 12px;
-      display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
-      box-shadow: 0 8px 32px var(--accent-glow);
-    }
-
-    .logo h1 {
-      font-size: 1.75rem; font-weight: 600;
-      background: var(--gradient-1); -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .logo p { color: var(--text-secondary); font-size: 0.875rem; margin-top: 0.25rem; }
-
-    .header-actions { display: flex; gap: 1rem; align-items: center; }
-
-    .user-info {
-      display: flex; align-items: center; gap: 0.75rem;
-      padding: 0.5rem 1rem; background: var(--bg-secondary);
-      border-radius: 30px; border: 1px solid var(--border);
-    }
-
-    .user-avatar {
-      width: 32px; height: 32px; border-radius: 50%;
-      background: var(--accent); display: flex; align-items: center;
-      justify-content: center; font-weight: 600; font-size: 0.9rem;
-      overflow: hidden;
-    }
-
+    .logo-icon { width: 48px; height: 48px; background: var(--gradient-1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+    .logo h1 { font-size: 1.5rem; font-weight: 600; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .logo p { color: var(--text-secondary); font-size: 0.8rem; }
+    .header-actions { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+    .user-info { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.75rem; background: var(--bg-secondary); border-radius: 20px; border: 1px solid var(--border); }
+    .user-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.8rem; overflow: hidden; }
     .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .user-name { font-size: 0.8rem; color: var(--text-secondary); }
 
-    .user-name { font-size: 0.85rem; color: var(--text-secondary); }
-
-    .btn {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.75rem 1.5rem; border-radius: 10px; font-family: inherit;
-      font-size: 0.9rem; font-weight: 500; cursor: pointer;
-      transition: all 0.2s ease; border: none;
-    }
-
-    .btn-primary { background: var(--accent); color: white; box-shadow: 0 4px 16px var(--accent-glow); }
-    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); }
-
-    .btn-ai { background: var(--ai-gradient); color: white; box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3); }
-    .btn-ai:hover { transform: translateY(-2px); }
-
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.2rem; border-radius: 8px; font-family: inherit; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.2s; border: none; }
+    .btn-primary { background: var(--accent); color: white; }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+    .btn-ai { background: var(--ai-gradient); color: white; }
+    .btn-ai:hover { transform: translateY(-1px); }
     .btn-secondary { background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border); }
-    .btn-secondary:hover { background: var(--bg-card); border-color: var(--border-focus); }
-
+    .btn-secondary:hover { border-color: var(--accent); }
     .btn-success { background: var(--success); color: white; }
     .btn-danger { background: transparent; color: var(--danger); border: 1px solid var(--danger); }
-    .btn-sm { padding: 0.5rem 1rem; font-size: 0.8rem; }
+    .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.75rem; }
 
-    .main-grid { display: grid; grid-template-columns: 300px 1fr; gap: 2rem; min-height: calc(100vh - 200px); }
-    .sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
-
-    .card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 16px; padding: 1.5rem; transition: all 0.2s ease;
-    }
-
-    .card:hover { border-color: rgba(99, 102, 241, 0.3); }
-    .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
-    .card-title { font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; }
-    .project-list { display: flex; flex-direction: column; gap: 0.5rem; max-height: 400px; overflow-y: auto; }
-
-    .project-item {
-      display: flex; align-items: center; gap: 0.75rem;
-      padding: 0.875rem 1rem; background: var(--bg-secondary);
-      border: 1px solid transparent; border-radius: 10px;
-      cursor: pointer; transition: all 0.2s ease;
-    }
-
-    .project-item:hover { background: var(--bg-tertiary); border-color: var(--border); }
+    .main-grid { display: grid; grid-template-columns: 280px 1fr; gap: 1.5rem; }
+    .sidebar { display: flex; flex-direction: column; gap: 1rem; }
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; }
+    .card-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+    .project-list { display: flex; flex-direction: column; gap: 0.4rem; max-height: 50vh; overflow-y: auto; }
+    .project-item { display: flex; align-items: center; gap: 0.6rem; padding: 0.7rem; background: var(--bg-secondary); border: 1px solid transparent; border-radius: 8px; cursor: pointer; transition: all 0.15s; }
+    .project-item:hover { border-color: var(--border); }
     .project-item.active { background: rgba(99, 102, 241, 0.1); border-color: var(--accent); }
-
-    .project-icon {
-      width: 32px; height: 32px; background: var(--bg-tertiary); border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-    }
-
+    .project-icon { width: 28px; height: 28px; background: var(--bg-tertiary); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
     .project-item.active .project-icon { background: var(--accent); }
     .project-info { flex: 1; min-width: 0; }
-    .project-name { font-weight: 500; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .project-path { font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-    .badge { font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 20px; font-weight: 600; text-transform: uppercase; }
+    .project-name { font-weight: 500; font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .project-path { font-size: 0.7rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .badge { font-size: 0.6rem; padding: 0.15rem 0.4rem; border-radius: 10px; font-weight: 600; text-transform: uppercase; }
     .badge-success { background: rgba(16, 185, 129, 0.15); color: var(--success); }
 
-    .main-content { display: flex; flex-direction: column; gap: 1.5rem; }
-
-    .tabs { display: flex; gap: 0.5rem; background: var(--bg-secondary); padding: 0.5rem; border-radius: 12px; width: fit-content; }
-
-    .tab {
-      padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 500;
-      cursor: pointer; transition: all 0.2s ease; border: none;
-      background: transparent; color: var(--text-secondary); font-family: inherit; font-size: 0.9rem;
-    }
-
+    .main-content { display: flex; flex-direction: column; gap: 1rem; }
+    .tabs { display: flex; gap: 0.4rem; background: var(--bg-secondary); padding: 0.4rem; border-radius: 10px; width: fit-content; }
+    .tab { padding: 0.6rem 1.2rem; border-radius: 6px; font-weight: 500; cursor: pointer; border: none; background: transparent; color: var(--text-secondary); font-family: inherit; font-size: 0.85rem; }
     .tab:hover { color: var(--text-primary); }
-    .tab.active { background: var(--accent); color: white; box-shadow: 0 4px 12px var(--accent-glow); }
+    .tab.active { background: var(--accent); color: white; }
 
     .editor-section { flex: 1; display: flex; flex-direction: column; }
-    .editor-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
-    .editor-title { font-size: 1.25rem; font-weight: 600; }
-
-    .editor-container {
-      flex: 1; display: flex; flex-direction: column;
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 16px; overflow: hidden;
-    }
-
-    .editor-toolbar {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1rem 1.5rem; background: var(--bg-secondary);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .toolbar-left { display: flex; align-items: center; gap: 1rem; }
+    .editor-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
+    .editor-title { font-size: 1.1rem; font-weight: 600; }
+    .editor-container { flex: 1; display: flex; flex-direction: column; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .editor-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; background: var(--bg-secondary); border-bottom: 1px solid var(--border); }
     .file-tabs { display: flex; gap: 0.25rem; }
-
-    .file-tab {
-      padding: 0.5rem 1rem; background: transparent; border: none;
-      color: var(--text-secondary); font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem; cursor: pointer; border-radius: 6px;
-    }
-
-    .file-tab:hover { background: var(--bg-tertiary); color: var(--text-primary); }
+    .file-tab { padding: 0.4rem 0.8rem; background: transparent; border: none; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; cursor: pointer; border-radius: 4px; }
     .file-tab.active { background: var(--accent); color: white; }
+    textarea.editor { flex: 1; width: 100%; padding: 1rem; background: transparent; border: none; color: var(--text-primary); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.6; resize: none; outline: none; min-height: 300px; }
 
-    textarea.editor {
-      flex: 1; width: 100%; padding: 1.5rem; background: transparent;
-      border: none; color: var(--text-primary);
-      font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;
-      line-height: 1.6; resize: none; outline: none; min-height: 400px;
-    }
+    .form-group { margin-bottom: 1rem; }
+    .form-label { display: block; font-size: 0.8rem; font-weight: 500; color: var(--text-secondary); margin-bottom: 0.4rem; }
+    .form-input { width: 100%; padding: 0.7rem 0.9rem; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary); font-family: inherit; font-size: 0.85rem; }
+    .form-input:focus { outline: none; border-color: var(--accent); }
+    .checkbox-group { display: flex; align-items: center; gap: 0.6rem; }
+    .checkbox { width: 18px; height: 18px; accent-color: var(--accent); }
 
-    textarea.editor::placeholder { color: var(--text-muted); }
-
-    .form-group { margin-bottom: 1.25rem; }
-    .form-label { display: block; font-size: 0.85rem; font-weight: 500; color: var(--text-secondary); margin-bottom: 0.5rem; }
-
-    .form-input {
-      width: 100%; padding: 0.875rem 1rem; background: var(--bg-secondary);
-      border: 1px solid var(--border); border-radius: 10px;
-      color: var(--text-primary); font-family: inherit; font-size: 0.9rem;
-    }
-
-    .form-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
-
-    .checkbox-group { display: flex; align-items: center; gap: 0.75rem; }
-    .checkbox { width: 20px; height: 20px; accent-color: var(--accent); }
-
-    .file-picker { border: 2px dashed var(--border); border-radius: 10px; padding: 1rem; min-height: 100px; }
-    .file-picker:hover { border-color: var(--accent); }
-    .selected-files { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-
-    .file-tag {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.4rem 0.75rem; background: rgba(99, 102, 241, 0.1);
-      border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 6px;
-      font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
-      color: var(--accent-hover);
-    }
-
-    .file-tag button { background: none; border: none; color: var(--text-muted); cursor: pointer; }
-
-    .file-search-dropdown { position: relative; margin-top: 0.75rem; }
-
-    .file-search-input {
-      width: 100%; padding: 0.75rem 1rem; background: var(--bg-tertiary);
-      border: 1px solid var(--border); border-radius: 8px;
-      color: var(--text-primary); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
-    }
-
-    .file-search-results {
-      position: absolute; top: 100%; left: 0; right: 0;
-      background: var(--bg-secondary); border: 1px solid var(--border);
-      border-radius: 8px; max-height: 200px; overflow-y: auto;
-      z-index: 100; display: none;
-    }
-
+    .file-picker { border: 2px dashed var(--border); border-radius: 8px; padding: 0.75rem; }
+    .selected-files { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.5rem; }
+    .file-tag { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.6rem; background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--accent-hover); }
+    .file-tag button { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.9rem; }
+    .file-search-dropdown { position: relative; }
+    .file-search-input { width: 100%; padding: 0.5rem; background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 6px; color: var(--text-primary); font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; }
+    .file-search-results { position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 6px; max-height: 150px; overflow-y: auto; z-index: 100; display: none; }
     .file-search-results.show { display: block; }
-
-    .file-search-item {
-      padding: 0.6rem 1rem; cursor: pointer;
-      font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
-      color: var(--text-secondary);
-    }
-
+    .file-search-item { padding: 0.5rem; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--text-secondary); }
     .file-search-item:hover { background: var(--bg-tertiary); color: var(--text-primary); }
 
-    .rules-list { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; }
+    .rules-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .rule-item { display: flex; align-items: center; justify-content: space-between; padding: 0.8rem 1rem; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; }
+    .rule-item:hover { border-color: var(--accent); }
+    .rule-item-info { display: flex; align-items: center; gap: 0.6rem; }
+    .rule-item-name { font-weight: 500; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; }
+    .rule-item-desc { font-size: 0.7rem; color: var(--text-muted); }
+    .empty-state { text-align: center; padding: 2rem; color: var(--text-muted); }
+    .empty-state-icon { font-size: 2rem; margin-bottom: 0.5rem; opacity: 0.5; }
 
-    .rule-item {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1rem 1.25rem; background: var(--bg-secondary);
-      border: 1px solid var(--border); border-radius: 10px; cursor: pointer;
-    }
-
-    .rule-item:hover { border-color: var(--accent); background: var(--bg-tertiary); }
-    .rule-item-info { display: flex; align-items: center; gap: 0.75rem; }
-    .rule-item-name { font-weight: 500; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; }
-    .rule-item-desc { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem; }
-
-    .empty-state { text-align: center; padding: 3rem; color: var(--text-muted); }
-    .empty-state-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; }
-
-    .toast {
-      position: fixed; bottom: 2rem; right: 2rem;
-      background: var(--bg-card); border: 1px solid var(--border);
-      padding: 1rem 1.5rem; border-radius: 12px;
-      display: flex; align-items: center; gap: 0.75rem;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-      transform: translateY(150%); transition: transform 0.3s ease; z-index: 1000;
-    }
-
+    .toast { position: fixed; bottom: 1.5rem; right: 1.5rem; background: var(--bg-card); border: 1px solid var(--border); padding: 0.8rem 1.2rem; border-radius: 10px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); transform: translateY(150%); transition: transform 0.3s; z-index: 1000; }
     .toast.show { transform: translateY(0); }
     .toast.success { border-color: var(--success); }
     .toast.error { border-color: var(--danger); }
 
-    .modal-overlay {
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 1000; opacity: 0; pointer-events: none;
-    }
-
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; pointer-events: none; }
     .modal-overlay.show { opacity: 1; pointer-events: all; }
-
-    .modal {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 20px; padding: 2rem; max-width: 700px; width: 90%;
-      max-height: 85vh; overflow-y: auto; transform: scale(0.9);
-    }
-
+    .modal { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; max-width: 800px; width: 95%; max-height: 90vh; overflow-y: auto; transform: scale(0.9); transition: transform 0.2s; }
     .modal-overlay.show .modal { transform: scale(1); }
-    .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
-    .modal-title { font-size: 1.25rem; font-weight: 600; }
-    .modal-close { background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; }
-    .modal-actions { display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem; }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
+    .modal-title { font-size: 1.1rem; font-weight: 600; }
+    .modal-close { background: none; border: none; color: var(--text-muted); font-size: 1.25rem; cursor: pointer; }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 0.6rem; margin-top: 1.25rem; }
 
-    .ai-dump-section {
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(236, 72, 153, 0.05) 100%);
-      border: 1px solid rgba(245, 158, 11, 0.2);
-      border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem;
-    }
-
-    .ai-dump-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
-
-    .ai-dump-header h3 {
-      background: var(--ai-gradient); -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .ai-dump-textarea {
-      width: 100%; min-height: 150px; padding: 1rem;
-      background: var(--bg-secondary); border: 1px solid var(--border);
-      border-radius: 10px; color: var(--text-primary);
-      font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;
-      line-height: 1.6; resize: vertical;
-    }
-
-    .ai-dump-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; }
-    .api-key-status { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: var(--text-muted); }
+    /* AI Dump Section */
+    .ai-dump-section { background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(236, 72, 153, 0.05) 100%); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; }
+    .ai-dump-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.75rem; }
+    .ai-dump-header h3 { font-size: 1rem; background: var(--ai-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .ai-dump-textarea { width: 100%; min-height: 120px; padding: 0.75rem; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; line-height: 1.5; resize: vertical; }
+    .ai-dump-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 0.75rem; gap: 1rem; flex-wrap: wrap; }
+    .api-key-status { font-size: 0.75rem; color: var(--text-muted); }
     .api-key-status.connected { color: var(--success); }
-    .api-key-status.disconnected { color: var(--danger); }
 
-    .suggested-rules { margin-top: 1.5rem; }
+    /* Sanity Check Toggle */
+    .sanity-toggle { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 1rem; background: var(--bg-secondary); border-radius: 8px; border: 1px solid var(--border); }
+    .sanity-toggle.active { border-color: var(--warning); background: rgba(245, 158, 11, 0.1); }
+    .sanity-toggle label { font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; }
+    .sanity-toggle input { width: 16px; height: 16px; accent-color: var(--warning); }
+    .sanity-hint { font-size: 0.7rem; color: var(--text-muted); }
 
-    .suggested-rule-card {
-      background: var(--bg-secondary); border: 1px solid var(--border);
-      border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem;
-    }
+    /* Suggested Rules with Ratings */
+    .suggested-rules { margin-top: 1rem; }
+    .suggested-rule-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; margin-bottom: 0.75rem; position: relative; }
+    .suggested-rule-card.rating-good { border-left: 3px solid var(--success); }
+    .suggested-rule-card.rating-caution { border-left: 3px solid var(--warning); }
+    .suggested-rule-card.rating-bad { border-left: 3px solid var(--danger); }
+    .suggested-rule-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; gap: 0.5rem; flex-wrap: wrap; }
+    .suggested-rule-name { font-weight: 600; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--accent-hover); }
+    .suggested-rule-badges { display: flex; gap: 0.4rem; align-items: center; }
+    .suggested-rule-category { font-size: 0.65rem; padding: 0.2rem 0.5rem; background: rgba(99, 102, 241, 0.1); border-radius: 10px; color: var(--accent); }
+    .rating-badge { font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 10px; font-weight: 600; }
+    .rating-badge.good { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+    .rating-badge.caution { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+    .rating-badge.bad { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+    .suggested-rule-desc { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+    .suggested-rule-rationale { font-size: 0.75rem; color: var(--text-muted); background: var(--bg-tertiary); padding: 0.6rem; border-radius: 6px; margin-bottom: 0.5rem; border-left: 2px solid var(--border); }
+    .suggested-rule-conflicts { font-size: 0.7rem; color: var(--danger); margin-bottom: 0.5rem; }
+    .suggested-rule-alternatives { font-size: 0.7rem; color: var(--success); margin-bottom: 0.5rem; }
+    .suggested-rule-files { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 0.5rem; }
+    .suggested-rule-instructions { font-size: 0.75rem; color: var(--text-muted); background: var(--bg-tertiary); padding: 0.5rem; border-radius: 6px; max-height: 80px; overflow-y: auto; font-family: 'JetBrains Mono', monospace; }
+    .suggested-rule-actions { display: flex; gap: 0.4rem; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
 
-    .suggested-rule-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
-    .suggested-rule-name { font-weight: 600; font-family: 'JetBrains Mono', monospace; color: var(--accent-hover); }
-    .suggested-rule-category { font-size: 0.7rem; padding: 0.25rem 0.6rem; background: rgba(99, 102, 241, 0.1); border-radius: 20px; color: var(--accent); }
-    .suggested-rule-desc { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem; }
-    .suggested-rule-files { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem; }
+    /* Summary Box */
+    .rules-summary { background: var(--bg-tertiary); border-radius: 10px; padding: 1rem; margin-bottom: 1rem; display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
+    .summary-stat { text-align: center; }
+    .summary-stat .count { font-size: 1.5rem; font-weight: 700; }
+    .summary-stat .label { font-size: 0.7rem; color: var(--text-muted); }
+    .summary-stat.good .count { color: var(--success); }
+    .summary-stat.caution .count { color: var(--warning); }
+    .summary-stat.bad .count { color: var(--danger); }
+    .summary-advice { flex: 1; font-size: 0.8rem; color: var(--text-secondary); min-width: 200px; }
 
-    .suggested-rule-instructions {
-      font-size: 0.8rem; color: var(--text-muted);
-      background: var(--bg-tertiary); padding: 0.75rem;
-      border-radius: 8px; max-height: 100px; overflow-y: auto;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .suggested-rule-actions { display: flex; gap: 0.5rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
-
-    .loading-spinner {
-      display: inline-block; width: 20px; height: 20px;
-      border: 2px solid var(--border); border-top-color: var(--accent);
-      border-radius: 50%; animation: spin 0.8s linear infinite;
-    }
-
+    .loading-spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: var(--bg-secondary); }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    @media (max-width: 768px) {
+      .main-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
   <div class="bg-effects"></div>
 
-  <!-- Login Screen -->
   <div class="login-screen" id="loginScreen">
     <div class="login-card">
       <div class="login-logo">⚡</div>
@@ -426,25 +210,18 @@
         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
         Sign in with Google
       </button>
-      <p class="login-note">🔒 Your API key is encrypted and stored locally</p>
+      <p class="login-note">🔒 Your API key is encrypted locally</p>
     </div>
   </div>
 
-  <!-- Main App -->
   <div class="container" id="mainApp" style="display: none;">
     <header>
       <div class="logo">
         <div class="logo-icon">⚡</div>
-        <div>
-          <h1>Cursor Rules Manager</h1>
-          <p>Stop AI from fucking things up</p>
-        </div>
+        <div><h1>Cursor Rules Manager</h1><p>Stop AI from fucking things up</p></div>
       </div>
       <div class="header-actions">
-        <div class="user-info" id="userInfo">
-          <div class="user-avatar" id="userAvatar">?</div>
-          <span class="user-name" id="userName">User</span>
-        </div>
+        <div class="user-info"><div class="user-avatar" id="userAvatar">?</div><span class="user-name" id="userName">User</span></div>
         <button class="btn btn-secondary" onclick="openSettings()">⚙️ Settings</button>
         <button class="btn btn-primary" onclick="refreshProjects()">🔄 Refresh</button>
         <button class="btn btn-secondary btn-sm" onclick="signOut()">Sign Out</button>
@@ -454,15 +231,8 @@
     <div class="main-grid">
       <aside class="sidebar">
         <div class="card">
-          <div class="card-header">
-            <span class="card-title">📁 Projects</span>
-          </div>
-          <div class="project-list" id="projectList">
-            <div class="empty-state">
-              <div class="empty-state-icon">🔍</div>
-              <p>No projects found</p>
-            </div>
-          </div>
+          <div class="card-title">📁 Projects</div>
+          <div class="project-list" id="projectList"><div class="empty-state"><div class="empty-state-icon">🔍</div><p>No projects</p></div></div>
         </div>
       </aside>
 
@@ -478,9 +248,7 @@
             <button class="btn btn-primary" onclick="saveGlobalRules()">💾 Save</button>
           </div>
           <div class="editor-container">
-            <div class="editor-toolbar">
-              <span style="color: var(--text-muted); font-size: 0.85rem;">These rules apply to ALL projects</span>
-            </div>
+            <div class="editor-toolbar"><span style="color: var(--text-muted); font-size: 0.8rem;">These rules apply to ALL projects</span></div>
             <textarea class="editor" id="globalEditor" placeholder="# Global Rules..."></textarea>
           </div>
         </div>
@@ -488,25 +256,17 @@
         <div id="projectTab" class="editor-section" style="display: none;">
           <div class="editor-header">
             <h2 class="editor-title" id="projectTitle">Select a Project</h2>
-            <div style="display: flex; gap: 0.75rem;">
+            <div style="display: flex; gap: 0.6rem;">
               <button class="btn btn-ai" onclick="openAIDumpModal()">🤖 AI Format</button>
               <button class="btn btn-primary" onclick="openNewRuleModal()">➕ New Rule</button>
             </div>
           </div>
-          <div class="rules-list" id="rulesList">
-            <div class="empty-state">
-              <div class="empty-state-icon">📋</div>
-              <p>Select a project</p>
-            </div>
-          </div>
-          <div id="ruleEditor" style="display: none; margin-top: 1rem;">
+          <div class="rules-list" id="rulesList"><div class="empty-state"><div class="empty-state-icon">📋</div><p>Select a project</p></div></div>
+          <div id="ruleEditor" style="display: none; margin-top: 0.75rem;">
             <div class="editor-container">
               <div class="editor-toolbar">
                 <div class="file-tabs" id="ruleFileTabs"></div>
-                <div>
-                  <button class="btn btn-sm btn-danger" onclick="deleteCurrentRule()">🗑️</button>
-                  <button class="btn btn-sm btn-primary" onclick="saveCurrentRule()">💾</button>
-                </div>
+                <div><button class="btn btn-sm btn-danger" onclick="deleteCurrentRule()">🗑️</button><button class="btn btn-sm btn-primary" onclick="saveCurrentRule()">💾</button></div>
               </div>
               <textarea class="editor" id="ruleEditorContent"></textarea>
             </div>
@@ -516,67 +276,69 @@
     </div>
   </div>
 
-  <!-- Modals (same as before but condensed) -->
+  <!-- New Rule Modal -->
   <div class="modal-overlay" id="newRuleModal">
     <div class="modal">
-      <div class="modal-header">
-        <h3 class="modal-title">✨ Create New Rule</h3>
-        <button class="modal-close" onclick="closeNewRuleModal()">&times;</button>
-      </div>
-      <div class="form-group"><label class="form-label">Rule Name</label><input type="text" class="form-input" id="ruleName" placeholder="e.g., core, api-conventions"></div>
+      <div class="modal-header"><h3 class="modal-title">✨ Create Rule</h3><button class="modal-close" onclick="closeNewRuleModal()">&times;</button></div>
+      <div class="form-group"><label class="form-label">Name</label><input type="text" class="form-input" id="ruleName" placeholder="e.g., core"></div>
       <div class="form-group"><label class="form-label">Description</label><input type="text" class="form-input" id="ruleDescription" placeholder="Brief description"></div>
-      <div class="form-group"><label class="form-label">File Globs</label><input type="text" class="form-input" id="ruleGlobs" placeholder="**/*.ts, src/**/*"></div>
+      <div class="form-group"><label class="form-label">Globs</label><input type="text" class="form-input" id="ruleGlobs" placeholder="**/*.ts"></div>
       <div class="form-group"><div class="checkbox-group"><input type="checkbox" class="checkbox" id="ruleAlwaysApply" checked><label>Always apply</label></div></div>
-      <div class="form-group">
-        <label class="form-label">🔥 Files AI MUST Read</label>
-        <div class="file-picker">
-          <div class="selected-files" id="selectedFiles"></div>
-          <div class="file-search-dropdown"><input type="text" class="file-search-input" id="fileSearchInput" placeholder="Search files..."><div class="file-search-results" id="fileSearchResults"></div></div>
-        </div>
-      </div>
-      <div class="form-group"><label class="form-label">Instructions</label><textarea class="form-input" id="ruleInstructions" rows="4" placeholder="Instructions..."></textarea></div>
+      <div class="form-group"><label class="form-label">🔥 Must Read Files</label><div class="file-picker"><div class="selected-files" id="selectedFiles"></div><div class="file-search-dropdown"><input type="text" class="file-search-input" id="fileSearchInput" placeholder="Search..."><div class="file-search-results" id="fileSearchResults"></div></div></div></div>
+      <div class="form-group"><label class="form-label">Instructions</label><textarea class="form-input" id="ruleInstructions" rows="3"></textarea></div>
       <div class="modal-actions"><button class="btn btn-secondary" onclick="closeNewRuleModal()">Cancel</button><button class="btn btn-primary" onclick="createRule()">Create</button></div>
     </div>
   </div>
 
+  <!-- AI Dump Modal -->
   <div class="modal-overlay" id="aiDumpModal">
-    <div class="modal" style="max-width: 800px;">
-      <div class="modal-header">
-        <h3 class="modal-title">🤖 AI-Assisted Rule Creation</h3>
-        <button class="modal-close" onclick="closeAIDumpModal()">&times;</button>
-      </div>
+    <div class="modal">
+      <div class="modal-header"><h3 class="modal-title">🤖 AI Rule Formatting</h3><button class="modal-close" onclick="closeAIDumpModal()">&times;</button></div>
+      
       <div class="ai-dump-section">
-        <div class="ai-dump-header"><span style="font-size: 1.5rem;">✨</span><h3>Dump Your Raw Notes</h3></div>
-        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">Paste anything - bugs, notes, informal rules. AI formats them.</p>
-        <textarea class="ai-dump-textarea" id="aiDumpInput" placeholder="Paste your raw notes here..."></textarea>
+        <div class="ai-dump-header"><span style="font-size: 1.25rem;">✨</span><h3>Dump Your Raw Notes</h3></div>
+        <p style="color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 0.75rem;">Paste bugs, notes, informal rules - AI formats them into proper rules.</p>
+        <textarea class="ai-dump-textarea" id="aiDumpInput" placeholder="Paste your raw notes here...
+
+Example:
+- API returns { products: [...] } not just [...]
+- always use db.ts for database
+- routes in app/(dashboard)/..."></textarea>
+        
         <div class="ai-dump-actions">
           <div class="api-key-status" id="apiKeyStatus"><span>⚪</span> Checking...</div>
+          
+          <div class="sanity-toggle" id="sanityToggle">
+            <input type="checkbox" id="sanityCheckbox" checked>
+            <label for="sanityCheckbox">
+              🧠 Sanity Check Mode
+              <span class="sanity-hint">(Rate rules & flag conflicts)</span>
+            </label>
+          </div>
+          
           <button class="btn btn-ai" onclick="formatWithAI()" id="formatAIBtn">🪄 Format with AI</button>
         </div>
       </div>
+
       <div class="suggested-rules" id="suggestedRules" style="display: none;">
-        <h4 style="margin-bottom: 1rem;">📋 Suggested Rules</h4>
+        <div class="rules-summary" id="rulesSummary" style="display: none;"></div>
+        <h4 style="margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">📋 Suggested Rules</h4>
         <div id="suggestedRulesList"></div>
-        <div class="modal-actions"><button class="btn btn-secondary" onclick="closeAIDumpModal()">Done</button><button class="btn btn-success" onclick="approveAllRules()">✅ Approve All</button></div>
+        <div class="modal-actions">
+          <button class="btn btn-secondary" onclick="closeAIDumpModal()">Done</button>
+          <button class="btn btn-success" onclick="approveAllGoodRules()">✅ Approve Good Rules</button>
+          <button class="btn btn-primary" onclick="approveAllRules()">✅ Approve All</button>
+        </div>
       </div>
     </div>
   </div>
 
+  <!-- Settings Modal -->
   <div class="modal-overlay" id="settingsModal">
     <div class="modal">
-      <div class="modal-header">
-        <h3 class="modal-title">⚙️ Settings</h3>
-        <button class="modal-close" onclick="closeSettings()">&times;</button>
-      </div>
-      <div class="form-group">
-        <label class="form-label">🔑 OpenAI API Key</label>
-        <input type="password" class="form-input" id="openaiKeyInput" placeholder="sk-proj-...">
-        <small style="color: var(--text-muted); font-size: 0.75rem;">Encrypted & stored locally per user</small>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Project Scan Paths</label>
-        <textarea class="form-input" id="scanPaths" rows="4" placeholder="/Users/you/code"></textarea>
-      </div>
+      <div class="modal-header"><h3 class="modal-title">⚙️ Settings</h3><button class="modal-close" onclick="closeSettings()">&times;</button></div>
+      <div class="form-group"><label class="form-label">🔑 OpenAI API Key</label><input type="password" class="form-input" id="openaiKeyInput" placeholder="sk-proj-..."><small style="color: var(--text-muted); font-size: 0.7rem;">Encrypted & stored locally</small></div>
+      <div class="form-group"><label class="form-label">Project Scan Paths</label><textarea class="form-input" id="scanPaths" rows="3" placeholder="/Users/you/code"></textarea></div>
       <div class="modal-actions"><button class="btn btn-secondary" onclick="closeSettings()">Cancel</button><button class="btn btn-primary" onclick="saveSettings()">Save</button></div>
     </div>
   </div>
@@ -587,107 +349,40 @@
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
     import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as firebaseSignOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
-    // Firebase config - you'll need to create a Firebase project and replace this
-    const firebaseConfig = {
-      apiKey: "AIzaSyDummy-replace-with-your-key",
-      authDomain: "cursor-rules-manager.firebaseapp.com",
-      projectId: "cursor-rules-manager"
-    };
-
+    const firebaseConfig = { apiKey: "AIzaSyDummy", authDomain: "cursor-rules.firebaseapp.com", projectId: "cursor-rules" };
     let app, auth, currentUser = null;
     
-    // Try to init Firebase, fallback to local mode
-    try {
-      app = initializeApp(firebaseConfig);
-      auth = getAuth(app);
-    } catch (e) {
-      console.log('Firebase not configured, using local mode');
-    }
+    try { app = initializeApp(firebaseConfig); auth = getAuth(app); } catch (e) { console.log('Local mode'); }
 
     window.signInWithGoogle = async function() {
-      if (auth) {
-        try {
-          const provider = new GoogleAuthProvider();
-          await signInWithPopup(auth, provider);
-        } catch (e) {
-          console.error('Auth error:', e);
-          // Fallback to local mode
-          useLocalMode();
-        }
-      } else {
-        useLocalMode();
-      }
+      if (auth) { try { await signInWithPopup(auth, new GoogleAuthProvider()); } catch (e) { useLocalMode(); } } else { useLocalMode(); }
     };
 
-    window.signOut = async function() {
-      if (auth) {
-        await firebaseSignOut(auth);
-      }
-      currentUser = null;
-      document.getElementById('loginScreen').style.display = 'flex';
-      document.getElementById('mainApp').style.display = 'none';
-    };
+    window.signOut = async function() { if (auth) await firebaseSignOut(auth); currentUser = null; document.getElementById('loginScreen').style.display = 'flex'; document.getElementById('mainApp').style.display = 'none'; };
 
     function useLocalMode() {
-      // Use a local user ID based on machine
-      currentUser = { 
-        uid: 'local_' + btoa(navigator.userAgent).slice(0, 20),
-        displayName: 'Local User',
-        email: 'local@localhost',
-        photoURL: null
-      };
+      currentUser = { uid: 'local_' + btoa(navigator.userAgent).slice(0, 20), displayName: 'Local User', email: 'local@localhost', photoURL: null };
       showMainApp();
     }
 
     function showMainApp() {
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('mainApp').style.display = 'block';
-      
       if (currentUser) {
         document.getElementById('userName').textContent = currentUser.displayName || currentUser.email;
-        if (currentUser.photoURL) {
-          document.getElementById('userAvatar').innerHTML = `<img src="${currentUser.photoURL}" alt="">`;
-        } else {
-          document.getElementById('userAvatar').textContent = (currentUser.displayName || currentUser.email || 'U')[0].toUpperCase();
-        }
+        document.getElementById('userAvatar').textContent = (currentUser.displayName || 'U')[0].toUpperCase();
       }
-      
       init();
     }
 
-    // Check auth state
-    if (auth) {
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          currentUser = user;
-          showMainApp();
-        } else {
-          document.getElementById('loginScreen').style.display = 'flex';
-          document.getElementById('mainApp').style.display = 'none';
-        }
-      });
-    } else {
-      // No Firebase, show login with option to continue locally
-      document.getElementById('loginScreen').style.display = 'flex';
-    }
+    if (auth) { onAuthStateChanged(auth, (user) => { if (user) { currentUser = user; showMainApp(); } }); }
 
-    // Export currentUser getter
     window.getCurrentUser = () => currentUser;
 
-    // All the app functions
     const API = '';
-    let currentProject = null;
-    let currentRule = null;
-    let projectFiles = [];
-    let selectedMustReadFiles = [];
-    let suggestedRulesData = [];
+    let currentProject = null, currentRule = null, projectFiles = [], selectedMustReadFiles = [], suggestedRulesData = [];
 
-    async function init() {
-      await loadGlobalRules();
-      await refreshProjects();
-      setupFileSearch();
-      await checkApiKeyStatus();
-    }
+    async function init() { await loadGlobalRules(); await refreshProjects(); setupFileSearch(); await checkApiKeyStatus(); }
 
     window.switchTab = function(tab) {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -696,37 +391,15 @@
       document.getElementById('projectTab').style.display = tab === 'project' ? 'flex' : 'none';
     };
 
-    async function loadGlobalRules() {
-      const res = await fetch(`${API}/api/global-rules`);
-      const data = await res.json();
-      document.getElementById('globalEditor').value = data.content;
-    }
+    async function loadGlobalRules() { document.getElementById('globalEditor').value = (await (await fetch(`${API}/api/global-rules`)).json()).content; }
+    window.saveGlobalRules = async function() { await fetch(`${API}/api/global-rules`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: document.getElementById('globalEditor').value }) }); showToast('Saved!'); };
 
-    window.saveGlobalRules = async function() {
-      const content = document.getElementById('globalEditor').value;
-      await fetch(`${API}/api/global-rules`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content }) });
-      showToast('Global rules saved!');
-    };
-
-    window.refreshProjects = async function() {
-      const res = await fetch(`${API}/api/projects`);
-      const data = await res.json();
-      renderProjects(data.projects);
-    };
+    window.refreshProjects = async function() { renderProjects((await (await fetch(`${API}/api/projects`)).json()).projects); };
 
     function renderProjects(projects) {
       const list = document.getElementById('projectList');
-      if (projects.length === 0) {
-        list.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🔍</div><p>No projects. Check settings.</p></div>`;
-        return;
-      }
-      list.innerHTML = projects.map(p => `
-        <div class="project-item ${currentProject?.path === p.path ? 'active' : ''}" onclick="selectProject('${btoa(p.path)}', '${p.name}')">
-          <div class="project-icon">📁</div>
-          <div class="project-info"><div class="project-name">${p.name}</div><div class="project-path">${p.path}</div></div>
-          ${p.hasCursorRules ? '<span class="badge badge-success">Rules</span>' : ''}
-        </div>
-      `).join('');
+      if (!projects.length) { list.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🔍</div><p>No projects. Check settings.</p></div>`; return; }
+      list.innerHTML = projects.map(p => `<div class="project-item ${currentProject?.path === p.path ? 'active' : ''}" onclick="selectProject('${btoa(p.path)}', '${p.name}')"><div class="project-icon">📁</div><div class="project-info"><div class="project-name">${p.name}</div><div class="project-path">${p.path}</div></div>${p.hasCursorRules ? '<span class="badge badge-success">✓</span>' : ''}</div>`).join('');
     }
 
     window.selectProject = async function(encodedPath, name) {
@@ -734,207 +407,110 @@
       document.querySelectorAll('.project-item').forEach(el => el.classList.remove('active'));
       event.currentTarget.classList.add('active');
       document.getElementById('projectTitle').textContent = name;
-      
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.tab')[1].classList.add('active');
       document.getElementById('globalTab').style.display = 'none';
       document.getElementById('projectTab').style.display = 'flex';
-      
-      const filesRes = await fetch(`${API}/api/projects/${encodedPath}/files`);
-      projectFiles = (await filesRes.json()).files;
+      projectFiles = (await (await fetch(`${API}/api/projects/${encodedPath}/files`)).json()).files;
       await loadProjectRules();
     };
 
     async function loadProjectRules() {
       if (!currentProject) return;
-      const res = await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules`);
-      const data = await res.json();
-      renderRules(data.rules);
+      renderRules((await (await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules`)).json()).rules);
     }
 
     function renderRules(rules) {
       const list = document.getElementById('rulesList');
       document.getElementById('ruleEditor').style.display = 'none';
-      
-      if (rules.length === 0) {
-        list.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📋</div><p>No rules yet</p></div>`;
-        return;
-      }
-
-      list.innerHTML = rules.map(r => `
-        <div class="rule-item" onclick="editRule('${r.filename}', \`${encodeURIComponent(r.raw)}\`)">
-          <div class="rule-item-info"><span>📄</span><div><div class="rule-item-name">${r.filename}</div><div class="rule-item-desc">${r.frontmatter.description || ''}</div></div></div>
-          ${r.frontmatter.alwaysApply ? '<span class="badge badge-success">Always</span>' : ''}
-        </div>
-      `).join('');
+      if (!rules.length) { list.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📋</div><p>No rules yet</p></div>`; return; }
+      list.innerHTML = rules.map(r => `<div class="rule-item" onclick="editRule('${r.filename}', \`${encodeURIComponent(r.raw)}\`)"><div class="rule-item-info"><span>📄</span><div><div class="rule-item-name">${r.filename}</div><div class="rule-item-desc">${r.frontmatter.description || ''}</div></div></div>${r.frontmatter.alwaysApply ? '<span class="badge badge-success">Always</span>' : ''}</div>`).join('');
     }
 
-    window.editRule = function(filename, encodedContent) {
-      currentRule = { filename, content: decodeURIComponent(encodedContent) };
-      document.getElementById('ruleEditor').style.display = 'block';
-      document.getElementById('ruleEditorContent').value = currentRule.content;
-      document.getElementById('ruleFileTabs').innerHTML = `<button class="file-tab active">${filename}</button>`;
-    };
+    window.editRule = function(filename, encodedContent) { currentRule = { filename, content: decodeURIComponent(encodedContent) }; document.getElementById('ruleEditor').style.display = 'block'; document.getElementById('ruleEditorContent').value = currentRule.content; document.getElementById('ruleFileTabs').innerHTML = `<button class="file-tab active">${filename}</button>`; };
+    window.saveCurrentRule = async function() { if (!currentProject || !currentRule) return; await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ filename: currentRule.filename, content: document.getElementById('ruleEditorContent').value }) }); showToast('Saved!'); await loadProjectRules(); };
+    window.deleteCurrentRule = async function() { if (!currentProject || !currentRule || !confirm('Delete?')) return; await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules/${currentRule.filename}`, { method: 'DELETE' }); currentRule = null; document.getElementById('ruleEditor').style.display = 'none'; await loadProjectRules(); };
 
-    window.saveCurrentRule = async function() {
-      if (!currentProject || !currentRule) return;
-      await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ filename: currentRule.filename, content: document.getElementById('ruleEditorContent').value })
-      });
-      showToast('Saved!');
-      await loadProjectRules();
-    };
-
-    window.deleteCurrentRule = async function() {
-      if (!currentProject || !currentRule || !confirm('Delete?')) return;
-      await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules/${currentRule.filename}`, { method: 'DELETE' });
-      currentRule = null;
-      document.getElementById('ruleEditor').style.display = 'none';
-      await loadProjectRules();
-    };
-
-    window.openNewRuleModal = function() {
-      if (!currentProject) { alert('Select a project first'); return; }
-      selectedMustReadFiles = [];
-      renderSelectedFiles();
-      ['ruleName', 'ruleDescription', 'ruleGlobs', 'ruleInstructions'].forEach(id => document.getElementById(id).value = '');
-      document.getElementById('ruleAlwaysApply').checked = true;
-      document.getElementById('newRuleModal').classList.add('show');
-    };
-
+    window.openNewRuleModal = function() { if (!currentProject) return alert('Select project first'); selectedMustReadFiles = []; renderSelectedFiles(); ['ruleName', 'ruleDescription', 'ruleGlobs', 'ruleInstructions'].forEach(id => document.getElementById(id).value = ''); document.getElementById('ruleAlwaysApply').checked = true; document.getElementById('newRuleModal').classList.add('show'); };
     window.closeNewRuleModal = () => document.getElementById('newRuleModal').classList.remove('show');
 
     function setupFileSearch() {
-      const input = document.getElementById('fileSearchInput');
-      const results = document.getElementById('fileSearchResults');
-      
-      input.addEventListener('input', () => {
-        const q = input.value.toLowerCase();
-        if (q.length < 2) { results.classList.remove('show'); return; }
-        const matches = projectFiles.filter(f => f.toLowerCase().includes(q)).slice(0, 10);
-        if (!matches.length) { results.classList.remove('show'); return; }
-        results.innerHTML = matches.map(f => `<div class="file-search-item" onclick="addMustReadFile('${f}')">${f}</div>`).join('');
-        results.classList.add('show');
-      });
-      
+      const input = document.getElementById('fileSearchInput'), results = document.getElementById('fileSearchResults');
+      input.addEventListener('input', () => { const q = input.value.toLowerCase(); if (q.length < 2) { results.classList.remove('show'); return; } const matches = projectFiles.filter(f => f.toLowerCase().includes(q)).slice(0, 8); if (!matches.length) { results.classList.remove('show'); return; } results.innerHTML = matches.map(f => `<div class="file-search-item" onclick="addMustReadFile('${f}')">${f}</div>`).join(''); results.classList.add('show'); });
       input.addEventListener('blur', () => setTimeout(() => results.classList.remove('show'), 200));
     }
 
-    window.addMustReadFile = function(file) {
-      if (!selectedMustReadFiles.includes(file)) selectedMustReadFiles.push(file);
-      renderSelectedFiles();
-      document.getElementById('fileSearchInput').value = '';
-    };
-
-    window.removeMustReadFile = function(file) {
-      selectedMustReadFiles = selectedMustReadFiles.filter(f => f !== file);
-      renderSelectedFiles();
-    };
-
-    function renderSelectedFiles() {
-      document.getElementById('selectedFiles').innerHTML = selectedMustReadFiles.map(f => 
-        `<span class="file-tag">${f}<button onclick="removeMustReadFile('${f}')">&times;</button></span>`
-      ).join('');
-    }
+    window.addMustReadFile = function(file) { if (!selectedMustReadFiles.includes(file)) selectedMustReadFiles.push(file); renderSelectedFiles(); document.getElementById('fileSearchInput').value = ''; };
+    window.removeMustReadFile = function(file) { selectedMustReadFiles = selectedMustReadFiles.filter(f => f !== file); renderSelectedFiles(); };
+    function renderSelectedFiles() { document.getElementById('selectedFiles').innerHTML = selectedMustReadFiles.map(f => `<span class="file-tag">${f}<button onclick="removeMustReadFile('${f}')">&times;</button></span>`).join(''); }
 
     window.createRule = async function() {
-      const name = document.getElementById('ruleName').value.trim();
-      if (!name) { alert('Enter name'); return; }
-      
-      const res = await fetch(`${API}/api/generate-rule`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          description: document.getElementById('ruleDescription').value,
-          globs: document.getElementById('ruleGlobs').value.split(',').map(s => s.trim()).filter(Boolean),
-          alwaysApply: document.getElementById('ruleAlwaysApply').checked,
-          mustReadFiles: selectedMustReadFiles,
-          instructions: document.getElementById('ruleInstructions').value
-        })
-      });
+      const name = document.getElementById('ruleName').value.trim(); if (!name) return alert('Enter name');
+      const res = await fetch(`${API}/api/generate-rule`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, description: document.getElementById('ruleDescription').value, globs: document.getElementById('ruleGlobs').value.split(',').map(s => s.trim()).filter(Boolean), alwaysApply: document.getElementById('ruleAlwaysApply').checked, mustReadFiles: selectedMustReadFiles, instructions: document.getElementById('ruleInstructions').value }) });
       const generated = await res.json();
-      
-      await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ filename: generated.filename, content: generated.content })
-      });
-      
-      closeNewRuleModal();
-      showToast('Created!');
-      await loadProjectRules();
+      await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ filename: generated.filename, content: generated.content }) });
+      closeNewRuleModal(); showToast('Created!'); await loadProjectRules();
     };
 
-    window.openAIDumpModal = function() {
-      if (!currentProject) { alert('Select a project first'); return; }
-      document.getElementById('aiDumpInput').value = '';
-      document.getElementById('suggestedRules').style.display = 'none';
-      suggestedRulesData = [];
-      checkApiKeyStatus();
-      document.getElementById('aiDumpModal').classList.add('show');
-    };
-
+    window.openAIDumpModal = function() { if (!currentProject) return alert('Select project first'); document.getElementById('aiDumpInput').value = ''; document.getElementById('suggestedRules').style.display = 'none'; document.getElementById('rulesSummary').style.display = 'none'; suggestedRulesData = []; checkApiKeyStatus(); document.getElementById('aiDumpModal').classList.add('show'); };
     window.closeAIDumpModal = () => document.getElementById('aiDumpModal').classList.remove('show');
 
     async function checkApiKeyStatus() {
-      const user = window.getCurrentUser();
-      if (!user) return;
-      
-      const res = await fetch(`${API}/api/user/${user.uid}/api-key-status`);
-      const data = await res.json();
+      const user = window.getCurrentUser(); if (!user) return;
+      const data = await (await fetch(`${API}/api/user/${user.uid}/api-key-status`)).json();
       const el = document.getElementById('apiKeyStatus');
-      
-      if (data.hasKey) {
-        el.innerHTML = `<span>🟢</span> Connected: ${data.keyPreview}`;
-        el.className = 'api-key-status connected';
-      } else {
-        el.innerHTML = `<span>🔴</span> Add API key in Settings`;
-        el.className = 'api-key-status disconnected';
-      }
+      el.innerHTML = data.hasKey ? `<span>🟢</span> ${data.keyPreview}` : `<span>🔴</span> Add key in Settings`;
+      el.className = 'api-key-status ' + (data.hasKey ? 'connected' : '');
     }
 
     window.formatWithAI = async function() {
-      const input = document.getElementById('aiDumpInput').value.trim();
-      if (!input) { alert('Enter notes'); return; }
-      
-      const user = window.getCurrentUser();
-      if (!user) { alert('Please sign in'); return; }
+      const input = document.getElementById('aiDumpInput').value.trim(); if (!input) return alert('Enter notes');
+      const user = window.getCurrentUser(); if (!user) return alert('Sign in first');
+      const sanityCheckMode = document.getElementById('sanityCheckbox').checked;
       
       const btn = document.getElementById('formatAIBtn');
-      btn.innerHTML = '<span class="loading-spinner"></span> Formatting...';
-      btn.disabled = true;
+      btn.innerHTML = '<span class="loading-spinner"></span> Formatting...'; btn.disabled = true;
       
       try {
-        const res = await fetch(`${API}/api/ai/format-rules`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ rawInput: input, projectContext: currentProject?.name, userId: user.uid })
-        });
-        
+        const res = await fetch(`${API}/api/ai/format-rules`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ rawInput: input, projectContext: currentProject?.name, userId: user.uid, sanityCheckMode }) });
         const data = await res.json();
-        
-        if (!res.ok) {
-          throw new Error(data.error || 'API error');
-        }
+        if (!res.ok) throw new Error(data.error || 'API error');
         
         suggestedRulesData = data.rules || [];
-        renderSuggestedRules();
+        renderSuggestedRules(sanityCheckMode, data.summary);
         document.getElementById('suggestedRules').style.display = 'block';
-      } catch (e) {
-        showToast('Error: ' + e.message, true);
-      } finally {
-        btn.innerHTML = '🪄 Format with AI';
-        btn.disabled = false;
-      }
+      } catch (e) { showToast('Error: ' + e.message, true); }
+      finally { btn.innerHTML = '🪄 Format with AI'; btn.disabled = false; }
     };
 
-    function renderSuggestedRules() {
+    function renderSuggestedRules(sanityCheckMode, summary) {
+      // Render summary if available
+      const summaryEl = document.getElementById('rulesSummary');
+      if (sanityCheckMode && summary) {
+        summaryEl.innerHTML = `
+          <div class="summary-stat good"><div class="count">${summary.good || 0}</div><div class="label">✅ Good</div></div>
+          <div class="summary-stat caution"><div class="count">${summary.caution || 0}</div><div class="label">⚠️ Caution</div></div>
+          <div class="summary-stat bad"><div class="count">${summary.bad || 0}</div><div class="label">❌ Bad</div></div>
+          <div class="summary-advice">${summary.overallAdvice || ''}</div>
+        `;
+        summaryEl.style.display = 'flex';
+      } else {
+        summaryEl.style.display = 'none';
+      }
+
       document.getElementById('suggestedRulesList').innerHTML = suggestedRulesData.map((rule, i) => `
-        <div class="suggested-rule-card" id="suggestedRule${i}">
+        <div class="suggested-rule-card ${sanityCheckMode && rule.rating ? 'rating-' + rule.rating : ''}" id="suggestedRule${i}" data-rating="${rule.rating || 'good'}">
           <div class="suggested-rule-header">
             <span class="suggested-rule-name">${rule.name}.mdc</span>
-            <span class="suggested-rule-category">${rule.category || 'general'}</span>
+            <div class="suggested-rule-badges">
+              <span class="suggested-rule-category">${rule.category || 'general'}</span>
+              ${sanityCheckMode && rule.rating ? `<span class="rating-badge ${rule.rating}">${rule.ratingEmoji || ''} ${rule.rating}</span>` : ''}
+            </div>
           </div>
           <div class="suggested-rule-desc">${rule.description}</div>
+          ${sanityCheckMode && rule.rationale ? `<div class="suggested-rule-rationale">💡 ${rule.rationale}</div>` : ''}
+          ${sanityCheckMode && rule.conflicts?.length ? `<div class="suggested-rule-conflicts">⚠️ Conflicts: ${rule.conflicts.join(', ')}</div>` : ''}
+          ${sanityCheckMode && rule.alternatives ? `<div class="suggested-rule-alternatives">💚 Alternative: ${rule.alternatives}</div>` : ''}
           ${rule.mustReadFiles?.length ? `<div class="suggested-rule-files">${rule.mustReadFiles.map(f => `<span class="file-tag">${f}</span>`).join('')}</div>` : ''}
           <div class="suggested-rule-instructions">${rule.instructions}</div>
           <div class="suggested-rule-actions">
@@ -948,50 +524,39 @@
 
     window.approveRule = async function(i) {
       const rule = suggestedRulesData[i];
-      const res = await fetch(`${API}/api/generate-rule`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: rule.name, description: rule.description, alwaysApply: rule.alwaysApply !== false, mustReadFiles: rule.mustReadFiles || [], instructions: rule.instructions })
-      });
+      const res = await fetch(`${API}/api/generate-rule`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: rule.name, description: rule.description, alwaysApply: rule.alwaysApply !== false, mustReadFiles: rule.mustReadFiles || [], instructions: rule.instructions }) });
       const generated = await res.json();
-      
-      await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ filename: generated.filename, content: generated.content })
-      });
-      
-      document.getElementById(`suggestedRule${i}`).innerHTML = `<div style="text-align: center; padding: 1rem; color: var(--success);">✅ Created ${rule.name}.mdc</div>`;
+      await fetch(`${API}/api/projects/${currentProject.encodedPath}/rules`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ filename: generated.filename, content: generated.content }) });
+      document.getElementById(`suggestedRule${i}`).innerHTML = `<div style="text-align: center; padding: 0.75rem; color: var(--success);">✅ Created ${rule.name}.mdc</div>`;
+      document.getElementById(`suggestedRule${i}`).className = 'suggested-rule-card';
       showToast(`Created ${rule.name}.mdc`);
       await loadProjectRules();
     };
 
-    window.rejectRule = function(i) {
-      document.getElementById(`suggestedRule${i}`).remove();
-      suggestedRulesData.splice(i, 1);
-    };
+    window.rejectRule = function(i) { document.getElementById(`suggestedRule${i}`).remove(); };
 
     window.editSuggestedRule = function(i) {
       const rule = suggestedRulesData[i];
-      closeAIDumpModal();
-      openNewRuleModal();
+      closeAIDumpModal(); openNewRuleModal();
       document.getElementById('ruleName').value = rule.name;
       document.getElementById('ruleDescription').value = rule.description;
       document.getElementById('ruleAlwaysApply').checked = rule.alwaysApply !== false;
       document.getElementById('ruleInstructions').value = rule.instructions;
-      selectedMustReadFiles = rule.mustReadFiles || [];
-      renderSelectedFiles();
+      selectedMustReadFiles = rule.mustReadFiles || []; renderSelectedFiles();
     };
 
-    window.approveAllRules = async function() {
-      for (let i = 0; i < suggestedRulesData.length; i++) await window.approveRule(i);
+    window.approveAllRules = async function() { for (let i = 0; i < suggestedRulesData.length; i++) if (document.getElementById(`suggestedRule${i}`)) await window.approveRule(i); };
+    
+    window.approveAllGoodRules = async function() {
+      for (let i = 0; i < suggestedRulesData.length; i++) {
+        const el = document.getElementById(`suggestedRule${i}`);
+        if (el && el.dataset.rating === 'good') await window.approveRule(i);
+      }
     };
 
     window.openSettings = async function() {
       const user = window.getCurrentUser();
-      const [pathsRes, keyRes] = await Promise.all([
-        fetch(`${API}/api/scan-paths`),
-        user ? fetch(`${API}/api/user/${user.uid}/api-key-status`) : Promise.resolve({ json: () => ({ hasKey: false }) })
-      ]);
-      
+      const [pathsRes, keyRes] = await Promise.all([fetch(`${API}/api/scan-paths`), user ? fetch(`${API}/api/user/${user.uid}/api-key-status`) : Promise.resolve({ json: () => ({ hasKey: false }) })]);
       document.getElementById('scanPaths').value = (await pathsRes.json()).scanPaths.join('\n');
       const keyData = await keyRes.json();
       document.getElementById('openaiKeyInput').value = '';
@@ -1003,27 +568,18 @@
 
     window.saveSettings = async function() {
       const user = window.getCurrentUser();
-      const paths = document.getElementById('scanPaths').value.split('\n').map(s => s.trim()).filter(Boolean);
+      await fetch(`${API}/api/scan-paths`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ scanPaths: document.getElementById('scanPaths').value.split('\n').map(s => s.trim()).filter(Boolean) }) });
       const apiKey = document.getElementById('openaiKeyInput').value.trim();
-      
-      await fetch(`${API}/api/scan-paths`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ scanPaths: paths }) });
-      
-      if (apiKey && user) {
-        await fetch(`${API}/api/user/${user.uid}/api-key`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ apiKey }) });
-      }
-      
-      closeSettings();
-      showToast('Settings saved!');
-      await refreshProjects();
-      await checkApiKeyStatus();
+      if (apiKey && user) await fetch(`${API}/api/user/${user.uid}/api-key`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ apiKey }) });
+      closeSettings(); showToast('Settings saved!'); await refreshProjects(); await checkApiKeyStatus();
     };
 
-    function showToast(message, isError = false) {
-      const toast = document.getElementById('toast');
-      toast.textContent = message;
-      toast.className = 'toast show ' + (isError ? 'error' : 'success');
-      setTimeout(() => toast.className = 'toast', 3000);
-    }
+    function showToast(msg, isError = false) { const t = document.getElementById('toast'); t.textContent = msg; t.className = 'toast show ' + (isError ? 'error' : 'success'); setTimeout(() => t.className = 'toast', 3000); }
+
+    // Toggle sanity check styling
+    document.getElementById('sanityCheckbox')?.addEventListener('change', function() {
+      document.getElementById('sanityToggle').classList.toggle('active', this.checked);
+    });
   </script>
 </body>
 </html>
